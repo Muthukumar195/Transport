@@ -58,6 +58,8 @@ include('include/header.php');
                                             <th>Drop</th>
                                             <th>Transport Name</th>
                                             <th>Transport Amount</th>
+                                            <th>Party</th>
+                                            <th>Party Amount</th>
                                             <th>Iso Amount</th>
                                                 
                                             <?php if($this->session->userdata('username')=='admin'){ ?>                                        
@@ -80,6 +82,8 @@ include('include/header.php');
                                             <th>To</th>
                                             <th>Transport Name</th>
                                             <th>Transport Amount</th>
+                                            <th>Party</th>
+                                            <th>Party Amount</th>
                                             <th>Amount</th>
                                             <?php if($this->session->userdata('username')=='admin'){ ?>                                        
                                             <th>Status</th>
@@ -136,6 +140,14 @@ include('include/header.php');
 											}
                                                  ?></td>
                                                  <td><span class="text-primary"><i class="fa fa-inr"></i>&nbsp;<?php echo $row->Iso_mvnt_tp_amount; ?></span></td>
+                                             <td><?php
+											 if($row->Iso_mvnt_party_name != "0"){
+												 echo $row->Party_dtl_name;
+											 }else{
+												 echo '--';
+											 }
+											 ?></td>
+                                              <td><span class="text-primary"><i class="fa fa-inr"></i>&nbsp;<?php echo $row->Iso_mvnt_party_amt; ?></span></td>
                                             <td><span class="text-primary"><i class="fa fa-inr"></i>&nbsp;<?php echo $row->Iso_mvnt_amount; ?></span></td>
                                             
                                             <?php if($this->session->userdata('username')=='admin'){ ?>
@@ -154,7 +166,7 @@ include('include/header.php');
                                             </td>
                                             <?php } ?>
                                             <td>
-                                             <a href="view_iso_movement_details?id=<?php echo $row->Iso_mvnt_id; ?>" target="_blank"  alt="View" class="fa fa-search-plus" title="view" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View ISO Movement Detail" data-placement="bottom"> View </a>
+                                             <a href="view_iso_movement_details?id=<?php echo $row->Iso_mvnt_id.'&tr_nme='.$row->Transport_dtl_name.''; ?>" target="_blank"  alt="View" class="fa fa-search-plus" title="view" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View ISO Movement Detail" data-placement="bottom"> View </a>
                                              <i class="fa fa-ellipsis-v"></i>
                                                 
                                                 <?php if($this->session->userdata('username')=='admin'){ ?>

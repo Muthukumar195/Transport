@@ -14,9 +14,22 @@ class Transport_payment_model extends CI_model
 		$this->db->join('transport_payment', 'transport_payment.Transport_payment_trans_name = daily_moment_details.Daily_mvnt_dtl_trp_name', 'left');
 		$this->db->where('Daily_mvnt_dtl_transport_type',"O");
 		$this->db->group_by('Daily_mvnt_dtl_trp_name');
+        $this->db->order_by('Transport_payment_id', "DESC");
 		$query = $this->db->get();
 		return $query;
 	}
+    public function transport_iso_payment_list(){
+
+		$this->db->select('iso_movement_details.*, transport_payment.*, transport_details.Transport_dtl_id, transport_details.Transport_dtl_name');
+		$this->db->from('iso_movement_details');
+        $this->db->join('transport_details', 'transport_details.Transport_dtl_id = iso_movement_details.Iso_mvnt_transport_name', 'left');
+		$this->db->join('transport_payment', 'transport_payment.Transport_payment_trans_name = iso_movement_details.Iso_mvnt_transport_name', 'left');
+		$this->db->group_by('Iso_mvnt_transport_name');
+        $this->db->order_by('Transport_payment_id', "DESC");
+		$query = $this->db->get();
+		return $query;
+	}
+  
 	function daily_movement_payment(){
 		$this->db->select('*');
         $this->db->from('daily_moment_details');
@@ -47,13 +60,13 @@ class Transport_payment_model extends CI_model
 			'Transport_payment_trans_name' => $this->input->post('transport_name'),
 			'Transport_payment_amount' => $this->input->post('amount'),
 			'Transport_payment_date' => date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('transport_pay_date')))),
-			'Transport_payment_paid_status' => $this->input->post('transport_pay_status'),
 			'Transport_payment_remark' => $this->input->post('remarks')			
 		);	
 		$this->db->set('Transport_payment_creatred_dt_tme', 'NOW()', FALSE);	
 		$insert=$this->db->insert('transport_payment', $user_data);			
 		return true;		
 	}
+    
 	
 	function get_transport_payment_details($id)
 	{		
@@ -321,6 +334,7 @@ class Transport_payment_model extends CI_model
 	
 	
 	// end view movement payment details in view option
+  
 }
 
 ?>

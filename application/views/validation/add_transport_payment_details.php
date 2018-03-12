@@ -21,10 +21,6 @@ jQuery(function(){
 	expression: "if (VAL) return true; else return false;",
 	message: "Please Select Transport Pay date"
 	});
-	jQuery("#party_payment_status").validate({
-	expression: "if (isChecked(SelfID)) return true; else return false;",
-	message: "Please Select Driver Pay Status "
-	});	
 	
 });
            

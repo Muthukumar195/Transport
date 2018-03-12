@@ -435,20 +435,19 @@ span.ErrorField {
                 </div>
         <!-- END CONTAINER -->
         <!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
-<script>
+    <script>
      $(document).ready(function(){
      $('#party_name').change(function(){
-	 var party_name = $('#party_name').val();
-	/* alert(party_name);*/
+   var party_name = $('#party_name').val();
+  /* alert(party_name);*/
             $.ajax({
                 type: "GET",
                 url:"<?php echo base_url(); ?>/index.php/party_billing/check_container",
                 data:{"party_name": party_name},
                 success: function(data)
                 {
-					//document.getElementById('container_no').value=data;
-					jQuery("#container_no").html(data);
-					/*alert(data);*/
+          jQuery("#container_no").html(data);
+          /*alert(data);*/
                 }
             });
         });
@@ -456,141 +455,174 @@ span.ErrorField {
 </script>
 
  <script type="text/JavaScript">  
-/*function validate() 
-{
-if( document.daily_movement.vehicle_no.value == "" )
-   {
-     alert( "Please select Vehicle Number!" );
-     return false;
-   }
-}
-*/
-</script>
+function form_validation(){
+  if(document.getElementById('thirumala_transport').checked){   
+    if(document.getElementById('driver_name').value==""){
+      alert("Please Select driver name");
+    }
+  }
+;}
+</script>.
  <script type="text/JavaScript">  
 function check_vehicle_type() 
 {
    if(document.getElementById('thirumala_transport').checked)
    {
-		 document.getElementById('other_vehicle').disabled=true;
-		 document.getElementById('transport_name').disabled=true;
-		 document.getElementById('transport_advance').disabled=true;
+     document.getElementById('other_vehicle').disabled=true;
+     document.getElementById('transport_name').disabled=true;
      document.getElementById('transport_rent').disabled=true;
-		 document.getElementById('vehicle_no').disabled=false;
-		 document.getElementById('driver_name').disabled=false;
-	     document.getElementById('driver_advance').disabled=false;
+     document.getElementById('transport_advance').disabled=true;
+     document.getElementById('vehicle_no').disabled=false;
+     document.getElementById('driver_name').disabled=false;
+     document.getElementById('driver_advance').disabled=false;
+     document.getElementById('rent').value="";
+     document.getElementById('place_name').value="";
    }
    else if(document.getElementById('other_transport').checked){
-	    
-	   document.getElementById('driver_name').disabled=true;
-	   document.getElementById('driver_advance').disabled=true;
-	   document.getElementById('vehicle_no').disabled=true;
-	   document.getElementById('other_vehicle').disabled=false;
-	   document.getElementById('transport_name').disabled=false;
-		 document.getElementById('transport_advance').disabled=false;
+      
+     document.getElementById('driver_name').disabled=true;
+     document.getElementById('driver_advance').disabled=true;
+     document.getElementById('vehicle_no').disabled=true;
+     document.getElementById('other_vehicle').disabled=false;
+     document.getElementById('transport_name').disabled=false;
+     document.getElementById('transport_advance').disabled=false;
      document.getElementById('transport_rent').disabled=false;
-   }
+     document.getElementById('rent').value="";
+     document.getElementById('place_name').value="";
+   
+   }  
    
 }
-if(document.getElementById('thirumala_transport').checked)
-   {
-		 document.getElementById('other_vehicle').disabled=true;
-		 document.getElementById('transport_name').disabled=true;
-		 document.getElementById('transport_advance').disabled=true;
-     document.getElementById('transport_rent').disabled=true;
-		 document.getElementById('vehicle_no').disabled=false;
-		 document.getElementById('driver_name').disabled=false;
-	     document.getElementById('driver_advance').disabled=false;
-   }
-   else if(document.getElementById('other_transport').checked){
-	    
-	   document.getElementById('driver_name').disabled=true;
-	   document.getElementById('driver_advance').disabled=true;
-	   document.getElementById('vehicle_no').disabled=true;
-	   document.getElementById('other_vehicle').disabled=false;
-	   document.getElementById('transport_name').disabled=false;
-	   document.getElementById('transport_advance').disabled=false;
-     document.getElementById('transport_rent').disabled=false;
-   }
+/*
+$(document).ready(function(){
+  $("#transport_name").change(function(){
+    
+    var e = document.getElementById("transport_name");
+        var trname = e.options[e.selectedIndex].text;
+    alert(trname);
+    if(trname=="volvo"){
+      alert(trname);
+     document.getElementById('driver_name').disabled=false;
+       document.getElementById('driver_advance').disabled=false;      
+    }
+    else{
+    
+     document.getElementById('driver_name').disabled=true;
+     document.getElementById('driver_advance').disabled=true;
+    }
+    
+  });
+  
+  
+});*/
+$(document).ready(function(){
+  $("#party_name").change(function(){
+    var e = document.getElementById("transport_name");
+        var trname = e.options[e.selectedIndex].text;
+    /*alert(trname);*/
+    if((trname=="SRI SABAHRI TRANSPORT")||(trname=="SRI MURUGAN TRANSPORT")){
+      
+     document.getElementById('driver_name').disabled=false;
+       document.getElementById('driver_advance').disabled=false;      
+    }
+    else{
+    
+     document.getElementById('driver_name').disabled=true;
+     document.getElementById('driver_advance').disabled=true;
+    }
+    
+  });
+  
+  
+});
+
+
+
 function check_container_type(){
-	
-	if(document.getElementById("billing_container").checked){
-		
-		document.getElementById("container_no").disabled=false;
-		document.getElementById("new_con_no").disabled=true;
-	}
-	else if(document.getElementById("new_container").checked){
-		
-		document.getElementById("container_no").disabled=true;
-		document.getElementById("new_con_no").disabled=false;
-	}
-}
-if(document.getElementById("billing_container").checked){
-		
-		document.getElementById("container_no").disabled=false;
-		document.getElementById("new_con_no").disabled=true;
-	}
-	else if(document.getElementById("new_container").checked){
-		
-		document.getElementById("container_no").disabled=true;
-		document.getElementById("new_con_no").disabled=false;
-	}
-
-
-
-$(document).ready(function(){
-	$('#other_vehicle').change(function(){
-		alert("sdfsdf");
-		var other_vehicle = $('#other_vehicle').val();
-		
-		$.ajax({
-			type : "GET",
-			url  : "<?php echo base_url(); ?>/index.php/vehicle_details/ajax_check_transport_name",
-			data : {"other_vehicle" : other_vehicle},
-			success : function(data){
-				jQuery("#transport_name").html(data);
-				/*alert(data);*/
-			}
-		});
-	});
-});
-$(document).ready(function(){
-	$("#party_name").change(function(){
-		var e = document.getElementById("transport_name");
-        var trname = e.options[e.selectedIndex].text;
-		/*alert(trname);*/
-		if((trname=="SRI SABAHRI TRANSPORT")||(trname=="SRI MURUGAN TRANSPORT")){
-			
-		 document.getElementById('driver_name').disabled=false;
-	     document.getElementById('driver_advance').disabled=false;			
-		}
-		else{
-		
-	   document.getElementById('driver_name').disabled=true;
-	   document.getElementById('driver_advance').disabled=true;
-		}
-		
-	});
-	
-	
-});
-if(document.getElementById("transport_name").value!=""){
-		
-		var e = document.getElementById("transport_name");
-        var trname = e.options[e.selectedIndex].text;
-		/*alert(trname);*/
-		if((trname=="SRI SABAHRI TRANSPORT")||(trname=="SRI MURUGAN TRANSPORT")){
-			
-		 document.getElementById('driver_name').disabled=false;
-	     document.getElementById('driver_advance').disabled=false;			
-		}
-		else{
-		
-	   document.getElementById('driver_name').disabled=true;
-	   document.getElementById('driver_advance').disabled=true;
-		}
+  
+  if(document.getElementById("billing_container").checked){
+    
+    document.getElementById("container_no").disabled=false;
+    document.getElementById("new_con_no").disabled=true;
+  }
+  else if(document.getElementById("new_container").checked){
+    
+    document.getElementById("container_no").disabled=true;
+    document.getElementById("new_con_no").disabled=false;
+  }
 }
 
+$(document).ready(function(){
+  $('#other_vehicle').change(function(){
+    
+    var other_vehicle = $('#other_vehicle').val();
+    
+    $.ajax({
+      type : "GET",
+      url  : "<?php echo base_url(); ?>/index.php/vehicle_details/ajax_check_transport_name",
+      data : {"other_vehicle" : other_vehicle},
+      success : function(data){
+        jQuery("#transport_name").html(data);
+      
+      }
+    });
+  });
+});
+ 
+$(document).ready(function(){
+  $('#party_name').change(function(){
+    
+    var party_name = $('#party_name').val();
+    $.ajax({
+      type : "GET",
+      url  : "<?php echo base_url(); ?>/index.php/daily_movement/check_place_name",
+      data : {"party_name" : party_name},
+      success : function(data){
+        jQuery("#place_name").html(data);
+      
+      }
+    });
+  });
+});
 
+$(document).ready(function(){
+  $('#place_name').change(function(){
+   
+    var place_id = $('#place_name').val();
+   var party_id = $('#party_name').val();
+   //alert(place_id);
+    //alert(place_id+party_id);
+    $.ajax({
+      type : "GET",
+      url  : "<?php echo base_url(); ?>/index.php/daily_movement/ajax_change_rent",
+      data : {"place_id" : place_id, "party_id" : party_id},
+      success : function(data){
+        var res = data.split('^');
+      if(document.getElementById('thirumala_transport').checked){
+      
+         document.getElementById('rent').value=res[0];
+      }
+      else if(document.getElementById('other_transport').checked){
+         document.getElementById('transport_rent').value=res[1]
+         document.getElementById('rent').value=res[0];
+      }
+      else{
+        alert("Please Select Transport type");
+      }
+      
+      }
+    });
+  });
+});
+
+var code = {};
+$("select[name='party_name'] > option").each(function () {
+    if(code[this.text]) {
+        $(this).remove();
+    } else {
+        code[this.text] = this.value;
+    }
+});
 
 
 </script>

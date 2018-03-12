@@ -76,6 +76,8 @@ class Iso_movement_details extends CI_Controller {
 			$data['container_number_list'] = $this->container_details_model->container_number_list();
 			$this->load->model('transport_details_model');	
 			$data['transport_name_list'] = $this->transport_details_model->transport_name_list();
+			$this->load->model('party_pay_rate_model');
+			$data['party_name_list'] = $this->party_pay_rate_model->party_name_list();
 			// view upcoming due counts
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			//view upcoming vehicle document count
@@ -115,6 +117,8 @@ class Iso_movement_details extends CI_Controller {
 			//$this->form_validation->set_rules('drop', 'Drop', 'trim|required|xss_clean');
 			//$this->form_validation->set_rules('transport_name', 'Transport Name', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('tp_amount', 'Transport Amount', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('party_name', 'Party Name', 'trim|required|xss_clean');
+			$this->form_validation->set_rules('party_amount', 'Party Amount', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('iso_amount', 'Iso Amount', 'trim|required|xss_clean');
 			// view upcoming due counts
 			$this->load->model('edit_admin_profile_model'); 
@@ -138,6 +142,8 @@ class Iso_movement_details extends CI_Controller {
 			    $data['container_number_list'] = $this->container_details_model->container_number_list();
 				$this->load->model('transport_details_model');	
 			    $data['transport_name_list'] = $this->transport_details_model->transport_name_list(); 
+				$this->load->model('party_pay_rate_model');
+				$data['party_name_list'] = $this->party_pay_rate_model->party_name_list();
 					
 				$this->load->view('add_iso_movement_details', $data);
 			}else{
@@ -181,10 +187,13 @@ class Iso_movement_details extends CI_Controller {
 			$this->load->model('transport_details_model');
 			$data['transport_name_list'] = $this->transport_details_model->transport_name_list();
 			$data['vehicle_other_list'] = $this->vehicle_details_model->vehicle_other_list();
+			$this->load->model('party_pay_rate_model');
+			$data['party_name_list'] = $this->party_pay_rate_model->party_name_list();
 			$this->load->model('container_details_model');
 			$data['container_number_list'] = $this->container_details_model->container_number_list();
 			$this->load->model('iso_movement_details_model'); 
 			$data['iso_movement_details_data'] = $this->iso_movement_details_model->get_iso_movement_details($this->input->get('id')); 
+			
 			// view upcoming due counts
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			//view upcoming vehicle document count
@@ -248,6 +257,8 @@ class Iso_movement_details extends CI_Controller {
 			    $this->load->model('container_details_model');	
 			    $data['container_number_list'] = $this->container_details_model->container_number_list();
 				$this->load->model('transport_details_model');	
+				$this->load->model('party_pay_rate_model');
+				$data['party_name_list'] = $this->party_pay_rate_model->party_name_list();
 			    $data['transport_name_list'] = $this->transport_details_model->transport_name_list(); 
 			    $this->load->model('iso_movement_details_model'); 
 			    $data['iso_movement_details_data'] = $this->iso_movement_details_model->get_iso_movement_details($this->input->post('id'));
@@ -386,7 +397,28 @@ class Iso_movement_details extends CI_Controller {
         }		
 		
     }
-	
+	 // start view view_all_iso_movement_details
+    public function view_all_iso_movement_details()
+    {
+    	if(! $this->session->userdata('username')){
+			/*$this->index();*/
+			$this->check_isvalidated();
+		}
+		else
+		{
+			$this->load->model('iso_movement_details_model');
+			$this->load->model('edit_admin_profile_model'); 
+			$this->load->model('transport_payment_model');
+			$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();  
+			$data['iso_all_movement_details_list'] = $this->iso_movement_details_model->iso_all_movement_details_list($this->input->get('id')); 			
+			// view upcoming due counts
+			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
+			//view upcoming vehicle document count
+			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
+			$this->load->view('view_iso_payments', $data);	
+		}
+    } 
+    // end view view_all_iso_movement_details
 	 // start view iso_movement_details
     public function view_iso_movement_details()
     {

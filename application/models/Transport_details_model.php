@@ -19,7 +19,8 @@ Class Transport_details_model extends CI_Model
 			'Transport_dtl_address' => $this->input->post('address')
 		);	
 		$this->db->set('Transport_dtl_created_dt_time', 'NOW()', FALSE);	
-		$insert=$this->db->insert('transport_details', $user_data);			
+		$insert=$this->db->insert('transport_details', $user_data);		
+		//$this->db->last_query(); exit;	
 		return true;		
 	}  
 	function get_transport_details($id)
@@ -91,7 +92,9 @@ Class Transport_details_model extends CI_Model
 		$this->db->select('Transport_dtl_id, Transport_dtl_name');
         $this->db->from('transport_details'); 		
 		$this->db->where('Transport_dtl_status', 'A'); 
+        $this->db->order_by('Transport_dtl_id', "DESC");
         $query = $this->db->get();
+        //echo $this->db->last_query(); exit;
         return $query;
 	}
 	// end display transport name list

@@ -616,7 +616,7 @@ class Daily_movement extends CI_Controller {
 			<option value="">Select Place Name</option>';
 			foreach($data->result() as $row)
 			{ 
-				$select_size .='<option value="'.$row->party_pay_rate_id.'">'. $row->Driver_pay_rate_place_name.'</option>';
+				$select_size .='<option value="'.$row->party_pay_rate_place.'">'. $row->Driver_pay_rate_place_name.'</option>';
 			}
 			$select_size .='';
 			echo $select_size;

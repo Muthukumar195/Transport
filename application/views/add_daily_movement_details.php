@@ -219,7 +219,7 @@ span.ErrorField {
                 $options_place['']='Select Place Name';
                 foreach($place_name_list->result() as $place)
                 {                  
-                  $options_place[$place->party_pay_rate_id] = $place->Driver_pay_rate_place_name;                   
+                  $options_place[$place->party_pay_rate_place] = $place->Driver_pay_rate_place_name;                   
                 } 
                 echo form_dropdown('place_name', $options_place, '', 'class="form-control" id="place_name"');
               ?> 
@@ -456,11 +456,14 @@ function check_vehicle_type()
    {
 		 document.getElementById('other_vehicle').disabled=true;
 		 document.getElementById('transport_name').disabled=true;
-     	 document.getElementById('transport_rent').disabled=true;
+     document.getElementById('transport_rent').disabled=true;
 		 document.getElementById('transport_advance').disabled=true;
 		 document.getElementById('vehicle_no').disabled=false;
 		 document.getElementById('driver_name').disabled=false;
-	     document.getElementById('driver_advance').disabled=false;
+	   document.getElementById('driver_advance').disabled=false;
+     document.getElementById('rent').value="";
+     document.getElementById('place_name').value="";
+     document.getElementById('transport_rent').value=""
    }
    else if(document.getElementById('other_transport').checked){
 	    
@@ -470,8 +473,10 @@ function check_vehicle_type()
 	   document.getElementById('other_vehicle').disabled=false;
 	   document.getElementById('transport_name').disabled=false;
 	   document.getElementById('transport_advance').disabled=false;
-       document.getElementById('transport_rent').disabled=false;
-	 
+     document.getElementById('transport_rent').disabled=false;
+	   document.getElementById('rent').value="";
+     document.getElementById('place_name').value="";
+     document.getElementById('transport_rent').value=""
 	 
    }  
    
@@ -573,6 +578,7 @@ $(document).ready(function(){
    
     var place_id = $('#place_name').val();
 	 var party_id = $('#party_name').val();
+   //alert(place_id);
     //alert(place_id+party_id);
     $.ajax({
       type : "GET",
@@ -581,12 +587,14 @@ $(document).ready(function(){
       success : function(data){
 		    var res = data.split('^');
 		  if(document.getElementById('thirumala_transport').checked){
-			
-			   document.getElementById('rent').value=res[0];
+        //alert (res[0]);
+         document.getElementById('rent').value=res[0];
+
 		  }
 		  else if(document.getElementById('other_transport').checked){
-			
-			   document.getElementById('rent').value=res[1];
+        //alert (res[1]);
+			   document.getElementById('transport_rent').value=res[1]
+			   document.getElementById('rent').value=res[0];
 		  }
 		  else{
 			  alert("Please Select Transport type");
@@ -611,3 +619,4 @@ $("select[name='party_name'] > option").each(function () {
 include('validation/add_daily_movement_details.php');
 ?>
         
+

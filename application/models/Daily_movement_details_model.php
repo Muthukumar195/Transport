@@ -105,7 +105,8 @@ Class Daily_movement_details_model extends CI_Model
 			'Daily_mvnt_dtl_profit' => $profit
 		);	
 		$this->db->set('Daily_mvnt_dtl_created_dt_time', 'NOW()', FALSE);	
-		$insert=$this->db->insert('daily_moment_details', $user_data);			
+		$insert=$this->db->insert('daily_moment_details', $user_data);	
+		//echo $this->db->last_query(); exit;		
 		return true;		
 	}  	
 	function edit_daily_movement_details($id, $place_name)

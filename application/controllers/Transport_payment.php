@@ -31,6 +31,7 @@ class Transport_payment extends CI_Controller
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
 			$data['transport_payment_list'] = $this->transport_payment_model->transport_payment_list();
+            $data['transport_iso_payment_list'] = $this->transport_payment_model->transport_iso_payment_list();
 			$data['daily_movement_payment'] = $this->transport_payment_model->daily_movement_payment();
 			$data['iso_movement_payment'] = $this->transport_payment_model->iso_movement_payment();
 			$data['transport_payment'] = $this->transport_payment_model->transport_payment();
@@ -84,7 +85,6 @@ class Transport_payment extends CI_Controller
 	   		$this->form_validation->set_rules('transport_name', 'Transport Name', 'trim|required|xss_clean');
 	   		$this->form_validation->set_rules('amount', 'Paid Amount', 'trim|required|xss_clean');
 			$this->form_validation->set_rules('transport_pay_date', 'Transport Pay Date', 'trim|required|xss_clean');
-	   		$this->form_validation->set_rules('transport_pay_status', 'Transport Pay Status', 'trim|required|xss_clean');
 	   		// view upcoming due counts
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			if($this->form_validation->run() == FALSE)
@@ -93,13 +93,14 @@ class Transport_payment extends CI_Controller
 				$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 				//view upcoming vehicle document count
 			    $data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
-				$data['transport_name_list'] = $this->party_details_model->transport_name_list();			
-				$this->load->view('add_transport_payment',$data); 	
+				$data['transport_name_list'] = $this->transport_details_model->transport_name_list();			
+				$this->load->view('add_transport_payment',$data); 	//echo "sss"; exit;	
 			}
 			else
 			{
 				if($query = $this->transport_payment_model->add_transport_payment())
 				{
+
 					$this->session->set_flashdata('success_msg', 'Transport payment detail added successfully!');					
 					redirect('transport_payment/add_transport_payment');	
 				}				

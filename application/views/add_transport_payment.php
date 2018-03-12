@@ -46,7 +46,7 @@ include('include/header.php');
             <div class="col-lg-8">                        
               <?php  
 			   $id = $this->input->get('id');              
-                $options_trans_nme['']='Select Transport Name';
+                $options_trans_nme['']='Select Transport Name';               
                 foreach($transport_name_list->result() as $transport_nme)
                 {                  
                   $options_trans_nme[$transport_nme->Transport_dtl_id] = $transport_nme->Transport_dtl_name;                   

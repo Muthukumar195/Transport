@@ -117,9 +117,21 @@ Class Party_pay_rate_model extends CI_Model
 	}
 	function party_rent($id,$party_id){
 		
-		$query = $this->db->get_where('party_pay_rate', array('party_pay_rate_id' => $id, 'party_pay_rate_party' => $party_id));
-		//echo $this->db->last_query(); exit;
+		$query = $this->db->get_where('party_pay_rate', array('party_pay_rate_place' => $id, 'party_pay_rate_party' => $party_id));
+		//echo $this->db->last_query(); exit; 
 		return $query;
+	}
+	function check_already_exits($place,$party){
+	
+		$query = $this->db->get_where('party_pay_rate', array('party_pay_rate_place' => $place, 'party_pay_rate_party' => $party));
+		$row = $query->num_rows();
+		if($row==1){
+			return 1;
+		}
+		else{
+			return 0;
+		}
+		
 	}
 	
 	

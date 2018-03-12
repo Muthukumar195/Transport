@@ -17,7 +17,7 @@ include('include/header.php');
                               </div>
                     </div>
                     <div class='col-lg-10 col-md-10' >
-                        <marquee style="background-image: url('<?php echo base_url(); ?>/assets/images/truck_bg.jpg');  border-radius: 10px;">
+                       <?php /*?> <marquee style="background-image: url('<?php echo base_url(); ?>/assets/images/truck_bg.jpg');  border-radius: 10px;">
                         <img src="<?php echo base_url(); ?>/assets/images/truck.png" alt="truck">
                         <img src="<?php echo base_url(); ?>/assets/images/truck1.png" alt="truck logo">
                         <img src="<?php echo base_url(); ?>/assets/images/truck2.png" alt="truck">
@@ -27,7 +27,7 @@ include('include/header.php');
                           <img src="<?php echo base_url(); ?>/assets/images/truck.png" alt="truck">
                         <img src="<?php echo base_url(); ?>/assets/images/truck1.png" alt="truck logo">
                         <img src="<?php echo base_url(); ?>/assets/images/truck2.png" alt="truck">
-                        </marquee>
+                        </marquee><?php */?>
                     </div>
                     <div class="clearfix"></div>
 					

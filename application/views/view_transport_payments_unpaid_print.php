@@ -178,7 +178,7 @@
                                    <div class="col-lg-12">
                          <!-- start mail box for read daily movement details -->
 									<?php
-									 $address="";
+									 $address="";$tr_nme ="";
 									 foreach ($view_movement_payments_unpaid->result() as $row)
 										{
 										   $address=$row->Transport_dtl_address;
@@ -206,7 +206,7 @@
                                                   <th>Place</th>
                                                   <th>Rent</th>
                                                   <th>Advance</th>
-                                                  <td>Balance</td>  
+                                                  <th>Balance</th>  
                                                  
                                                 </tr>
                                             </thead>
@@ -255,7 +255,9 @@
                                                       ?></td>
                                                       <td>
                                                       <?php
-                                                        $mvnt_balc = intval($row->Daily_mvnt_dtl_trp_rent)-intval($row->Daily_mvnt_dtl_trp_adv);
+                                                       //$mvnt_balc =$row->Daily_mvnt_dtl_trp_rent;
+   
+	$mvnt_balc = $row->Daily_mvnt_dtl_trp_rent-$row->Daily_mvnt_dtl_trp_adv;
                                                         $ttl_balance = intval($ttl_balance)+intval($mvnt_balc);
                                                         echo '<span style="color:red;">'.$mvnt_balc.'</span>';								  	
                                                       ?>

@@ -131,3 +131,28 @@ include('include/header.php');
 include('validation/add_daily_movement_details.php');
 ?>
         
+<script>
+$(document).ready(function(){
+  $("#place_name").change(function(){
+    var party = $("#party_name").val();
+    var place = $("#place_name").val();
+    //alert(party);
+    $.ajax({
+      type : "GET",
+       url  : "<?php echo base_url(); ?>/index.php/party_pay_rate/ajax_check_value",
+      data : {"place" : place, "party" : party},
+      success : function(data){
+       var res = data;
+       if(res==1){
+         jQuery('#exists').html("Party pay rate already exists");
+        window.location.reload();
+       }
+      }
+    });
+      
+  });   
+});
+  
+
+</script>
+        

@@ -3,13 +3,14 @@ Class Iso_movement_details_model extends CI_Model
 {
  	function iso_movement_details_list()
 	{
-		$this->db->select('*,cod.Container_dtl_container_no as continer1,cod2.Container_dtl_container_no as continer2');
+		$this->db->select('*,cod.Container_dtl_container_no as continer1,cod2.Container_dtl_container_no as continer2,  party_details.Party_dtl_name');
         $this->db->from('iso_movement_details');
         $this->db->join('vehicle_details','vehicle_details.Vehicle_dtl_id = iso_movement_details.Iso_mvnt_vehicle_no','left');
 	    $this->db->join('container_details as cod','cod.Container_dtl_id  = iso_movement_details.Iso_mvnt_container_no','left');
 		$this->db->join('container_details as cod2','cod2.Container_dtl_id  = iso_movement_details.Iso_mvnt_container_no2','left');
 		
 		$this->db->join('transport_details','transport_details.Transport_dtl_id = iso_movement_details.	Iso_mvnt_transport_name','left');
+		$this->db->join('party_details', 'party_details.Party_dtl_id = iso_movement_details.Iso_mvnt_party_name', 'left'); 
 		$this->db->order_by("Iso_mvnt_id","DESC");
 	    $query=$this->db->get();
 	    return $query; 
@@ -36,6 +37,8 @@ Class Iso_movement_details_model extends CI_Model
 			'Iso_mvnt_load_drop'=>$this->input->post('load_drop'),
 			'Iso_mvnt_transport_name' => $transport,
 			'Iso_mvnt_tp_amount' => $this->input->post('tp_amount'),
+			'Iso_mvnt_party_name' => $this->input->post('party_name'),
+			'Iso_mvnt_party_amt' => $this->input->post('party_amount'),
 			'Iso_mvnt_amount' => $this->input->post('iso_amount')
 		);	
 		$this->db->set('Iso_mvnt_created_dt_time', 'NOW()', FALSE);	
@@ -69,6 +72,8 @@ Class Iso_movement_details_model extends CI_Model
 			'Iso_mvnt_load_drop'=>$this->input->post('load_drop'),
 			'Iso_mvnt_transport_name'=>$this->input->post('transport_name'),
 			'Iso_mvnt_tp_amount' => $this->input->post('tp_amount'),
+			'Iso_mvnt_party_name' => $this->input->post('party_name'),
+			'Iso_mvnt_party_amt' => $this->input->post('party_amount'),
 			'Iso_mvnt_amount'=>$this->input->post('iso_amount'),
 			);
 		$this->db->set('Iso_mvnt_created_dt_time', 'NOW()');	
@@ -264,5 +269,68 @@ Class Iso_movement_details_model extends CI_Model
 		return true;
 		
 	}
+	//party Payment status change 
+	function party_paid_iso_movement($iso_id){
+		
+		$data=array('Iso_mvnt_paid_status'=>"P");
+		$this->db->where_in('Iso_mvnt_id',$iso_id);
+		$this->db->update('iso_movement_details',$data);
+		//echo $this->db->last_query(); exit;
+		return true;
+		
+	}
+
+	function iso_all_movement_details_list($iso_id)
+	{
+		
+
+		$this->db->select('*,cod.Container_dtl_container_no as continer1,cod2.Container_dtl_container_no as continer2');
+        $this->db->from('iso_movement_details');
+        $this->db->join('vehicle_details','vehicle_details.Vehicle_dtl_id = iso_movement_details.Iso_mvnt_vehicle_no','left');
+	    $this->db->join('container_details as cod','cod.Container_dtl_id  = iso_movement_details.Iso_mvnt_container_no','left');
+		$this->db->join('container_details as cod2','cod2.Container_dtl_id  = iso_movement_details.Iso_mvnt_container_no2','left');
+		
+		$this->db->join('transport_details','transport_details.Transport_dtl_id = iso_movement_details.	Iso_mvnt_transport_name','left');
+		$this->db->where_in('Iso_mvnt_transport_name',$iso_id);
+		$fnl_where=array();       
+        if($this->input->post('m_date_from')||$this->input->post('m_date_to'))
+        {
+			// start check iso Movement date
+        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')==null))
+        	{	
+        		//$this->db->where('vehicle_document_details.Vehicle_doc_dtl_m_permit_from="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_permit_from')))).'"');
+        		$i_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'")';
+        		$fnl_where[]=$i_date;
+        	}
+        	if(($this->input->post('m_date_from')== null) && ($this->input->post('m_date_to')!=null))
+        	{        		
+        		$i_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
+        		$fnl_where[]=$i_date;
+        	}
+        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')!=null))
+        	{	
+        		$i_date = '(iso_movement_details.Iso_mvnt_date >= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'" AND Iso_mvnt_date <= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
+        		$fnl_where[]=$i_date;
+        	}
+        	// end  check iso Movement date
+			$fnl_where_last=''; $fnl_count=0; 
+        	foreach ($fnl_where as $whr_val) 
+        	{    $fnl_count;
+        		$fnl_where_last .= ''.$whr_val.'';
+        		if(($fnl_count>=0)&&($fnl_count<(count($fnl_where)-1)))
+        		{
+        			$fnl_where_last .= ' And ';  
+        		}     		
+        		$fnl_count++;
+        	}        	
+        	
+        	$this->db->where($fnl_where_last); 
+        }
+		$this->db->order_by("Iso_mvnt_id","DESC");
+	    $query=$this->db->get();
+	    //echo $this->db->last_query(); exit;
+	    return $query; 
+	}
+
 }
 ?>
