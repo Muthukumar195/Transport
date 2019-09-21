@@ -33,19 +33,6 @@ Class Party_payment_model extends CI_Model
         $query = $this->db->get();               
         return $query;
 	}
-	
-	 public function party_iso_payment_list(){
-
-		$this->db->select('iso_movement_details.*, party_payment.*, party_details.Party_dtl_id, party_details.	Party_dtl_name');
-		$this->db->from('iso_movement_details');
-        $this->db->join('party_details', 'party_details.Party_dtl_id = iso_movement_details.Iso_mvnt_party_name', 'left');
-		$this->db->join('party_payment', 'party_payment.Party_payment_party_name = iso_movement_details.Iso_mvnt_party_name', 'left');
-		$this->db->group_by('Iso_mvnt_party_name');
-        $this->db->order_by('Party_payment_id', "DESC");
-		$query = $this->db->get();
-		return $query;
-	}
-
 	function add_party_payment_details()
 	{
 		$user_data = array(
@@ -226,106 +213,7 @@ Class Party_payment_model extends CI_Model
 		$this->db->where('Party_payment_id',$id);
 		$this->db->update('party_payment',$user_data);
 		return true;
-	}
-	// start view iso movement payment details in unpaid
-	function iso_movement_payment_unpaid($id)
-	{
-		$this->db->select('iso_movement_details.*');
-        $this->db->from('iso_movement_details');
-		$fnl_where=array();       
-        if($this->input->post('m_date_from')||$this->input->post('m_date_to'))
-        {
-			// start check iso Movement date
-        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')==null))
-        	{	
-        		//$this->db->where('vehicle_document_details.Vehicle_doc_dtl_m_permit_from="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_permit_from')))).'"');
-        		$i_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'")';
-        		$fnl_where[]=$i_date;
-        	}
-        	if(($this->input->post('m_date_from')== null) && ($this->input->post('m_date_to')!=null))
-        	{        		
-        		$i_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
-        		$fnl_where[]=$i_date;
-        	}
-        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')!=null))
-        	{	
-        		$i_date = '(iso_movement_details.Iso_mvnt_date >= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'" AND Iso_mvnt_date <= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
-        		$fnl_where[]=$i_date;
-        	}
-        	// end  check iso Movement date
-			
-			$fnl_where_last=''; $fnl_count=0; 
-        	foreach ($fnl_where as $whr_val) 
-        	{    $fnl_count;
-        		$fnl_where_last .= ''.$whr_val.'';
-        		if(($fnl_count>=0)&&($fnl_count<(count($fnl_where)-1)))
-        		{
-        			$fnl_where_last .= ' And ';  
-        		}     		
-        		$fnl_count++;
-        	}        	
-        	
-        	$this->db->where($fnl_where_last); 
-			//echo $this->db->last_query(); exit;
-        }
-		
-        $this->db->where("iso_movement_details.Iso_mvnt_party_name", $id);
-		$this->db->where("iso_movement_details.Iso_mvnt_paid_status", "U");
-		$this->db->order_by("iso_movement_details.Iso_mvnt_id", "DESC");
-		$query = $this->db->get();
-		//echo $this->db->last_query(); exit; 			                      
-        return $query;	
-	}
-	// end view movement payment details in view option
-	
-	// start view iso movement payment details in Paid
-	function iso_movement_payment_paid($id)
-	{
-		$this->db->select('iso_movement_details.*');
-        $this->db->from('iso_movement_details');
-		$fnl_where=array();       
-        if($this->input->post('m_date_from')||$this->input->post('m_date_to'))
-        {
-			// start check iso Movement date
-        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')==null))
-        	{	
-        		//$this->db->where('vehicle_document_details.Vehicle_doc_dtl_m_permit_from="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_permit_from')))).'"');
-        		$i_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'")';
-        		$fnl_where[]=$i_date;
-        	}
-        	if(($this->input->post('m_date_from')== null) && ($this->input->post('m_date_to')!=null))
-        	{        		
-        		$i_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
-        		$fnl_where[]=$i_date;
-        	}
-        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')!=null))
-        	{	
-        		$i_date = '(iso_movement_details.Iso_mvnt_date >= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'" AND Iso_mvnt_date <= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
-        		$fnl_where[]=$i_date;
-        	}
-        	// end  check iso Movement date
-			$fnl_where_last=''; $fnl_count=0; 
-        	foreach ($fnl_where as $whr_val) 
-        	{    $fnl_count;
-        		$fnl_where_last .= ''.$whr_val.'';
-        		if(($fnl_count>=0)&&($fnl_count<(count($fnl_where)-1)))
-        		{
-        			$fnl_where_last .= ' And ';  
-        		}     		
-        		$fnl_count++;
-        	}        	
-        	
-        	$this->db->where($fnl_where_last); 
-        }
-		
-        $this->db->where("iso_movement_details.Iso_mvnt_party_name", $id);		
-		$this->db->where("iso_movement_details.Iso_mvnt_paid_status", "P");
-		$this->db->order_by("iso_movement_details.Iso_mvnt_id", "DESC");
-		$query = $this->db->get();
-		//echo $this->db->last_query(); exit; 			                      
-        return $query;	
-	}
-	// end view movement payment details Paid	
+	}	
 	function delete_party_payment_details()
 	{	 
 	    $this->db->where('Party_payment_party_name', $this->input->get('id'));

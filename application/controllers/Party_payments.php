@@ -45,8 +45,7 @@ class Party_payments extends CI_Controller {
 			$this->load->model('party_payment_model'); 
 			$data['party_payments_list'] = $this->party_payment_model->party_payments_list();
 			$data['movement_outstand_payment'] = $this->party_payment_model->movement_outstand_payment(); 	
-			$data['party_outstand_payment'] = $this->party_payment_model->party_outstand_payment(); 
-			$data['party_iso_payment_list'] = $this->party_payment_model->party_iso_payment_list();
+			$data['party_outstand_payment'] = $this->party_payment_model->party_outstand_payment();  
 			// view upcoming due counts
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			//view upcoming vehicle document count
@@ -282,8 +281,6 @@ class Party_payments extends CI_Controller {
 			$data['view_party_payments'] = $this->party_payment_model->get_party_payment_details($this->input->get('id')); 	
 			$data['view_movement_payments_unpaid'] = $this->party_payment_model->get_movement_payment_details_unpaid($this->input->get('id'));
 			$data['view_movement_payments_paid'] = $this->party_payment_model->get_movement_payment_paid($this->input->get('id')); 
-			$data['view_iso_movement_payments_unpaid'] = $this->party_payment_model->iso_movement_payment_unpaid($this->input->get('id')); 
-			$data['view_iso_movement_payments_paid'] = $this->party_payment_model->iso_movement_payment_paid($this->input->get('id')); 	
 			// view upcoming due counts
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			//view upcoming vehicle document count
@@ -292,7 +289,6 @@ class Party_payments extends CI_Controller {
 		}
     } 
     // end view party details
-	
 	 // start view party Print details
     public function view_party_payments_print()
     {
@@ -421,38 +417,6 @@ class Party_payments extends CI_Controller {
 		}
     }
 	// end deny daily movemnt
-	
-	// start Paid party Paymenrt Iso movemnt
-    function paid_iso_movement()
-    {
-    	// start for check user rights
-        	$user_typ_ary=explode(',', $this->session->userdata('user_rights_dtl'));                    
-        // end for check user rights
-		if((in_array("Transport Payment", $user_typ_ary)==false)&&($this->session->userdata('username')!='admin'))
-		{
-			$this->check_user_rights();
-		}	
-    	if(! $this->session->userdata('username')){			
-			$this->check_isvalidated();
-		}
-		else
-		{	$send_id = $this->input->post('party_id');
-		     $send_name = $this->input->post('party_name');
-			if($this->input->post('iso_id')!=""){
-				$this->load->model('iso_movement_details_model');
-				if($this->iso_movement_details_model->party_paid_iso_movement($this->input->post('iso_id')))
-				{				
-					$this->session->set_flashdata('success_msg', 'Transport Payment Changed successfully!');
-					redirect('/party_payments/view_party_payments?id='.$send_id.'&pr_nme='.$send_name);
-				}
-			}
-			else{
-				redirect('/party_payments/view_party_payments?id='.$send_id.'&pr_nme='.$send_name);
-			}
-							
-		}
-    }
-	// End Paid party Paymenrt Iso movemnt
 
 	
 	function check_isvalidated()

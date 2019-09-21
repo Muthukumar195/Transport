@@ -216,7 +216,7 @@ include('include/header.php');
                         'name'        => 'container_f',
                         'id'          => 'container_type',
                         'value'       => $row->Iso_mvnt_container_no,
-                        'maxlength'   => '12',
+                        'maxlength'   => '11',
                         'class'       => 'form-control',
                         'placeholder' => 'Enter Container Number',
 						
@@ -231,7 +231,7 @@ include('include/header.php');
                         'name'        => 'container_t',
                         'id'          => 'container_t',
                         'value'       => $row->Iso_mvnt_container_no2,
-                        'maxlength'   => '8',
+                        'maxlength'   => '11',
                         'class'       => 'form-control',
                         'placeholder' => 'Enter Container Number',
 						
@@ -384,36 +384,6 @@ include('include/header.php');
                         'class'       => 'form-control',
                         'onkeyup'     => 'checkInt(this)',
 						'placeholder' => 'Enter Transport Amount'
-                      ); 
-                  echo form_input($data1);
-              ?>
-            </div>
-          </div>
-           <div class="form-group">
-            <label class="col-lg-3 control-label">Party:</label>
-            <div class="col-lg-8">              
-              <?php                
-                $options_party_nme['']='Select Party Name';
-                foreach($party_name_list->result() as $party_nme)
-                {                  
-                  $options_party_nme[$party_nme->party_pay_rate_party] = $party_nme->Party_dtl_name;                   
-                } 
-                echo form_dropdown('party_name', $options_party_nme, $row->Iso_mvnt_party_name, 'class="form-control" id="party_name"');
-              ?> 
-            </div>
-          </div> 
-          <div class="form-group">
-            <label class="col-lg-3 control-label">Party Amount:</label>
-            <div class="col-lg-8">              
-              <?php 
-                 $data1 = array(
-                        'name'        => 'party_amount',
-                        'id'          => 'party_amount',
-                        'value'       => $row->Iso_mvnt_party_amt,
-                        'maxlength'   => '10',
-                        'class'       => 'form-control',
-                        'onkeyup'     => 'checkInt(this)',
-						'placeholder' => 'Enter Party Amount'
                       ); 
                   echo form_input($data1);
               ?>

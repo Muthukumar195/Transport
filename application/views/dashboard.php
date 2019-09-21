@@ -17,7 +17,7 @@ include('include/header.php');
                               </div>
                     </div>
                     <div class='col-lg-10 col-md-10' >
-                       <?php /*?> <marquee style="background-image: url('<?php echo base_url(); ?>/assets/images/truck_bg.jpg');  border-radius: 10px;">
+                        <marquee style="background-image: url('<?php echo base_url(); ?>/assets/images/truck_bg.jpg');  border-radius: 10px;">
                         <img src="<?php echo base_url(); ?>/assets/images/truck.png" alt="truck">
                         <img src="<?php echo base_url(); ?>/assets/images/truck1.png" alt="truck logo">
                         <img src="<?php echo base_url(); ?>/assets/images/truck2.png" alt="truck">
@@ -27,7 +27,7 @@ include('include/header.php');
                           <img src="<?php echo base_url(); ?>/assets/images/truck.png" alt="truck">
                         <img src="<?php echo base_url(); ?>/assets/images/truck1.png" alt="truck logo">
                         <img src="<?php echo base_url(); ?>/assets/images/truck2.png" alt="truck">
-                        </marquee><?php */?>
+                        </marquee>
                     </div>
                     <div class="clearfix"></div>
 					
@@ -123,7 +123,7 @@ include('include/header.php');
                                                 <i class='fa fa-group  text-light icon-xlg pull-right'></i>
                                             </div>
                                             <div class="social-info">
-                                                <h3 data-speed="3000" data-from="0" data-to="<?php echo $daily_movement_count; ?>" class="number_counter bold count text-light">0</h3>
+                                                <h3 data-speed="3000" data-from="0" data-to="<?php echo $party_count; ?>" class="number_counter bold count text-light">0</h3>
                                               
                                                  <h4 class="counttype text-light">Total Partys</h4>
                                             </div>

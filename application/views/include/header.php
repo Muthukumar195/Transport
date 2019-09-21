@@ -40,8 +40,8 @@
 
         <!-- CORE CSS TEMPLATE - START -->
         <link href="<?php echo base_url(); ?>/assets/css/style.css" rel="stylesheet" type="text/css"/>
-        <link href="<?php echo base_url(); ?>/assets/css/responsive.css" rel="stylesheet" type="text/css"/>
-        <!-- CORE CSS TEMPLATE - END -->
+        <!--<link href="<?php echo base_url(); ?>/assets/css/responsive.css" rel="stylesheet" type="text/css"/>
+         CORE CSS TEMPLATE - END -->
         <script type="text/javascript" src="<?php echo base_url(); ?>/assets/js/jquery.js"></script>
 
 

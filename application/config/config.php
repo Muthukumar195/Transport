@@ -23,8 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-//$config['base_url'] = 'http://gunasekaran-pc/thirumala_2017-aug';
-$config['base_url'] = 'http://localhost/2018/TTv.2.0';
+$config['base_url'] = 'http://localhost/DYNAMIC/Muthu/Transport/';
 
 /*
 |--------------------------------------------------------------------------

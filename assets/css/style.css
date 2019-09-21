@@ -1153,7 +1153,7 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
     -ms-border-radius: 0px;
     -moz-border-radius: 0px;
     -webkit-border-radius: 0px;
-    border: 1px solid #e1e1e1;
+    border: 1px solid #bcbcbc;
 }
 .form-control:focus, .has-focus .form-control {
     background: #f8f8f8;
@@ -1165,6 +1165,7 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
 }
 .form-group {
     margin-bottom: 20px;
+	overflow: auto;
 }
 .form-group .controls {
     margin: 5px 0;

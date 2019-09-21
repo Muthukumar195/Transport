@@ -454,6 +454,25 @@
                             </ul>
                         </li> 
                         <?php } // check for vehicle due details rights ?>    
+						 <?php 
+                          if((in_array("Vehicle Maintenance", $user_typ_ary)==true)||($this->session->userdata('username')=='admin'))
+                          { 
+                        ?>  
+                        <li  <?php if(($page_name=='list' || $page_name=='add' || $page_name=='edit')){ echo 'class="open"'; } ?>> 
+                            <a href="javascript:;">
+                                <i class="fa fa-book"></i>
+                                <span class="title">Vehicle Maintenance</span>
+                                <span class="arrow "></span>
+                            </a>
+                            <ul class="sub-menu" >
+                                <li>
+                                    <?php 
+                                     if(($page_name=='list')){ $anchor_act_cls='class="active"';  }else{ $anchor_act_cls=''; }
+                                     echo anchor('vehicle_maintenance/list', 'View', ''.$anchor_act_cls.''); ?>
+                                </li>
+                            </ul>
+                        </li> 
+                        <?php } // check for vehicle maintenance rights ?>    
                         <?php 
                           if((in_array("Admin User Rights", $user_typ_ary)==true)||($this->session->userdata('username')=='admin'))
                           { 

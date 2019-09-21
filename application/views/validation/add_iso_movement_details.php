@@ -63,14 +63,6 @@ jQuery(function(){
 	expression: "if (VAL) return true; else return false;",
 	message: "Please Enter a Transport Amount"
 	});
-	jQuery("#party_name").validate({
-	expression: "if (VAL) return true; else return false;",
-	message: "Please Select a Party Name"
-	});
-	jQuery("#party_amount").validate({
-	expression: "if (VAL) return true; else return false;",
-	message: "Please Enter a Party Amount"
-	});
 	jQuery("#iso_amount").validate({
 	expression: "if (VAL) return true; else return false;",
 	message: "Please Enter a Iso Amount"

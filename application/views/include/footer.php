@@ -35,6 +35,7 @@
          <!-- Date Picker --> 
         <script src="<?php echo base_url(); ?>assets/plugins/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script> 
+		<script src="<?php echo base_url(); ?>/assets/js/moment.min.js" type="text/javascript"></script>
         <!-- END Date Picker - END -->
          
         <!-- END Multi select box - END -->
@@ -42,6 +43,9 @@
         <script src="<?php echo base_url(); ?>/assets/plugins/sparkline-chart/jquery.sparkline.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url(); ?>/assets/js/chart-sparkline.js" type="text/javascript"></script>
         <!-- Sidebar Graph - END --> 
+        <!-- Sidebar Graph - END --> 
+		
+		<script src="<?php echo base_url(); ?>/assets/js/common.js" type="text/javascript"></script>
      
         
        

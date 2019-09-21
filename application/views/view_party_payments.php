@@ -28,11 +28,11 @@ include('include/header.php');
 
                     <div class="col-lg-12">
                     <?php 
-					$party_id = $this->input->get('id'); 
+					$id = $this->input->get('id'); 
                     $pr_nme = $this->input->get('pr_nme');
                     ?>
                     <div class="col-lg-12">
-                     <?php echo form_open_multipart('party_payments/view_party_payments?id='.$party_id.'&pr_nme='.$pr_nme.'', array('class'=>'form-horizontal')); ?>
+                     <?php echo form_open_multipart('party_payments/view_party_payments?id='.$id.'&pr_nme='.$pr_nme.'', array('class'=>'form-horizontal')); ?>
                   <span style="color:red; "><?php echo validation_errors(); ?></span> 
 					<div class="row"> 
                     <div class="col-lg-4 col-md-4 col-sm-4" >
@@ -89,11 +89,11 @@ include('include/header.php');
                                                  <div class="col-md-11 col-sm-11 col-xs-11">
                                                     <h3 class="mail_head" style="margin-bottom:2%; font-weight:bold;"><?php $party_name=$this->input->get('pr_nme');  echo $party_name;  ?></h3> 
                                                     <?php
-													//$party_id=""; 
-													//foreach ($view_party_payments->result() as $row)
-                                                     //{
-													//	$party_id=$row->Party_dtl_id ; 
-													 //}
+													$party_id=""; 
+													foreach ($view_party_payments->result() as $row)
+                                                     {
+														$party_id=$row->Party_dtl_id ; 
+													 }
 													?>
                                                 </div>
                                                 <div class="col-md-1 col-sm-1 col-xs-1">
@@ -269,63 +269,6 @@ include('include/header.php');
                                                                     </tr>
                                                                 <?php $sno++; } ?>
                                                                 </tbody>
-                                                                <!--Iso Movement Paid List-->
-                                                                <tbody style="border-top:2px solid #9972b5;">
-                                                                <?php
-																	
-                                                        			foreach ($view_iso_movement_payments_paid->result() as $iso)
-                                                                    {                                                               
-                                                                ?>
-                                                                    <tr>
-                                                                      <td><?php  echo $sno; ?></td>
-                                                                      <td>
-																	  <?php 
-																	  	echo anchor('iso_movement_details/view_iso_movement_details?id='.$iso->Iso_mvnt_id.'', date('d-M-Y', strtotime($iso->Iso_mvnt_date)), 'target="_blank" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View Iso Movement Detail" data-placement="bottom"' );
-                                             						  ?>																	  
-																	  </td>
-                                                                      <td>
-																	   <?php 
-																			echo $iso->Iso_mvnt_other_vehicle_no;
-                                             						  ?>
-																	  </td>
-                                                                      <td>
-																	  <?php 
-																	  if($iso->Iso_mvnt_container_type=='F'){														
-																		echo $iso->Iso_mvnt_container_no;
-																		}
-																		elseif($iso->Iso_mvnt_container_type=='T'){ 
-																		echo '('.$iso->Iso_mvnt_container_no.') - ('.$iso->Iso_mvnt_container_no2.')'; }
-																	 ?>
-                                                                      </td>
-                                                                      <td>
-																	  <?php 
-																	  	echo $iso->Iso_mvnt_pickup_place.'<strong class="text-purple"> To </strong>'.$iso->Iso_mvnt_drop_place;
-                                             						  ?>
-																	  </td>
-                                                                      <td>
-																	  <?php 
-																	  	echo anchor('iso_movement_details/view_iso_movement_details?id='.$iso->Iso_mvnt_id.'', $iso->Iso_mvnt_tp_amount, 'target="_blank" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View Iso Movement Detail" data-placement="bottom"' );                                             						  
-                                             						  
-                                                                        $ttl_rent = intval($ttl_rent)+intval($iso->Iso_mvnt_tp_amount);
-                                                                      ?></td>
-                                                                      
-                                                                      <td> -- </td>
-                                                                      <td> -- </td>	
-																	  <td>
-																	<?php 
-																	if($iso->Iso_mvnt_paid_status=='P')
-																	{
-																	   echo '<strong style="color:green;"> Paid</strong>';   
-																	}
-																	else
-																	{
-																		echo '<strong style="color:red;"> Unpaid</strong>';
-																	}
-																	?> 
-																	</td>				                                                                    
-                                                                    </tr>
-                                                                <?php $sno++; } ?>
-                                                                </tbody>
                                                                	<tfoot>
                                                                   <tr> 
                                                                       <th colspan="5" align="right"><span style="float:right;">Total </span></th>  
@@ -452,92 +395,6 @@ include('include/header.php');
                                                             </td>                                                                                   
                                                                     </tr>
                                                                 <?php $sno++; } ?>
-                                                                <input name="party_id" type="hidden" value="<?php echo $this->input->get('id') ?>">
-                                                        <?php if($tt_rent!=""){?>
-                                                        <input style="float:right;" type="submit" name="submit" value="Paid Daily Bill" class="btn btn-primary">
-                                                        <?php } ?>
-                                                        </form>
-                                                                </tbody>
-                                                                 <!-- start Iso Movement Unpaid Data-->
-                                                                <tbody style="border-top:2px solid #9972b5;">
-                                                                 <?php echo form_open_multipart(  'party_payments/paid_iso_movement', array('class'=>'form-horizontal')); ?>
-                                                                <?php 
-                                                                  //$mvnt_bal=0; $tt_mamul="0"; $tt_rent=0; $tt_avnc=0; $tt_balance=0; $bln_total=0; 							                                                                                          
-                                                        			foreach ($view_iso_movement_payments_unpaid->result() as $iso)
-                                                                    {                                                               
-                                                                ?>
-                                                                    <tr>
-                                                                      <td><?php  echo $sno; ?></td>
-                                                                      <td>
-																	  <?php 
-																	  	echo anchor('iso_movement_details/view_iso_movement_details?id='.$iso->Iso_mvnt_id.'', date('d-M-Y', strtotime($iso->Iso_mvnt_date)), 'target="_blank" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View Iso Movement Detail" data-placement="bottom"' );
-                                             						  ?>																	  
-																	  </td>
-                                                                      <td>
-																	   <?php 
-																			echo $iso->Iso_mvnt_other_vehicle_no;
-                                             						  ?>
-																	  </td>
-                                                                      <td>
-																	  <?php 
-																	  if($iso->Iso_mvnt_container_type=='F'){														
-																		echo $iso->Iso_mvnt_container_no;
-																		}
-																		elseif($iso->Iso_mvnt_container_type=='T'){ 
-																		echo '('.$iso->Iso_mvnt_container_no.') - ('.$iso->Iso_mvnt_container_no2.')'; }
-																	 ?>
-                                                                      </td>
-                                                                      <td>
-																	  <?php 
-																	  	echo $iso->Iso_mvnt_pickup_place.'<strong class="text-purple"> To </strong>'.$iso->Iso_mvnt_drop_place;
-                                             						  ?>
-																	  </td>
-                                                                      <td>
-																	  <?php 
-																	  	echo anchor('iso_movement_details/view_iso_movement_details?id='.$iso->Iso_mvnt_id.'', $iso->Iso_mvnt_tp_amount, 'target="_blank" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View Iso Movement Detail" data-placement="bottom"' );                                             						  
-                                             						  
-                                                                        $tt_rent = intval($tt_rent)+intval($iso->Iso_mvnt_tp_amount);
-                                                                      ?></td>
-                                                                      
-                                                                      <td> -- </td>
-                                                                      <td> -- </td>
-                                                                      <td> -- </td>	
-																	  <td>
-																	<?php 
-																	if($iso->Iso_mvnt_paid_status=='P')
-																	{
-																	   echo '<strong style="color:green;"> Paid</strong>';   
-																	}
-																	else
-																	{
-																		echo '<strong style="color:red;"> Unpaid</strong>';
-																	}
-																	?> 
-																	</td>
-                                                                      <td>
-																	<?php 
-																	/*if($iso->Iso_mvnt_paid_status=='P')
-																	{
-																	   echo '<a href="unpaid_iso_movement?id='.$iso->Iso_mvnt_id.'" alt="Update Status" style="color:red;" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Deny a Daily Movement" data-placement="bottom" ><button type="button" class="btn btn-primary"> Unpaid</button> </a>';   
-																	}
-																	else
-																	{
-																		echo '<a href="paid_iso_movement?id='.$iso->Iso_mvnt_id.'" alt="Update Status" style="color:green;" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Paid Tansport Bill" data-placement="bottom"> <button type="button" class="btn btn-purple "> paid</button></a>';
-																	}*/
-                                                                   ?> 
-                                                     <input type="checkbox" name="iso_id[]"  value="<?php echo $iso->Iso_mvnt_id; ?>">
-                                                            </td>                                                                                   
-                                                                    </tr>
-                                                                <?php $sno++; } ?>
-                                                                <?php if($tt_rent!=""){ ?>
-                                                                <input name="party_id" type="hidden" value="<?php echo $this->input->get('id') ?>">
-                                                                <input name="party_name"  type="hidden" value="<?php echo $this->input->get('pr_nme') ?>">
-                                                                 
-                                                                 <input style="float:right; " type="submit" name="submit" value="Paid Iso Bill" class="btn btn-success">
-                                                                 <?php } ?>
-                                                                 
-
-                                                				</form>
                                                                 </tbody>
                                                                	<tfoot>
                                                                   <tr> 
@@ -548,7 +405,12 @@ include('include/header.php');
                                                                       <th><?php echo '<span style="color:red;">'.$tt_balance.'</span>'; ?></th>                                
                                                                   </tr>
                                                                 </tfoot>
-                                                        </table>                                                        
+                                                        </table>
+                                                        <input name="party_id" type="hidden" value="<?php echo $this->input->get('id') ?>">
+                                                        <?php if($tt_rent!=""){?>
+                                                        <input style="float:right;" type="submit" name="submit" value="Paid Bill" class="btn btn-success">
+                                                        <?php } ?>
+                                                        </form>
                                                        </div>
                                                         </div>
                                                 </section> 
