@@ -23,6 +23,8 @@ class Daily_movement extends CI_Controller {
         parent::__construct();
         $this->load->model('due_details_model');
 		$this->load->model('vehicle_document_details_model'); 
+		$this->load->model('daily_movement_details_model');	
+		$this->load->model('daily_movement_details_model');	
     }
 
 	public function daily_movement_details_list()
@@ -51,7 +53,117 @@ class Daily_movement extends CI_Controller {
 			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();	
 			$this->load->view('daily_movement_details_list', $data);
 		}
-	}	
+	}
+
+	public function daily_movement_ajax_list(){
+	 
+	 
+		$columns = array(				 
+				array( 'db' => 'd.Daily_mvnt_dtl_id', 'dt' => 0 , 
+				'formatter' => function($id, $row){
+					return '<input type="checkbox" name="selected_list" class="selected_list" value="'.$row['Daily_mvnt_dtl_id'].'" />';
+				}),
+				array( 'db' => 'd.Daily_mvnt_dtl_date', 'dt' => 1,  
+				'formatter' => function($id, $row){				 
+					return date('d-m-Y', strtotime($row['Daily_mvnt_dtl_date'])); 
+				}),	 
+				array( 'db' => 'd.Daily_mvnt_dtl_transport_type',   'dt' => 2, 
+				'formatter' => function($id, $row){
+					$transport_type = $row['Transport_dtl_name'];
+					if($row['Daily_mvnt_dtl_transport_type'] == "T"){
+						$transport_type = 'Thirumala Transport';
+					}
+					return $transport_type;
+				}),
+				array( 'db' => 'v.Vehicle_dtl_number',   'dt' => 3),
+				array( 'db' => 'd.Daily_mvnt_dtl_container_type',   'dt' => 4, 
+				'formatter' => function($id, $row){
+					$container = "-";
+					if($row['Daily_mvnt_dtl_container_type'] == "NC"){
+						$container = $row['Daily_mvnt_dtl_new_container_no'];
+					}elseif($row['Daily_mvnt_dtl_container_type'] == "BC"){
+						$container = $row['Party_billing_container_no'];
+					}					
+					return $container;
+				}),
+				array( 'db' => 'dpr.Driver_pay_rate_place_name',   'dt' => 5),
+				array( 'db' => 'pd.Party_dtl_name',   'dt' => 6),
+				array( 'db' => 'd.Daily_mvnt_dtl_transport_type',   'dt' => 7, 
+				'formatter' => function($id, $row){
+					$transport_type = $row['Driver_dtl_name'];
+					if($row['Daily_mvnt_dtl_transport_type'] == "0"){
+						$transport_type = '--';
+					}
+					return $transport_type;
+				}),
+				array( 'db' => 'd.Daily_mvnt_dtl_status',   'dt' => 8, 
+				'formatter' => function($id, $row){
+					$status = '<strong class="fa fa-check" style="color:green;"> Active</strong>';
+					if($row['Daily_mvnt_dtl_status'] == "D"){
+						$status = '<strong class="fa fa-times" style="color:red;"> Deny</strong>';
+					}
+					return $status;
+				}),
+			);
+
+			$columns[] = array( 'db' => 'd.Daily_mvnt_dtl_id',   'dt' => 9, 'formatter' => function($id, $row){
+			$content =  '<span style="color:red">&nbsp;&nbsp;&nbsp;';
+			
+					$content .= '<a href="read_daily_movement_details?id='. $row['Daily_mvnt_dtl_id'] .'" alt="View" class="fa fa-search-plus"> View </a>';
+					
+					if(is_admin()){
+						
+						$content .= ' <i class="fa fa-ellipsis-v"></i>&nbsp;<a href="edit_daily_movement_details?id='. $row['Daily_mvnt_dtl_id'] .'" alt="Edit" class="fa fa-pencil-square-o"> Edit </a> ';
+						
+						if($row['Daily_mvnt_dtl_transport_type'] == "T"){
+							if($row['Daily_mvnt_dtl_other_expences'] == "0"){
+								  $content .= '<a href="add_other_expenses?id='.$row['Daily_mvnt_dtl_id'].'" alt="Edit"  rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Add Driver Payment Detail" data-placement="bottom"> <button type="button" class="btn btn-primary">Add Driver Oth.Ex</button> </a>';
+							}else{
+								    $content .= '<a href="add_other_expenses?id='.$row['Daily_mvnt_dtl_id'].'" alt="Edit"  rel="tooltip" data-color-class = "purple" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Edit Driver Payment Detail" data-placement="bottom"> <button type="button" class="btn btn-purple ">Edit Driver Oth.Ex</button> </a>';
+							}							
+						}else{
+							if($row['Daily_mvnt_dtl_trp_expences'] == "0"){
+								  $content .= '<a href="add_transport_expenses?id='.$row['Daily_mvnt_dtl_id'].'" alt="Edit"  rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Add Transport Ex" data-placement="bottom"> <button type="button" class="btn btn-orange">Add Trans Oth.Ex</button> </a>'; 
+							}else{
+								 $content .= '<a href="add_transport_expenses?id='.$row['Daily_mvnt_dtl_id'].'" alt="Edit"  rel="tooltip" data-color-class = "purple" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Add Transport Ex" data-placement="bottom"> <button type="button" class="btn btn-info">Edit Trans Oth.Ex</button> ';
+							}
+						}
+						
+					}				 
+				return $content;
+			 });
+					 
+					 
+		 $query = "SELECT d.Daily_mvnt_dtl_id,
+		 d.Daily_mvnt_dtl_date,
+		 d.Daily_mvnt_dtl_transport_type,
+		 d.Daily_mvnt_dtl_container_type,
+		 d.Daily_mvnt_dtl_new_container_no,
+		 d.Daily_mvnt_dtl_other_expences,
+		 d.Daily_mvnt_dtl_trp_expences,
+		 d.Daily_mvnt_dtl_driver_name,
+		 d.Daily_mvnt_dtl_status,
+		 v.Vehicle_dtl_number,
+		 v.Vehicle_dtl_id,
+		 dpr.Driver_pay_rate_place_name,
+		 pd.Party_dtl_name,
+		 dd.Driver_dtl_name,
+		 con.Container_dtl_container_no,
+		 p.Party_billing_container_no,
+		 t.Transport_dtl_id,
+		 t.Transport_dtl_name
+		 FROM daily_moment_details as d
+		 LEFT JOIN vehicle_details as v ON v.Vehicle_dtl_id = d.Daily_mvnt_dtl_vehicle_no
+		 LEFT JOIN driver_pay_rate as dpr ON dpr.Driver_pay_rate_id = d.Daily_mvnt_dtl_place
+		 LEFT JOIN party_details as pd ON pd.Party_dtl_id = d.Daily_mvnt_dtl_party_name
+		 LEFT JOIN driver_details as dd ON dd.Driver_dtl_id = d.Daily_mvnt_dtl_driver_name
+		 LEFT JOIN container_details as con ON con.Container_dtl_id = d.Daily_mvnt_dtl_container_no
+		 LEFT JOIN transport_details as t ON t.Transport_dtl_id = d.Daily_mvnt_dtl_trp_name
+		 LEFT JOIN party_billing as p ON p.Party_billing_id = d.Daily_mvnt_dtl_container_no   ";
+		
+        echo json_encode(SSP::complex_join($_GET, $this, $query, "", $columns, ""));
+	}
+	
 	// start read daily movemnt details
 	public function read_daily_movement_details()
 	{
@@ -453,7 +565,7 @@ class Daily_movement extends CI_Controller {
 	// end deny daily movemnt
 	 
 	// start delete daily movemnt details
-    public function delete_daily_movement()
+    public function delete()
     {
     	// start for check user rights
         	$user_typ_ary=explode(',', $this->session->userdata('user_rights_dtl'));                    
@@ -471,8 +583,9 @@ class Daily_movement extends CI_Controller {
 			$this->load->model('edit_admin_profile_model'); 
 	   		$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();
 			$this->load->helper(array('form', 'url', 'text','captcha','html'));	
-			$this->load->model('daily_movement_details_model');			
-			if($this->daily_movement_details_model->delete_daily_movement())
+			$this->load->model('daily_movement_details_model');	
+			$delete_ids = explode(',', $this->input->get('ids'));				
+			if($this->daily_movement_details_model->delete_daily_movement($delete_ids))
 			{				
 				$this->session->set_flashdata('success_msg', 'Daily movement Details Deleted Successfully!');
 			}
@@ -482,10 +595,20 @@ class Daily_movement extends CI_Controller {
 			//view upcoming vehicle document count
 			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
 			$data['daily_movement_details_list'] = $this->daily_movement_details_model->daily_movement_details_list(); 
-			$this->load->view('daily_movement_details_list', $data);						
+			redirect('daily_movement/daily_movement_details_list');		   			
 		}
     }
 	// end delete daily movemnt details
+	
+	public function status(){
+		$ids = explode(',', $this->input->get('ids'));	
+		$data['Daily_mvnt_dtl_status'] = ($this->input->get('status') == 1)? "A" : "D";
+	 
+		if($this->daily_movement_details_model->status_update($data, $ids)){  	 
+		   $this->session->set_flashdata('success_msg', 'Daily movement status updated successfully!');	
+			redirect('daily_movement/daily_movement_details_list');		   
+		} 
+	}
 
 	
 	// end manage daily movemnt status

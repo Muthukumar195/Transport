@@ -61,7 +61,9 @@ class Tranport_main extends CI_Controller {
 					$phone=$row->Admin_phone;
 					$username=$row->Admin_username;
 					$user_type=$row->Admin_type;
+					$user_role=$row->Admin_role;
 					$user_rights_dtl=$row->User_rights_type_value; 
+					$access_permission=$row->Admin_access_permission; 
 				}				
 				
 				$data = array(
@@ -71,8 +73,10 @@ class Tranport_main extends CI_Controller {
 					'user_full_name' => $user_full_name,
 					'email' => $email,
 					'phone' => $phone,
+					'role' => $user_role,
 					'username' => $username,
 					'user_type' => $user_type,
+					'access_permission' => $access_permission,
 					'user_rights_dtl' => $user_rights_dtl
 				);
 				

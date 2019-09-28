@@ -44,7 +44,7 @@ include('include/header.php');
                                     <thead>
                                         <tr>                                             
                                             <th></th>
-                                            <th>Share Part</th>
+                                            <th>Spare Part</th>
                                             <th>Vehicle Number</th>
                                             <th>Amount</th>
                                             <th>Maintenance Date</th>                                          
@@ -56,7 +56,7 @@ include('include/header.php');
                                     <tfoot>
                                         <tr>
                                             <th></th>
-											<th>Share Part</th>
+											<th>Spare Part</th>
                                             <th>Vehicle NO</th>
                                             <th>Amount</th>
                                             <th>Maintenance Date</th>                                           
@@ -108,27 +108,5 @@ $(document).ready(function() {
         order: [[ 1, 'asc' ]]
     } );
 } );
-
-
-$(document).on('click', '.selectedAction', function(){
-	var type = $(this).data('type'); 
-	var selected = [];
-	$.each($("input[name='selected_list']:checked"), function(){            
-		selected.push($(this).val());
-	});
-	
-	
-	if(selected == ""){
-		alert('Please selete the list item');	
-	}else{
-		if(type == "delete"){
-			window.location.href = "delete?ids="+selected;
-		}else{			
-			window.location.href = "status?status="+type+"&ids="+selected;
-		}	
-	}
- 
-});
-
 </script>
         

@@ -23,6 +23,8 @@ class Driver_pay_rate extends CI_Controller {
         parent::__construct();
         $this->load->model('due_details_model'); 
 		$this->load->model('vehicle_document_details_model');
+		$this->load->model('driver_pay_rate_model');
+		$this->module_id = 2;
     }
 	
 	
@@ -53,6 +55,50 @@ class Driver_pay_rate extends CI_Controller {
 			
 		}
 	}
+	
+	
+	public function driver_pay_rate_ajax_list(){
+		 
+		// DB table to use
+		$table = 'driver_pay_rate';
+
+		// Table's primary key
+		$primaryKey = 'Driver_pay_rate_id';
+	 
+		$columns = array(				 
+				array( 'db' => 'Driver_pay_rate_id', 'dt' => 0 , 
+				'formatter' => function($id, $row){
+					return '<input type="checkbox" name="selected_list" class="selected_list" value="'.$row['Driver_pay_rate_id'].'" />';
+				}),
+				array( 'db' => 'Driver_pay_rate_place_name', 'dt' => 1 ),
+				array( 'db' => 'Driver_pay_rate_amount',   'dt' => 2),
+				array( 'db' => 'Driver_pay_rate_diesel_ltr',   'dt' => 3), 			 
+				array( 'db' => 'Driver_pay_rate_diesel_rate',   'dt' => 4),
+				array( 'db' => 'Driver_pay_rate_status',   'dt' => 5, 
+				'formatter' => function($id, $row){
+					$status = '<strong class="fa fa-check" style="color:green;"> Active</strong>';
+					if($row['Driver_pay_rate_status'] == "D"){
+						$status = '<strong class="fa fa-times" style="color:red;"> Deny</strong>';
+					}
+					return $status;
+				}),
+			);
+
+			$columns[] = array( 'db' => 'Driver_pay_rate_id',   'dt' => 6, 'formatter' => function($id, $row){
+			$content =  '<span style="color:red">&nbsp;&nbsp;&nbsp;';
+				if(is_admin()){
+					$content .= ' <i class="fa fa-ellipsis-v"></i>&nbsp;<a href="edit_driver_pay_rate?id='. $row['Driver_pay_rate_id'] .'" alt="Edit" class="fa fa-pencil-square-o"> Edit </a> ';
+					
+				}				 
+				return $content;
+			 });
+					 
+					 
+		echo json_encode(
+				SSP::complex( $_GET, $this, $table, $primaryKey, $columns, "" )
+			);
+	} 
+	
 	public function add_driver_pay_rate()
 	{
 		// start for check user rights
@@ -287,38 +333,21 @@ class Driver_pay_rate extends CI_Controller {
 	// end deny Driver_pay_rate_details
 
 	// start delete Driver_pay_rate_details
-	public function delete_message()
+	public function delete()
 	{
-		// start for check user rights
-        	$user_typ_ary=explode(',', $this->session->userdata('user_rights_dtl'));                    
-        // end for check user rights
-		if((in_array("Driver Pay Rate", $user_typ_ary)==false)&&($this->session->userdata('username')!='admin'))
-		{
-			$this->check_user_rights();
-		}	
-		if(! $this->session->userdata('username')){
-			/*$this->index();*/
-			$this->check_isvalidated();
-		}
-		else
-		{
-			$this->load->helper(array('form', 'url', 'text','captcha','html'));	
-			$this->load->model('driver_pay_rate_model');
-			
-			if($this->driver_pay_rate_model->delete_driver_pay_rate())
+		if((access_permission($this->module_id) || is_admin()) && gaurd()){
+			$delete_ids = explode(',', $this->input->get('ids'));		 	
+			if($this->driver_pay_rate_model->delete_driver_pay_rate($delete_ids))
 			{				
 				$this->session->set_flashdata('success_msg', 'Driver Pay Rate Details Deleted Successfully!');
 			}
 			else
 			{
 				$this->session->set_flashdata('failear_msg', 'Driver Pay Rate Is Used By Other Module');
-			}
-			$data['driver_pay_rate_list'] = $this->driver_pay_rate_model->driver_pay_rate_list();
-			// view upcoming due counts
-			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
-			//view upcoming vehicle document count
-			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
-			redirect('driver_pay_rate/driver_pay_rate_list', $data);						
+			} 
+			redirect('driver_pay_rate/driver_pay_rate_list');						
+		}else{
+			$this->check_user_rights();
 		}
 	}
 	// end delete Driver_pay_rate_details
@@ -367,6 +396,18 @@ class Driver_pay_rate extends CI_Controller {
 	}
 	// end check ajax driver place name
 	
+	
+	public function status(){
+		$ids = explode(',', $this->input->get('ids'));	
+		$data['Driver_pay_rate_status'] = ($this->input->get('status') == 1)? "A" : "D";
+	 
+		if($this->driver_pay_rate_model->status_update($data, $ids)){
+		   $this->session->set_flashdata('success_msg', 'Driver pay rate status updated successfully!');	
+			redirect('driver_pay_rate/driver_pay_rate_list');						   
+		} 
+	}
+	
+	
 	function check_isvalidated()
 	{
         if(! $this->session->userdata('username'))
@@ -376,6 +417,8 @@ class Driver_pay_rate extends CI_Controller {
         }		
 		
     }
+	
+	
 
     function check_user_rights()
     {

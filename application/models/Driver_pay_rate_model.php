@@ -55,11 +55,11 @@ Class Driver_pay_rate_model extends CI_Model
 		$this->db->update('driver_pay_rate',$data);
 		return true;	 
 	}
-	function delete_driver_pay_rate()
+	function delete_driver_pay_rate($ids)
 	{
 		$this->db->select('Daily_mvnt_dtl_place');
 	    $this->db->from('daily_moment_details');
-	    $this->db->where('Daily_mvnt_dtl_place', $this->input->get('id'));
+	    $this->db->where_in('Daily_mvnt_dtl_place', $ids);
 	    $query = $this->db->get();
 	    $chk_exist='n';
 	    if($query->num_rows()>0)
@@ -69,7 +69,7 @@ Class Driver_pay_rate_model extends CI_Model
 
 	    if($chk_exist!='y')
 	    {
-	      $this->db->where('Driver_pay_rate_id', $this->input->get('id'));
+	      $this->db->where_in('Driver_pay_rate_id', $ids);
           $this->db->delete('driver_pay_rate');
 	      return true;
 	  	}
@@ -111,6 +111,14 @@ Class Driver_pay_rate_model extends CI_Model
 		else{
 			return 0;
 		}
+	}
+	
+	public function status_update($data, $ids=array()) { 			
+		$this->db->where_in('Driver_pay_rate_id', $ids);
+		if($this->db->update('driver_pay_rate', $data)){
+			return true; 
+		}
+		return FALSE;
 	}
 	
 }

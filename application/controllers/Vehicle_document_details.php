@@ -2,22 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 //session_start(); 
 class Vehicle_document_details extends CI_Controller {
- 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+  
 	function __construct()
     {
         parent::__construct();
@@ -67,16 +52,8 @@ class Vehicle_document_details extends CI_Controller {
 			$this->check_isvalidated();
 		}
 		else
-		{
-			 
-		    $this->load->model('vehicle_details_model');	
-		    $this->load->model('edit_admin_profile_model'); 
-			$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();
-			$data['vehicle_details_list'] = $this->vehicle_details_model->vehicle_number_list(); 
-			// view upcoming due counts
-			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
-			//view upcoming vehicle document count
-			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
+		{			 
+			$data = initial_data();
 			$this->load->view('add_vehicle_document_details', $data);		
 		}
 	}
@@ -103,7 +80,7 @@ class Vehicle_document_details extends CI_Controller {
 			$this->load->model('vehicle_document_details_model'); 
 			$this->load->model('edit_admin_profile_model'); 
 			$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();
-	   		$this->form_validation->set_rules('vehicle_number', 'Vehicle Number', 'trim|required|xss_clean');
+	   		$this->form_validation->set_rules('vehicle_number', 'Vehicle Number', 'trim|required|is_unique[vehicle_document_details.Vehicle_doc_dtl_vehicle_no]|xss_clean', array('is_unique'=>"Vehicle document details already exist"));
 	   		$this->form_validation->set_rules('m_permit_from', 'M Permit From', 'trim|required|xss_clean');
 	   		$this->form_validation->set_rules('m_permit_to', 'M Permit To', 'trim|required|xss_clean');
 	   		$this->form_validation->set_rules('insurance_from', 'Insurance From', 'trim|required|xss_clean');

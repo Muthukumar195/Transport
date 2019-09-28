@@ -96,30 +96,22 @@ Class Driver_details_model extends CI_Model
 		$this->db->update('driver_details',$data);
 		return true;	 
 	}
-	function delete_driver($id)
+	function delete_driver($delete_ids)
 	{ 
 
 	  $this->db->select('Daily_mvnt_dtl_driver_name');
 	  $this->db->from('daily_moment_details');
-	  $this->db->where('Daily_mvnt_dtl_driver_name', $id);
+	  $this->db->where_in('Daily_mvnt_dtl_driver_name', $id);
 	  $query = $this->db->get();
 	  $chk_exist='n';
 	  if($query->num_rows()>0)
 	  {
 	  	$chk_exist='y';
 	  }
-
-	  $this->db->select('Vehicle_dtl_permanent_driver_name');
-	  $this->db->from('vehicle_details');
-	  $this->db->where('Vehicle_dtl_permanent_driver_name', $id);
-	  $query = $this->db->get();
-	  if($query->num_rows()>0)
-	  {
-	  	$chk_exist='y';
-	  }
+ 
 	  if($chk_exist!='y')
 	  {
-		  $this->db->where('Driver_dtl_id',$id);  
+		  $this->db->where_in('Driver_dtl_id',$delete_ids);  
 	      $this->db->delete('driver_details'); 
 	      return true;
 	  }
@@ -201,6 +193,14 @@ Class Driver_details_model extends CI_Model
 	}
 	// end view driver pay amount details
 	
+	
+	public function status_update($data, $ids=array()) { 			
+		$this->db->where_in('Driver_dtl_id', $ids);
+		if($this->db->update('driver_details', $data)){
+			return true; 
+		}
+		return FALSE;
+	}
 	
 }
 ?>

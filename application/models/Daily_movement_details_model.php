@@ -243,12 +243,21 @@ Class Daily_movement_details_model extends CI_Model
 		return true;	 
 	}
 	// end Transport Payment paid and unpaid status
-	function delete_daily_movement()
+	function delete_daily_movement($ids)
 	{
-	   $this->db->where('Daily_mvnt_dtl_id',$this->input->get('id'));
+	   $this->db->where_in('Daily_mvnt_dtl_id',$ids);
        $this->db->delete('daily_moment_details');
 	   return true;
+	}
+
+	public function status_update($data, $ids=array()) { 	  		
+		$this->db->where_in('Daily_mvnt_dtl_id', $ids);
+		if($this->db->update('daily_moment_details', $data)){
+			return true; 
+		}
+		return FALSE;
 	}	
+	
 	function daily_movement_count()
 	{
 		$this->db->select('Daily_mvnt_dtl_id');

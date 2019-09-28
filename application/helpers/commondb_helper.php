@@ -48,4 +48,30 @@ function get_date_time(){
 	return date ('Y-m-d H:i:s');
 
 }
+
+function is_admin(){
+    $CI = get_instance();
+    if($CI->session->userdata('role') == 1){
+        return true;
+    }
+    return false;
+}
+
+
+function access_permission($module_id){
+    $CI = get_instance();
+	$module_ids = explode(',', $CI->session->userdata('access_permission'));	
+    if(in_array($module_id, $module_ids)){
+        return true;
+    }
+    return false;
+}
+
+function gaurd( ){
+    $CI = get_instance();
+	if($CI->session->userdata('username')){	 
+        return true;
+    }
+    return false;
+}
  

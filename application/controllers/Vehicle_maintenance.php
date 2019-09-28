@@ -12,7 +12,7 @@ class Vehicle_maintenance extends CI_Controller {
 		$this->load->view('vehicle_maintenance_list', $data);
 	}
 	
-	  public function vehicle_maintenance_ajax_list(){
+    public function vehicle_maintenance_ajax_list(){
 		 
 		// DB table to use
 		$table = 'vehicle_maintenance';
@@ -108,7 +108,7 @@ class Vehicle_maintenance extends CI_Controller {
 				$this->load->view('add_vehicle_maintenance', $data); 	
 			}else{ 
 				$form_data = array( 
-					'vehicle_id' => $this->input->post('vehicle_id'),
+					//'vehicle_id' => $this->input->post('vehicle_id'),
 					'vehicle_id' => $this->input->post('vehicle_id'),
 					'spare_part' => $this->input->post('spare_part'), 
 					'amount' => $this->input->post('amount'),

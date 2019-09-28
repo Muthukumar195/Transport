@@ -39,112 +39,39 @@ include('include/header.php');
                             <header class="panel_header">
                                 <h2 class="title pull-left">Driver Details List</h2>
                                 <div class="actions panel_actions pull-right">
-                                    <i class="box_toggle fa fa-chevron-down"></i>
-                                    <!-- <i class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></i> -->
-                                    <i class="box_close fa fa-times"></i>
+                                   <button class="btn btn-secondary selectedAction" data-type="delete">Delete</button>
+									<button class="btn btn-success selectedAction" data-type="1">Active</button>
+									<button class="btn btn-danger selectedAction" data-type="2">Deny</button>
                                 </div>
                             </header>
                             <div class="content-body">    <div class="row">
                               <div class="col-md-12 col-sm-12 col-xs-12">
 
 												
-                                <table id="example-1" class="table table-striped dt-responsive display" cellspacing="0" width="100%">
+                                <table id="driver_list" class="table table-striped dt-responsive display" cellspacing="0" width="100%">
                                     <thead>
                                         <tr>
                                             <th>Sno</th>
                                             <th>Name</th>
                                             <th>Phone No</th>
-                                            <th>Address</th>
-                                            <th>License File</th>
-                                            <th>Driver Category</th>
-                                            <?php if($this->session->userdata('username')=='admin'){ ?>
-                                            <th>Status</th>
-                                            <?php } ?>      
+                                            <th>Address</th>                                          
+                                            <th>Driver Category</th>                                          
+                                            <th>Status</th>                                          
                                             <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tfoot>
                                         <tr>
-                                            <th>Sno</th>
+                                            <th></th>
                                             <th>Name</th>
                                             <th>Phone No</th>
-                                            <th>Address</th>
-                                            <th>License File</th>
-                                            <th>Driver Category</th>
-                                            <?php if($this->session->userdata('username')=='admin'){ ?>
-                                            <th>Status</th>
-                                            <?php } ?>                               
+                                            <th>Address</th>                                         
+                                            <th>Driver Category</th> 
+											<th>Status</th> 											
                                             <th>Action</th>
                                         </tr>
-                                    </tfoot>
-
-                                    <tbody>
-                                    <?php 
-                                        $sno=1;                                                    
-                                        foreach ($driver_details_list->result() as $row)
-                                        {                                                               
-                                    ?>
-                                        <tr>
-                                            <td><?php echo $sno; ?></td>
-                                            <td><?php echo $row->Driver_dtl_name; ?></td>
-                                            <td><?php echo $row->Driver_dtl_phone; ?></td>
-                                            <td><?php echo $row->Driver_dtl_address; ?></td>
-                                            <td width="10%">
-                                                <a href="<?php echo base_url(); ?>/uploads/license/<?php echo $row->Driver_dtl_license_file; ?>" target="_blank" class="preview" title="Driver Licence" rel="prettyPhoto" ><img src="<?php echo base_url(); ?>/uploads/license/<?php echo $row->Driver_dtl_license_file; ?>" title="Driver License" alt="<?php echo $row->Driver_dtl_license_file; ?>" class="img-rounded" width="65%" /></a>
-                                            </td>
-                                            <td>
-                                                <?php 
-                                                if($row->Driver_dtl_type=='P')
-                                                {
-                                                   echo 'Permanent';   
-                                                }
-                                                else
-                                                {
-                                                    echo "Acting";
-                                                }
-                                                ?>
-                                            </td>
-                                            <?php if($this->session->userdata('username')=='admin'){ ?>
-                                            <td>
-                                                <?php 
-                                                if($row->Driver_dtl_status=='A')
-                                                {
-                                                   echo '<strong class="fa fa-check" style="color:green;"> Active</strong>';   
-                                                }
-                                                else
-                                                {
-                                                    echo '<strong class="fa fa-times" style="color:red;"> Deny</strong>';
-                                                }
-                                                ?>                                               
-                                                
-                                            </td>
-                                            <?php } ?>
-                                            <td>                                                
-                                                <a href="view_driver_details?id=<?php echo $row->Driver_dtl_id; ?>" target="_blank" alt="View" class="fa fa-search-plus" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View Driver Detail" data-placement="bottom"> View </a>
-                                                
-                                                <?php if($this->session->userdata('username')=='admin'){ ?>
-                                                <i class="fa fa-ellipsis-v"></i>
-                                                <a href="edit_driver_details?id=<?php echo $row->Driver_dtl_id; ?>" alt="Edit" class="fa fa-pencil-square-o" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Edit Driver Detail" data-placement="bottom"> Edit </a> 
-
-                                                <i class="fa fa-ellipsis-v"></i>
-                                                <?php 
-                                                if($row->Driver_dtl_status=='A')
-                                                {
-                                                   echo '<a href="deny_driver?id='.$row->Driver_dtl_id.'" alt="Update Status" class="fa fa-times" style="color:red;" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Deny a Driver" data-placement="bottom" > Deny </a>';   
-                                                }
-                                                else
-                                                {
-                                                    echo '<a href="approve_driver?id='.$row->Driver_dtl_id.'"  alt="Update Status" class="fa fa-check" style="color:green;" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Active a Driver" data-placement="bottom" > Active </a>';
-                                                }
-                                                ?>   
-                                                <i class="fa fa-ellipsis-v"></i>
-                                                <a href="delete_message?id=<?php echo $row->Driver_dtl_id;?>&file_name=<?php echo $row->Driver_dtl_license_file;?>" onclick="return confirm('Are you sure you want to delete?')" alt="Delete" class="fa fa-trash" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Delete a Driver" data-placement="bottom" > Delete </a>
-                                                <?php } ?>
-                                            </td>
-                                        </tr>
-                                    <?php $sno++; } ?>
-                                    </tbody>
+                                    </tfoot> 
                             </table>
 
                            </div>
@@ -160,4 +87,33 @@ include('include/header.php');
         <!-- LOAD FILES AT PAGE END FOR FASTER LOADING -->
 
 <?php include('include/footer.php');?>
+
+<script type="text/javascript">
+/*List*/
+$(document).ready(function() {
+    $('#driver_list').DataTable( {
+        "processing": true,
+        "serverSide": true,
+        "ajax": "driver_ajax_list",
+		"language": {
+			"search": "_INPUT_",
+			"searchPlaceholder": "Search",
+			"processing": "Loading...",
+			"emptyTable": "No records found"
+			
+		},
+		"sEmptyTable": "No records found",
+		 columnDefs: [ {
+            orderable: false,
+            className: 'select-checkbox',
+            targets:   0
+        } ],
+        select: {
+            style:    'os',
+            selector: 'td:first-child'
+        },
+        order: [[ 1, 'asc' ]]
+    } );
+} );
+</script>
         

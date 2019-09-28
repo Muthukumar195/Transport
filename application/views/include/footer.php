@@ -46,7 +46,28 @@
         <!-- Sidebar Graph - END --> 
 		
 		<script src="<?php echo base_url(); ?>/assets/js/common.js" type="text/javascript"></script>
-     
+		<script>
+		$(document).on('click', '.selectedAction', function(){
+			var type = $(this).data('type'); 
+			var selected = [];
+			$.each($("input[name='selected_list']:checked"), function(){            
+				selected.push($(this).val());
+			});
+			
+			
+			if(selected == ""){
+				alert('Please selete the list item');	
+			}else{
+				if(type == "delete"){
+					window.location.href = "delete?ids="+selected;
+				}else{			
+					window.location.href = "status?status="+type+"&ids="+selected;
+				}	
+			}
+		 
+		});
+		</script>
+		
         
        
        
