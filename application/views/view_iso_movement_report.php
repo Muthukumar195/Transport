@@ -35,10 +35,10 @@ include('include/header.php');
                 <div class="col-lg-6 col-md-6 col-sm-6" >              
                   <?php  $data1 = array(
                         'name'        => 'iso_date',
-                        'id'          => 'iso_date',
+                        'id'          => 'iso_date daterange-1',
                         'value'       => set_value('iso_date'),
                         'maxlength'   => '20',
-                        'class'       => 'form-control datepicker',
+                        'class'       => 'form-control daterange',
                         'readonly'    => 'true',
                         'data-format' => 'dd MM yyyy',
                         'placeholder' => 'From'

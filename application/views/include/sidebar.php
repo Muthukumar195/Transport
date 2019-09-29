@@ -344,7 +344,7 @@
                           if((in_array("ISO Movement", $user_typ_ary)==true)||($this->session->userdata('username')=='admin'))
                           { 
                         ?>
-                        <li <?php if(($page_name=='iso_movement_details_list')||($page_name=='add_iso_movement_details')||($page_name=='edit_iso_movement_details')||($page_name=='deny_iso_movement_details')||($page_name=='approve_iso_movement_details')||($page_name=='view_iso_movement_details')||($page_name=='view_iso_movement_report')||($page_name=='validate_edit_iso_movement_details')){ echo 'class="open"'; } ?>> 
+                        <li <?php if(($page_name=='iso_movement_details_list')||($page_name=='add_iso_movement_details')||($page_name=='edit_iso_movement_details')||($page_name=='deny_iso_movement_details')||($page_name=='approve_iso_movement_details')||($page_name=='view_iso_movement_details')||($page_name=='view_iso_movement_report')||($page_name=='validate_edit_iso_movement_details')||($page_name=='iso_driver_payment')){ echo 'class="open"'; } ?>> 
                             <a href="javascript:;">
                                 <i class="fa fa-sitemap"></i>
                                 <span class="title">ISO Movement</span>

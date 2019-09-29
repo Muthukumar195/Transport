@@ -86,6 +86,7 @@ include('include/header.php');
 					<label class="col-md-3 control-label"></label>				  
 					<div class="col-lg-8">              
 					  <button type="submit" class="btn btn-primary">Save</button>
+					  <a href="list" class="btn btn-cancle">Cancle</a>
 					</div>
 				  </div>
       </form>

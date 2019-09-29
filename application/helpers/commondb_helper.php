@@ -40,6 +40,26 @@ function initial_data(){
 	$data['due_upcoming_count'] = $CI->due_details_model->upcoming_month_due_count(); 
 	$data['upcoming_vehicle_doc_count'] = $CI->vehicle_document_details_model->upcoming_document_date_count();	 
 	return $data;
+}
+
+function iso_initial_data(){
+	$CI = get_instance();
+	$CI->load->model('due_details_model'); 
+	$CI->load->model('vehicle_document_details_model'); 
+	$CI->load->model('vehicle_details_model');
+	$CI->load->model('edit_admin_profile_model'); 
+	$CI->load->model('transport_details_model');
+	$CI->load->model('container_details_model');
+	$CI->load->model('driver_details_model');	
+	$data['get_admin_profile'] = $CI->edit_admin_profile_model->get_admin_profile();
+	$data['vehicle_number_list'] = $CI->vehicle_details_model->vehicle_number_list();
+	$data['vehicle_other_list'] = $CI->vehicle_details_model->vehicle_other_list();
+	$data['due_upcoming_count'] = $CI->due_details_model->upcoming_month_due_count(); 
+	$data['upcoming_vehicle_doc_count'] = $CI->vehicle_document_details_model->upcoming_document_date_count();
+	$data['container_number_list'] = $CI->container_details_model->container_number_list();
+	$data['driver_list'] = $CI->driver_details_model->driver_list();
+	$data['transport_name_list'] = $CI->transport_details_model->transport_name_list();
+	return $data;
 } 
 
 function get_date_time(){
@@ -73,5 +93,36 @@ function gaurd( ){
         return true;
     }
     return false;
+}
+
+function vehicle_maintenance_ajax_filter(){
+	    $CI = get_instance();	 
+		$condition	= "";
+		if($CI->input->get('vehicle_no') != ""){
+			$condition .= ' vm.vehicle_id = '.$CI->input->get('vehicle_no');
+		}
+		
+		if($CI->input->get('date_from') != "" && $CI->input->get('date_to') != ""){	
+			if($condition != ""){
+				$condition .= ' AND ';
+			} 
+			$condition .= 'vm.date BETWEEN "'.$CI->input->get('date_from').'" AND "'.$CI->input->get('date_to').'"';
+		}
+		
+		return $condition;
+}
+
+function total_vehicle_maintance(){
+	 $CI = get_instance();	 
+	  $query = "SELECT SUM(vm.amount) as total FROM vehicle_maintenance as vm ";
+	  $condition = vehicle_maintenance_ajax_filter();
+	  if($condition != ""){
+		 $query .= "WHERE ".$condition; 
+	  }
+	  
+	  $query = $CI->db->query($query);
+	  $total = $query->result_array()[0]['total'];
+	  return $total;
+	  
 }
  

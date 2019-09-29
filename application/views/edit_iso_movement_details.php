@@ -208,6 +208,47 @@ include('include/header.php');
                </span>
               </div>
           </div>
+		   <div class="form-group">
+            <label class="col-lg-3 control-label">Load Status:</label>
+            <div class="col-lg-8"> 
+            <span id="loading_status" class="" >              
+              <?php
+			  if($row->Iso_mvnt_loading_status=="L"){ $checked='checked'; }else{ $checked='';}   
+                $data6 = array(
+                                'name'        => 'loading_status',
+                                'id'          => 'loading_status_1',
+                                'value'       => 'L',
+								'checked'     => $checked,
+								'class'       => 'loading_status'
+                              ); 
+                echo form_radio($data6);
+               ?> <strong>Loading</strong> &nbsp;&nbsp; 
+               <?php
+			   if($row->Iso_mvnt_loading_status=="U"){ $checked='checked'; }else{ $checked='';}      
+                $data6 = array(
+                                'name'        => 'loading_status',
+                                'id'          => 'loading_status_2',
+                                'value'       => 'U',
+								'checked'     => $checked,
+								'class'       => 'loading_status'
+                              ); 
+                echo form_radio($data6);
+               ?> <strong>Unloading</strong>&nbsp;&nbsp; 
+                <?php
+				 if($row->Iso_mvnt_loading_status=="OL"){ $checked='checked'; }else{ $checked='';}  
+               $data6 = array(
+			        'name' => 'loading_status',
+					'id'   => 'loading_status_3',
+					'value' => 'OL',
+					'checked' => $checked,
+					'class'       => 'loading_status'
+			   );
+			
+			   echo form_radio($data6);
+			    ?>
+               </span>
+              </div>
+          </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Container Number:</label>
             <div class="col-lg-3">
@@ -275,44 +316,7 @@ include('include/header.php');
               ?>
             </div>
           </div>
-         <div class="form-group">
-            <label class="col-lg-3 control-label">Load Status:</label>
-            <div class="col-lg-8"> 
-            <span id="loading_status" class="" >              
-              <?php
-			  if($row->Iso_mvnt_loading_status=="L"){ $checked='checked'; }else{ $checked='';}   
-                $data6 = array(
-                                'name'        => 'loading_status',
-                                'id'          => 'loading_status_1',
-                                'value'       => 'L',
-								'checked'     => $checked
-                              ); 
-                echo form_radio($data6);
-               ?> <strong>Loading</strong> &nbsp;&nbsp; 
-               <?php
-			   if($row->Iso_mvnt_loading_status=="U"){ $checked='checked'; }else{ $checked='';}      
-                $data6 = array(
-                                'name'        => 'loading_status',
-                                'id'          => 'loading_status_2',
-                                'value'       => 'U',
-								'checked'     => $checked
-                              ); 
-                echo form_radio($data6);
-               ?> <strong>Unloading</strong>&nbsp;&nbsp; 
-                <?php
-				 if($row->Iso_mvnt_loading_status=="OL"){ $checked='checked'; }else{ $checked='';}  
-               $data6 = array(
-			        'name' => 'loading_status',
-					'id'   => 'loading_status_3',
-					'value' => 'OL',
-					'checked' => $checked
-			   );
-			
-			   echo form_radio($data6);
-			    ?>
-               </span>
-              </div>
-          </div>
+        <?php /*
           <div class="form-group">
             <label class="col-lg-3 control-label">From:</label>
             <div class="col-lg-3">              
@@ -343,8 +347,9 @@ include('include/header.php');
               ?>
             </div>
           </div> 
-            <div class="form-group">
-            <label class="col-lg-3 control-label">Drop:</label>
+		  */?>
+            <div class="form-group" id="loading_group">
+            <label class="col-lg-3 control-label">Loading/Unloading:</label>
             <div class="col-lg-8">              
               <?php 
                   $data2 = array(
@@ -353,7 +358,7 @@ include('include/header.php');
                         'value'       => '',
                         'maxlength'   => '150',
                         'class'       => 'form-control',
-						'placeholder' => 'Enter Drop'
+						'placeholder' => 'Enter Loading/Unloading'
                       ); 
                   echo form_input($data2);
               ?>
@@ -389,6 +394,36 @@ include('include/header.php');
               ?>
             </div>
           </div>
+		   <div class="form-group">
+            <label class="col-lg-3 control-label">Driver Name:</label>
+            <div class="col-lg-8"> 
+			   <?php                
+                $options_driver_nme['']='Select Driver ';
+                foreach($driver_list->result() as $driver_nme)
+                {                  
+                  $options_driver_nme[$driver_nme->Driver_dtl_id] = $driver_nme->Driver_dtl_name;                   
+                } 
+                echo form_dropdown('driver_name', $options_driver_nme, $row->Iso_mvnt_driver_name, 'class="form-control" id="driver_name"');
+              ?> 
+            </div>
+          </div> 
+		   <div class="form-group">
+            <label class="col-lg-3 control-label">Driver Advance:</label>
+            <div class="col-lg-8">              
+              <?php 
+                 $data1 = array(
+                        'name'        => 'driver_amount',
+                        'id'          => 'driver_amount',
+                        'value'       =>  $row->Iso_mvnt_driver_adv,
+                        'maxlength'   => '10',
+                        'class'       => 'form-control',
+                        'onkeyup'     => 'checkInt(this)',
+						'placeholder' => 'Enter Driver Advance'
+                      ); 
+                  echo form_input($data1);
+              ?>
+            </div>
+          </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Iso Amount:</label>
             <div class="col-lg-8">              
@@ -410,10 +445,11 @@ include('include/header.php');
             <label class="col-lg-3 control-label">Paid Date:</label>
             <div class="col-lg-8">              
               <?php 
+			 $paid_date = ($row->Iso_mvnt_paid_date != "0000-00-00") ? date("d M Y", strtotime($row->Iso_mvnt_paid_date)) : '';
                  $data1 = array(
                         'name'        => 'paid_date',
                         'id'          => 'paid_date',
-                        'value'       => date("d M Y", strtotime($row->Iso_mvnt_paid_date)),
+                        'value'       => $paid_date,
                         'maxlength'   => '20',
                         'class'       => 'form-control datepicker',
 						'data-format' => 'dd MM yyyy',
@@ -533,6 +569,14 @@ function form_valid(){
 		}
 	}
 }
+
+$('.loading_status').click(function(e){
+	if(e.target.value == "OL"){
+		$('#loading_group').hide();
+	}else{
+		$('#loading_group').show();
+	}
+})
 </script>
 <?php include('include/footer.php');
 include('validation/add_iso_movement_details.php');

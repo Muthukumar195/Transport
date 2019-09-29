@@ -38,10 +38,10 @@ include('include/header.php');
                    <?php  
                 $data1 = array(
                         'name'        => 'daily_movement_date',
-                        'id'          => 'daily_movement_date',
+                        'id'          => 'daily_movement_date daterange-1',
                         'value'       => set_value('daily_movement_date'),
                         'maxlength'   => '20',
-                        'class'       => 'form-control datepicker',
+                        'class'       => 'form-control daterange',
                         'data-format' => 'dd MM yyyy',
                         'placeholder' => 'Select a Date',
 						'readonly'    => 'readonly'

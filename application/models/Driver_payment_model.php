@@ -141,6 +141,64 @@ Class Driver_payment_model extends CI_Model
 	}
 	// end view movement payment details in view option
 	
+	// start view iso movement payment details in view option
+	function get_iso_movement_payment_details($id)
+	{
+		$this->db->select('iso_movement_details.*, vehicle_details.Vehicle_dtl_number,  driver_details.Driver_dtl_name');
+        $this->db->from('iso_movement_details'); 
+        $this->db->join('vehicle_details', 'vehicle_details.Vehicle_dtl_id = iso_movement_details.Iso_mvnt_vehicle_no', 'left'); 
+        $this->db->join('driver_details', 'driver_details.Driver_dtl_id = iso_movement_details.Iso_mvnt_driver_name', 'left');
+	   $fnl_where=array();       
+        if($this->input->post('m_date_from')||$this->input->post('m_date_to')||$this->input->post('driver_pay_status'))
+        {
+			//echo 'dffg'; exit;
+			// start check m permit
+        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')==null))
+        	{	
+        		//$this->db->where('vehicle_document_details.Vehicle_doc_dtl_m_permit_from="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_permit_from')))).'"');
+        		$m_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'")';
+        		$fnl_where[]=$m_date;
+        	}
+        	if(($this->input->post('m_date_from')== null) && ($this->input->post('m_date_to')!=null))
+        	{        		
+        		$m_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
+        		$fnl_where[]=$m_date;
+        	}
+        	if(($this->input->post('m_date_from')!= null) && ($this->input->post('m_date_to')!=null))
+        	{	
+        		$m_date = '(iso_movement_details.Iso_mvnt_date >= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_from')))).'" AND Iso_mvnt_date <= "'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('m_date_to')))).'")';
+        		$fnl_where[]=$m_date;
+        	}
+        	// end check m permit
+			if(($this->input->post('driver_pay_status')!= null))
+        	{	
+        		$dr_sts = '(iso_movement_details.Iso_mvnt_driver_pay_status = "'.$this->input->post('driver_pay_status').'")';
+        		$fnl_where[]=$dr_sts;
+        	}
+			//cheack Driver pay status in daily mvnt
+			$fnl_where_last=''; $fnl_count=0; 
+        	foreach ($fnl_where as $whr_val) 
+        	{    $fnl_count;
+        		$fnl_where_last .= ''.$whr_val.'';
+        		if(($fnl_count>=0)&&($fnl_count<(count($fnl_where)-1)))
+        		{
+        			$fnl_where_last .= ' And ';  
+        		}     		
+        		$fnl_count++;
+        	}        	
+        	
+        	$this->db->where($fnl_where_last); 
+			//echo $this->db->last_query(); exit;
+        }
+	
+        $this->db->where("iso_movement_details.Iso_mvnt_driver_name", $id);
+		$this->db->order_by("iso_movement_details.Iso_mvnt_date", "DESC");
+		//echo $this->db->last_query(); exit;
+		$query = $this->db->get(); 			                      
+        return $query;	
+	}
+	// end view iso movement payment details in view option
+	
 	function edit_driver_payment($id)
 	{
 		$data=array(

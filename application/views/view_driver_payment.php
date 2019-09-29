@@ -191,6 +191,157 @@
                                                         </div>
                                                 </section>                                   
                                                    
+												  <section class="box ">
+                                                        <header class="panel_header">
+                                                            <h2 class="title pull-left">ISO Movement Amount Detail</h2>
+                                                            <div class="actions panel_actions pull-right">
+                                                                <i class="box_toggle fa fa-chevron-down"></i>
+                                                                <!-- <i class="box_setting fa fa-cog" data-toggle="modal" href="#section-settings"></i> -->
+                                                                <i class="box_close fa fa-times"></i>
+                                                            </div>
+                                                        </header>
+                                                        <div class="content-body">    <div class="row">
+                                                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                                                 <?php echo form_open_multipart('driver_payment/driver_paid_iso_movement', array('class'=>'form-horizontal')); ?>
+                                                            <table id="example-2" class="table table-striped dt-responsive display" cellspacing="0" width="100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                      <th>Sno</th>
+                                                                      <th>Movement Date</th>
+                                                                      <th>Vehicle No</th>                                      
+                                                                      <th>Container No</th> 
+																	  <th>D/N Padi</th> 
+																	  <th>Trip Padi</th> 
+																	  <th>Mamul</th> 
+																	  <th>Other Expense</th> 
+																	  <th>PO Expense</th> 
+																	  <th>PC Expenses</th> 
+																	  <th>Driver Advance</th> 
+																	   <th>Driver Balance</th> 
+                                                                      <th>Status</th>
+                                                                      <th>Action</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                      <th>Sno</th>
+                                                                      <th>Movement Date</th>
+                                                                      <th>Vehicle No</th>                                      
+                                                                      <th>Container No</th> 
+																	  <th>D/N Padi</th> 
+																	  <th>Trip Padi</th> 
+																	  <th>Mamul</th> 
+																	  <th>Other Expense</th> 
+																	  <th>PO Expense</th> 
+																	  <th>PC Expenses</th> 
+																	  <th>Driver Advance</th> 
+																	  <th>Driver Balance</th> 
+                                                                      <th>Status</th>
+                                                                      <th>Action</th>
+                                                                    </tr>
+                                                                </tfoot>
+                                                                <tbody>
+                                                                <?php 
+                                                                    $sno=1; $driver_amt = 0; $driver_trip_amt = 0; $driver_mamul = 0;
+																	$driver_oth_ex = 0; $driver_po_ex = 0; $driver_pc_ex = 0; $driver_adv = 0;
+																	$total_driver_bal = 0;
+                                                        			foreach ($view_iso_movement_payments->result() as $row)
+                                                                    { 
+																	$driver_amt = intval($driver_amt)+intval($row->Iso_mvnt_driver_amount);
+																	$driver_trip_amt = intval($driver_amt)+intval($row->Iso_mvnt_driver_trip_amount);
+																	$driver_mamul = intval($driver_amt)+intval($row->Iso_mvnt_driver_mamul);
+																	$driver_oth_ex = intval($driver_amt)+intval($row->Iso_mvnt_driver_other_ex);
+																	$driver_po_ex = intval($driver_amt)+intval($row->Iso_mvnt_driver_po_ex);
+																	$driver_pc_ex = intval($driver_amt)+intval($row->Iso_mvnt_driver_pc_ex);
+																	$driver_adv = intval($driver_amt)+intval($row->Iso_mvnt_driver_adv);																
+																	$driver_bal = intval($row->Iso_mvnt_driver_amount) + intval($row->Iso_mvnt_driver_trip_amount)+ intval($row->Iso_mvnt_driver_mamul)+ intval($row->Iso_mvnt_driver_other_ex)+ intval($row->Iso_mvnt_driver_po_ex)+ intval($row->Iso_mvnt_driver_pc_ex) - intval($row->Iso_mvnt_driver_adv);
+																	$total_driver_bal = intval($total_driver_bal)+intval($driver_bal);
+                                                                ?>
+                                                                    <tr>
+                                                                      <td><?php  echo $sno; ?></td>
+                                                                      <td>
+																	  <?php 
+																	  	echo  date('d-M-Y', strtotime($row->Iso_mvnt_date));
+                                             						  ?>																	  
+																	  </td>
+                                                                      <td>
+																	  <?php 
+																	  if($row->Iso_mvnt_vehicle_type =='O'){		
+																			$vehicle_no = $row->Iso_mvnt_other_vehicle_no;
+																		}else{
+																			$vehicle_no = $row->Vehicle_dtl_number;
+																		}
+																	  	echo $vehicle_no;
+                                             						  ?>
+																	  </td>
+                                                                      <td><?php 
+																	    $container = $row->Iso_mvnt_container_no;
+																		if($row->Iso_mvnt_container_no2 != ""){
+																			$container .= "-".$row->Iso_mvnt_container_no2;
+																		}
+																		echo $container;
+																		?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_amount;  ?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_trip_amount; ?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_mamul; ?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_other_ex; ?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_po_ex; ?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_pc_ex; ?></td>
+																	  <td><?php echo $row->Iso_mvnt_driver_adv; ?></td>
+																	  <td><?php echo $driver_bal; ?></td>
+                                                                      <td>
+                                                                      <?php 
+																		if($row->Iso_mvnt_driver_pay_status=='P')
+																		{
+																		   echo '<strong style="color:green;"> Paid</strong>';   
+																		}
+																		else
+																		{
+																			echo '<strong style="color:red;"> Unpaid</strong>';
+																		}
+																		?> 
+                                                                     
+                                                                      </td>
+                                                                      <td>
+                                                                       <?php 
+																		if($row->Iso_mvnt_driver_pay_status=='P')
+																		{
+																		   echo '--';   
+																		}
+																		else
+																		{?>
+																			<input type="checkbox" name="daily_id[]"  value="<?php echo $row->Iso_mvnt_id; ?>">
+                                                                       <?php 
+																		}
+																		?> 
+                                                                       
+                                                                       <input type="hidden" name="driver_id"  value="<?php echo $this->input->get('id'); ?>">
+                                                                       <input type="hidden" name="driver_name"  value="<?php echo $this->input->get('dr_name'); ?>">
+                                                                      </td>                                                                                                                                                                      
+                                                                    </tr>
+                                                                <?php $sno++; } ?>
+                                                                </tbody>
+                                                               	<tfoot>
+                                                                  <tr> 
+                                                                      <th colspan="4" align="right"><span style="float:right;">Total </span></th>  
+                                                                      <th><?php echo $driver_amt; ?></th> 
+                                                                      <th><?php echo $driver_trip_amt; ?></th> 
+                                                                      <th><?php echo $driver_mamul; ?></th> 
+                                                                      <th><?php echo $driver_oth_ex; ?></th> 
+                                                                      <th><?php echo $driver_po_ex; ?></th> 
+                                                                      <th><?php echo $driver_pc_ex; ?></th> 
+                                                                      <th><?php echo $driver_adv; ?></th> 
+                                                                      <th><?php echo '<span style="color:red;">'.$total_driver_bal.'</span>'; ?></th>                                
+                                                                  </tr>
+                                                                </tfoot>
+                                                        </table>
+                                                            <?php //if($ttl_rent!=""){?>
+															<input style="float:right;" type="submit" name="submit" value="Paid Bill" class="btn btn-success">
+															</form>
+                                                        <?php//  } ?>
+                                                       </div>
+                                                        </div>
+                                                </section>   
                                                    
                                                    
                                                    
@@ -206,7 +357,7 @@
                                                         <div class="content-body">    <div class="row">
                                                                 <div class="col-md-12 col-sm-12 col-xs-12">
                                                                  <?php echo form_open_multipart('driver_payment/driver_paid_daily_movement', array('class'=>'form-horizontal')); ?>
-                                                            <table id="example-1" class="table table-striped dt-responsive display" cellspacing="0" width="100%">
+                                                            <table id="example-2" class="table table-striped dt-responsive display" cellspacing="0" width="100%">
                                                                 <thead>
                                                                     <tr>
                                                                       <th>Sno</th>
@@ -344,13 +495,14 @@
                                                   <?php 
 												  $cal_bal=0;
 												  $cal_bal=intval($ttl_rent)-intval($ttl_avnc);
-												  $blnc_total = intval($cal_bal)+intval($ttl_oex);
+												  $blnc_total = intval($cal_bal)+intval($ttl_oex)+intval($total_driver_bal);
 												   $total_bal = intval($blnc_total)-intval($paid_amt);
 												  ?>
                                                   <h4><strong>Net Amount (<i class="fa fa-inr"></i>)</strong> :&nbsp;<span class="text-primary"><i class="fa fa-inr"></i> <?php echo $ttl_rent; ?></span></h4>
                                                   <h4><strong>Total Advance (<i class="fa fa-inr"></i>)</strong> :&nbsp;<span class="text-primary"><i class="fa fa-inr"></i> <?php echo $ttl_avnc; ?></span></h4>
                                                   <h4><strong>Total Paid (<i class="fa fa-inr"></i>)</strong> :&nbsp;<span class="text-primary"><i class="fa fa-inr"></i> <?php echo $paid_amt; ?></span></h4>
                                                   <h4><strong>Total Other Expenses (<i class="fa fa-inr"></i>)</strong> :&nbsp;<span class="text-primary"><i class="fa fa-inr"></i> <?php echo $ttl_oex; ?></span></h4>
+                                                  <h4><strong>Total ISO Balance (<i class="fa fa-inr"></i>)</strong> :&nbsp;<span class="text-primary"><i class="fa fa-inr"></i> <?php echo $total_driver_bal; ?></span></h4>
                                                   <h4><strong>Balance Amount</strong> :&nbsp;<span class="text-primary"><i class="fa fa-inr"></i> <?php echo $total_bal; ?></span></h4>                                      
                                       
                                                 </div>

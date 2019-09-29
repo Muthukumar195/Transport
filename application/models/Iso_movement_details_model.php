@@ -36,6 +36,8 @@ Class Iso_movement_details_model extends CI_Model
 			'Iso_mvnt_load_drop'=>$this->input->post('load_drop'),
 			'Iso_mvnt_transport_name' => $transport,
 			'Iso_mvnt_tp_amount' => $this->input->post('tp_amount'),
+			'Iso_mvnt_driver_name' => $this->input->post('driver_name'),
+			'Iso_mvnt_driver_adv' => $this->input->post('driver_amount'),
 			'Iso_mvnt_amount' => $this->input->post('iso_amount')
 		);	
 		$this->db->set('Iso_mvnt_created_dt_time', 'NOW()', FALSE);	
@@ -67,8 +69,10 @@ Class Iso_movement_details_model extends CI_Model
 			'Iso_mvnt_from'=>$this->input->post('iso_from'),
 			'Iso_mvnt_to'=>$this->input->post('iso_to'),
 			'Iso_mvnt_load_drop'=>$this->input->post('load_drop'),
-			'Iso_mvnt_transport_name'=>$this->input->post('transport_name'),
+			'Iso_mvnt_paid_date'=>date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('paid_date')))),			
 			'Iso_mvnt_tp_amount' => $this->input->post('tp_amount'),
+			'Iso_mvnt_driver_adv' => $this->input->post('driver_amount'),
+			'Iso_mvnt_driver_name' => $this->input->post('driver_name'),
 			'Iso_mvnt_amount'=>$this->input->post('iso_amount'),
 			);
 		$this->db->set('Iso_mvnt_created_dt_time', 'NOW()');	
@@ -76,6 +80,34 @@ Class Iso_movement_details_model extends CI_Model
 		$this->db->update('iso_movement_details',$data);
 		return true;
 	}
+	
+	function iso_driver_payment($id)
+	{ 
+			$data=array(			 
+		    'Iso_mvnt_driver_amount'=>$this->input->post('driver_amount'),
+			'Iso_mvnt_driver_trip_amount'=>$this->input->post('driver_trip_amount'),
+			'Iso_mvnt_driver_adv'=>$this->input->post('driver_advance'),
+		    'Iso_mvnt_driver_po_ex'=>$this->input->post('po_expense'),
+		    'Iso_mvnt_driver_pc_ex'=>$this->input->post('pc_expense'),
+			'Iso_mvnt_driver_mamul' => $this->input->post('driver_mamul'),
+			'Iso_mvnt_driver_other_ex' => $this->input->post('driver_other_ex'),
+			'Iso_mvnt_driver_remark' => $this->input->post('o_ex_remark')
+			);	 
+		$this->db->where('Iso_mvnt_id',$id);
+		$this->db->update('iso_movement_details',$data);
+		return true;
+	}
+	
+	// start driver_paid_iso_movement
+	function driver_paid_iso_movement($daily_id)
+	{
+		$data=array('Iso_mvnt_driver_pay_status'=>'P');
+		$this->db->set('Iso_mvnt_driver_pay_date', 'NOW()', FALSE);
+		$this->db->where_in('Iso_mvnt_id',$daily_id);
+		$this->db->update('iso_movement_details',$data);
+		//echo $this->db->last_query(); exit;
+		return true;	 
+	} 
 	function approve_iso_movement_details()
 	{
 		$data=array('Iso_mvnt_status'=>'A');
@@ -90,9 +122,9 @@ Class Iso_movement_details_model extends CI_Model
 		$this->db->update('iso_movement_details',$data);
 		return true;	 
 	}
-	function delete_iso_movement_details()
+	function delete_iso_movement_details($ids)
 	{
-	   $this->db->where('Iso_mvnt_id', $this->input->get('id'));
+	   $this->db->where_in('Iso_mvnt_id', $ids);
        $this->db->delete('iso_movement_details');
 	   return true;
 	}
@@ -145,8 +177,9 @@ Class Iso_movement_details_model extends CI_Model
         {
 			// start check iso_date
         	if($this->input->post('iso_date')!= null)
-        	{	
-        		$iso_date = '(iso_movement_details.Iso_mvnt_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('iso_date')))).'")';
+        	{
+				$date = explode("-",$this->input->post('iso_date'));
+				$iso_date = '(iso_movement_details.Iso_mvnt_date >= "'.date('Y-m-d', strtotime(str_replace('-', '/', $date[0]))).'" AND iso_movement_details.Iso_mvnt_date <= "'.date('Y-m-d', strtotime(str_replace('-', '/', $date[1]))).'")';
 				$fnl_where[]=$iso_date;
         		
         	}
@@ -315,6 +348,15 @@ Class Iso_movement_details_model extends CI_Model
 	    $query=$this->db->get();
 	    //echo $this->db->last_query(); exit;
 	    return $query; 
+	}
+	
+	public function status_update($data, $ids=array()) { 	
+ 	
+		$this->db->where_in('Iso_mvnt_id', $ids);
+		if($this->db->update('iso_movement_details', $data)){
+			return true; 
+		}
+		return FALSE;
 	}
 
 }

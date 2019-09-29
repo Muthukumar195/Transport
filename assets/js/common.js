@@ -69,3 +69,10 @@ function checkInt(obj)
 		obj.value="";
 		}
 }
+  
+function urlParam(param){
+	var url_string = window.location.href; //window.location.href
+	var url = new URL(url_string);
+	var c = url.searchParams.get(param);
+	return c;
+}

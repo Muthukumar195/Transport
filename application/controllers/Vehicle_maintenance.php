@@ -9,6 +9,8 @@ class Vehicle_maintenance extends CI_Controller {
 	
 	public function index(){	 	
 		$data = initial_data();	
+		$data['vehicle_numbers'] = vehicle_numbers();	
+		$data['total_vehicle_maintance'] = total_vehicle_maintance();	
 		$this->load->view('vehicle_maintenance_list', $data);
 	}
 	
@@ -19,27 +21,24 @@ class Vehicle_maintenance extends CI_Controller {
 
 		// Table's primary key
 		$primaryKey = 'id';
-
+	 
 		// Array of database columns which should be read and sent back to DataTables.
 		// The `db` parameter represents the column name in the database, while the `dt`
 		// parameter represents the DataTables column identifier. In this case simple
 		// indexes
 		$columns = array(
-				 array( 'db' => 'vehicle_id',   'dt' => 0, 
+				 array( 'db' => 'vm.id',   'dt' => 0, 
 				'formatter' => function($id, $row){
 					return '<input type="checkbox" name="selected_list" class="selected_list" value="'.$row['id'].'" />';
 				}),
-				array( 'db' => 'spare_part', 'dt' => 1 ),
-				array( 'db' => 'vehicle_id',   'dt' => 2, 
-				'formatter' => function($id, $row){
-					return vehicle_numbers($id);
-				}),
-				array( 'db' => 'amount',  'dt' => 3 ),
-				array( 'db' => 'date',   'dt' => 4, 
+				array( 'db' => 'vm.spare_part', 'dt' => 1 ),
+				array( 'db' => 'v.Vehicle_dtl_number',   'dt' => 2),
+				array( 'db' => 'vm.amount',  'dt' => 3 ),
+				array( 'db' => 'vm.date',   'dt' => 4, 
 				'formatter' => function($id, $row){
 					return date('d-m-Y', strtotime($row['date']));
 				}),
-				array( 'db' => 'status_id',   'dt' => 5, 
+				array( 'db' => 'vm.status_id',   'dt' => 5, 
 				'formatter' => function($id, $row){
 					$status = '<strong class="fa fa-check" style="color:green;"> Active</strong>';
 					if($id == 2){
@@ -49,7 +48,7 @@ class Vehicle_maintenance extends CI_Controller {
 				}),
 			);
 
-			$columns[] = array( 'db' => 'id',   'dt' => 6 , 'formatter' => function($id, $row){
+			$columns[] = array( 'db' => 'vm.id',   'dt' => 6 , 'formatter' => function($id, $row){
 			$content =  '<span style="color:red">&nbsp;&nbsp;&nbsp;';
 					// if(has_access("client/client_edit")){
 					$content .= '<a href="edit?id='.$id.'" class="Edit" tabindex="0" ><i  class="fa fa-pencil-square-o" aria-hidden="true" title="Edit" style="cursor:pointer" ></i></a>';
@@ -60,12 +59,16 @@ class Vehicle_maintenance extends CI_Controller {
 				 
 				return $content;
 			 });
-					 
-					 
-		echo json_encode(
-				SSP::complex( $_GET, $this, $table, $primaryKey, $columns, "" )
-			);
+			 
+			  $query = "SELECT 
+			  vm.*, v.Vehicle_dtl_number
+						 FROM vehicle_maintenance as vm
+						 LEFT JOIN vehicle_details as v ON v.Vehicle_dtl_id = vm.vehicle_id ";
+		
+		 echo json_encode(SSP::complex_join($_GET, $this, $query, "", $columns, vehicle_maintenance_ajax_filter()));
 	} 
+	
+	
 	
 	public function add(){		
 		$data = initial_data();

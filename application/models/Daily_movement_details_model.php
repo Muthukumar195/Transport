@@ -300,7 +300,8 @@ Class Daily_movement_details_model extends CI_Model
 			// start check daily_movement_date
         	if($this->input->post('daily_movement_date')!= null)
         	{	
-        		$daily_movement_date = '(Daily_mvnt_dtl_date ="'.date('Y-m-d', strtotime(str_replace('-', '/', $this->input->post('daily_movement_date')))).'")';
+				$date = explode("-",$this->input->post('daily_movement_date'));
+				$daily_movement_date = '(Daily_mvnt_dtl_date >= "'.date('Y-m-d', strtotime(str_replace('-', '/', $date[0]))).'" AND Daily_mvnt_dtl_date <= "'.date('Y-m-d', strtotime(str_replace('-', '/', $date[1]))).'")';
 				$fnl_where[]=$daily_movement_date;
         		
         	}

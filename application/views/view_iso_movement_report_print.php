@@ -23,6 +23,7 @@
         <link href="<?php echo base_url(); ?>/assets/fonts/font-awesome/css/font-awesome.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url(); ?>/assets/css/animate.min.css" rel="stylesheet" type="text/css"/>
         <link href="<?php echo base_url(); ?>/assets/plugins/perfect-scrollbar/perfect-scrollbar.css" rel="stylesheet" type="text/css"/>
+		<link href="<?php echo base_url(); ?>/assets/plugins/daterangepicker/css/daterangepicker-bs3.css" rel="stylesheet" type="text/css" media="screen"/>
         <!-- CORE CSS FRAMEWORK - END -->
 
         <!-- OTHER SCRIPTS INCLUDED ON THIS PAGE - START -->
@@ -72,10 +73,10 @@
                 <div class="col-lg-6 col-md-6 col-sm-6" >              
                   <?php  $data1 = array(
                         'name'        => 'iso_date',
-                        'id'          => 'iso_date',
+                        'id'          => 'iso_date daterange-1',
                         'value'       => set_value('iso_date'),
                         'maxlength'   => '20',
-                        'class'       => 'form-control datepicker',
+                        'class'       => 'form-control daterange',
                         'readonly'    => 'true',
                         'data-format' => 'dd MM yyyy',
                         'placeholder' => 'From'
@@ -483,6 +484,8 @@
          <!-- Date Picker --> 
         <script src="<?php echo base_url(); ?>assets/plugins/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script> 
+		<script src="<?php echo base_url(); ?>/assets/plugins/daterangepicker/js/moment.min.js" type="text/javascript"></script> 
+		<script src="<?php echo base_url(); ?>/assets/plugins/daterangepicker/js/daterangepicker.js" type="text/javascript"></script>		
         <!-- END Date Picker - END -->
 
 

@@ -289,6 +289,7 @@ class Driver_payment extends CI_Controller {
 			$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();
 			$data['view_driver_payment'] = $this->driver_payment_model->get_driver_payment($this->input->get('id'));
 			$data['view_movement_payments'] = $this->driver_payment_model->get_movement_payment_details($this->input->get('id'));
+			$data['view_iso_movement_payments'] = $this->driver_payment_model->get_iso_movement_payment_details($this->input->get('id'));
 			// view upcoming due counts
 			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
 			//view upcoming vehicle document count
@@ -386,6 +387,37 @@ class Driver_payment extends CI_Controller {
 		}
     }
 	// end approver daily movemnt
+	
+	// start driver_paid_iso_movement
+    function driver_paid_iso_movement()
+    {
+    	// start for check user rights
+        	$user_typ_ary=explode(',', $this->session->userdata('user_rights_dtl'));                    
+        // end for check user rights
+		if((in_array("Driver Payment", $user_typ_ary)==false)&&($this->session->userdata('username')!='admin'))
+		{
+			$this->check_user_rights();
+		}	
+    	if(! $this->session->userdata('username')){			
+			$this->check_isvalidated();
+		}
+		else
+		{
+			$send_id = $this->input->post('driver_id');
+			$send_name = $this->input->post('driver_name');
+			$this->load->model('edit_admin_profile_model'); 
+	   		$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();	
+			$this->load->helper(array('form', 'url', 'text','captcha','html'));	
+			$this->load->model('iso_movement_details_model');
+			if($this->iso_movement_details_model->driver_paid_iso_movement($this->input->post('daily_id')))
+			{				
+				$this->session->set_flashdata('success_msg', 'Driver Status Changed successfully!');
+			}
+			redirect('driver_payment/view_driver_payment?id='.$send_id.'&&dr_name='.$send_name);
+								
+		}
+    }
+	// end driver_paid_iso_movement
 	
 	function check_isvalidated()
 	{

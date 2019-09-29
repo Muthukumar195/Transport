@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 23, 2019 at 02:49 PM
+-- Generation Time: Sep 29, 2019 at 10:52 AM
 -- Server version: 5.6.24
 -- PHP Version: 5.6.8
 
@@ -35,8 +35,8 @@ CREATE TABLE IF NOT EXISTS `admin` (
   `Admin_password` varchar(60) NOT NULL,
   `Admin_profile` text NOT NULL,
   `Admin_type` enum('A','E','M','I','AC') NOT NULL COMMENT 'A=Admin, E=Employee, M=Manager, I=Incharge, AC=Accountant',
-  `admin_role` varchar(100) NOT NULL,
-  `admin_accesspermission` varchar(100) NOT NULL,
+  `Admin_role` int(11) NOT NULL,
+  `Admin_access_permission` varchar(250) NOT NULL,
   `Admin_user_rights` int(11) NOT NULL COMMENT 'reference id of user rights table',
   `Admin_created_dt_tme` datetime NOT NULL,
   `Admin_status` enum('A','D') NOT NULL
@@ -46,10 +46,10 @@ CREATE TABLE IF NOT EXISTS `admin` (
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`Admin_id`, `Admin_fullname`, `Admin_email`, `Admin_phone`, `Admin_username`, `Admin_password`, `Admin_profile`, `Admin_type`, `admin_role`, `admin_accesspermission`, `Admin_user_rights`, `Admin_created_dt_tme`, `Admin_status`) VALUES
-(1, 'Adminstrator', 'srithirumalatransport3247@gmail.com', '9840602093', 'admin', 'Raghavi', 'profile_pic1.jpg', 'A', '', '', 0, '2018-02-12 19:34:57', 'A'),
-(2, 'DEVI', 'srithirumalatransport3247@gmail.com', '8056083401', 'DEVI', 'DEVIRAJ', 'profile_pic2.jpg', 'A', '', '', 1, '2016-12-30 15:33:02', 'A'),
-(3, 'YOGALAKSHMI', 'srithirumalatransport3247@gmail.com', '9500063517', 'yoga', 'yoga', 'profile_pic3.jpg', 'A', '', '', 3, '2018-01-27 18:09:08', 'A');
+INSERT INTO `admin` (`Admin_id`, `Admin_fullname`, `Admin_email`, `Admin_phone`, `Admin_username`, `Admin_password`, `Admin_profile`, `Admin_type`, `Admin_role`, `Admin_access_permission`, `Admin_user_rights`, `Admin_created_dt_tme`, `Admin_status`) VALUES
+(1, 'Adminstrator', 'srithirumalatransport3247@gmail.com', '9840602093', 'admin', 'admin', 'profile_pic1.jpg', 'A', 1, '1,2,3', 0, '2018-02-12 19:34:57', 'A'),
+(2, 'DEVI', 'srithirumalatransport3247@gmail.com', '8056083401', 'DEVI', 'DEVIRAJ', 'profile_pic2.jpg', 'A', 2, '', 1, '2016-12-30 15:33:02', 'A'),
+(3, 'YOGALAKSHMI', 'srithirumalatransport3247@gmail.com', '9500063517', 'yoga', 'yoga', 'profile_pic3.jpg', 'A', 2, '', 3, '2018-01-27 18:09:08', 'A');
 
 -- --------------------------------------------------------
 
@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS `admin_user_rights_details` (
 --
 
 INSERT INTO `admin_user_rights_details` (`User_rights_id`, `User_rights_name`, `User_rights_type_value`, `User_rights_created_dt_time`, `User_rights_status`) VALUES
-(1, 'Devi', 'Party Payment', '2016-12-30 15:30:26', 'D'),
+(1, 'DEVI', 'Party Payment', '2016-12-30 15:30:26', 'D'),
 (2, 'RASU', 'Daily Movement,ISO Movement,Transport Payment,Driver Details,Driver Payment,Transport Details', '2017-06-12 12:35:39', 'A'),
 (3, 'YOGALAKSHMI', 'Driver Payment,Driver Details,Daily Movement,ISO Movement,Transport Details,Transport Payment,Driver Payment', '2018-01-27 18:17:40', 'A');
 
@@ -81,9 +81,17 @@ INSERT INTO `admin_user_rights_details` (`User_rights_id`, `User_rights_name`, `
 --
 
 CREATE TABLE IF NOT EXISTS `common_status` (
-  `status` varchar(50) NOT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `common_status`
+--
+
+INSERT INTO `common_status` (`id`, `status`) VALUES
+(1, 'Active'),
+(2, 'Deny');
 
 -- --------------------------------------------------------
 
@@ -153,8 +161,8 @@ CREATE TABLE IF NOT EXISTS `daily_moment_details` (
 INSERT INTO `daily_moment_details` (`Daily_mvnt_dtl_id`, `Daily_mvnt_dtl_date`, `Daily_mvnt_dtl_transport_type`, `Daily_mvnt_dtl_vehicle_no`, `Daily_mvnt_dtl_other_vehicle_no`, `Daily_mvnt_dtl_container_type`, `Daily_mvnt_dtl_container_no`, `Daily_mvnt_dtl_new_container_no`, `Daily_mvnt_dtl_place`, `Daily_mvnt_dtl_pickup_place`, `Daily_mvnt_dtl_drop_place`, `Daily_mvnt_dtl_loading_status`, `Daily_mvnt_dtl_party_name`, `Daily_mvnt_dtl_party_adv`, `Daily_mvnt_dtl_driver_name`, `Daily_mvnt_dtl_advance`, `Daily_mvnt_dtl_trp_name`, `Daily_mvnt_dtl_trp_adv`, `Daily_mvnt_dtl_trp_rent`, `Daily_mvnt_dtl_trp_expences`, `Daily_mvnt_dtl_trp_sum`, `Daily_mvnt_dtl_trp_exp_remark`, `Daily_mvnt_dtl_transport_pay_status`, `Daily_mvnt_dtl_party_pay_date`, `Daily_mvnt_dtl_party_pay_status`, `Daily_mvnt_dtl_driver_pay_date`, `Daily_mvnt_dtl_driver_pay_status`, `Daily_mvnt_dtl_other_expences`, `Daily_mvnt_dtl_driver_remark`, `Daily_mvnt_dtl_driver_basic_pay`, `Daily_mvnt_dtl_driver_total_pay`, `Daily_mvnt_dtl_diesel_rate`, `Daily_mvnt_dtl_diesel_rate_status`, `Daily_mvnt_dtl_party_mamul`, `Daily_mvnt_dtl_rent`, `Daily_mvnt_dtl_profit`, `Daily_mvnt_dtl_created_dt_time`, `Daily_mvnt_dtl_status`) VALUES
 (1, '2017-08-01', 'T', 1, NULL, 'NC', NULL, 'ILCU-6511727', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 1, 3000, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-09 19:44:44', 'A'),
 (2, '2017-08-04', 'T', 1, NULL, 'NC', NULL, 'CXNU-1301524', 1, 'CONCOR', 'CONCOR', 'U', 1, 0, 1, 8000, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 7910, 7910, 58, 'N', 0, 18300, 10390, '2017-08-09 19:45:50', 'A'),
-(4, '2017-08-01', 'T', 8, NULL, 'NC', NULL, 'CFLU-2130211', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 40, 4000, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-11 11:06:54', 'A'),
-(5, '2017-08-01', 'O', 11, NULL, 'NC', NULL, 'CXNU-1308926', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 10, 3000, 14, 3000, 6700, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-11 11:16:28', 'A'),
+(4, '2017-08-01', 'T', 8, NULL, 'NC', NULL, 'CFLU-2130211', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 40, 4000, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-11 11:06:54', 'D'),
+(5, '2017-08-01', 'O', 11, NULL, 'NC', NULL, 'CXNU-1308926', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 10, 3000, 14, 3000, 6700, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-11 11:16:28', 'D'),
 (6, '2017-08-01', 'O', 28, NULL, 'NC', NULL, 'CFLU-2132092', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 17, 5000, 13, 5000, 6700, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-11 11:21:04', 'A'),
 (7, '2017-08-01', 'O', 27, NULL, 'NC', NULL, 'ILCU-6506356', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 39, 5000, 13, 5000, 6700, 0, 'A', '', 'U', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 3410, 3410, 58, 'N', 0, 7300, 3890, '2017-08-11 11:24:48', 'A'),
 (8, '2017-08-01', 'O', 24, NULL, 'NC', NULL, 'CXNU-1312072', 34, 'CONCOR', 'CONCOR', 'U', 1, 0, NULL, NULL, 12, 1500, 3800, 0, 'A', '', 'P', '2018-02-27', 'P', '2018-02-16', 'U', 0, '', 1978, 1978, 58, 'N', 0, 4200, 2222, '2017-08-11 11:25:47', 'A'),
@@ -2239,7 +2247,7 @@ INSERT INTO `daily_moment_details` (`Daily_mvnt_dtl_id`, `Daily_mvnt_dtl_date`, 
 (2135, '2018-02-28', 'T', 10, NULL, 'NC', 0, 'CXNU-1525165', 205, 'CONCOR', 'CONCOR', 'U', 17, 0, 16, 8500, 0, 0, 0, 0, 'A', '', 'U', '0000-00-00', 'U', '2018-03-13', 'P', 0, '', 7530, 7530, 65, 'N', 0, 16000, 8470, '2018-03-10 11:56:02', 'A'),
 (2136, '2018-02-28', 'O', 11, NULL, 'NC', 0, 'CXNU-0900908', 205, 'CONCOR', 'CONCOR', 'U', 17, 0, 10, 8500, 14, 0, 15000, -8500, 'S', '', 'U', '0000-00-00', 'U', '2018-03-13', 'P', 0, '', 7530, 7530, 65, 'N', 0, 16000, 8470, '2018-03-10 11:56:39', 'A'),
 (2137, '2018-02-28', 'T', 12, NULL, 'NC', NULL, 'CXNU-1135969', 234, 'CONCOR', 'CONCOR', 'U', 11, 0, 58, 1500, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '2018-03-13', 'P', 225, 'IOCL400\r\n-A', 1982, 1982, 65, 'N', 0, 3514, 1532, '2018-03-02 13:30:40', 'A'),
-(2139, '2018-02-28', 'O', 27, NULL, 'NC', 0, 'ILCU-1528550', 268, 'CONCOR', 'CONCOR', 'L', 26, 0, 56, 6000, 13, 6000, 10000, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 4785, 4785, 65, 'N', 0, 16000, 11215, '2018-03-12 12:24:52', 'A'),
+(2139, '2018-02-28', 'O', 27, NULL, 'NC', 0, 'ILCU-1528550', 268, 'CONCOR', 'CONCOR', 'L', 26, 0, 56, 6000, 13, 6000, 10000, 0, 'A', '', 'U', '0000-00-00', 'U', '2019-09-29', 'P', 0, '', 4785, 4785, 65, 'N', 0, 16000, 11215, '2018-03-12 12:24:52', 'A'),
 (2140, '2018-02-28', 'T', 13, NULL, 'NC', NULL, 'CXNU-2218639', 1, 'CONCOR', 'CONCOR', 'U', 1, 0, 5, 8500, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-06-23', 'P', '2018-03-13', 'P', 750, 'MAMUL', 8505, 8505, 65, 'N', 0, 20000, 11495, '2018-03-02 17:49:09', 'A'),
 (2141, '2018-02-28', 'T', 63, NULL, 'NC', NULL, 'CXNU-1531091', 234, 'CONCOR', 'CONCOR', 'U', 11, 0, 66, 1500, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 1982, 1982, 65, 'N', 0, 3514, 1532, '2018-03-02 17:53:17', 'A'),
 (2142, '2018-02-28', 'O', 80, NULL, 'NC', NULL, 'CXNU-1542007', 234, 'CONCOR', 'CONCOR', 'U', 11, 0, NULL, NULL, 19, 1500, 3200, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 1982, 1982, 65, 'N', 0, 3514, 1532, '2018-03-02 17:55:45', 'A'),
@@ -2539,14 +2547,11 @@ INSERT INTO `daily_moment_details` (`Daily_mvnt_dtl_id`, `Daily_mvnt_dtl_date`, 
 (2441, '2018-03-29', 'T', 80, NULL, 'NC', NULL, 'CXNU-1114422', 61, 'CONCOR', 'CONCOR', 'U', 11, 4000, 62, 4000, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 255, 'TOLL', 2540, 2540, 67, 'N', 0, 4800, 2260, '2018-04-05 12:32:01', 'A'),
 (2442, '2018-03-29', 'T', 12, NULL, 'NC', NULL, 'CXNU-1132424', 259, 'CONCOR', 'CONCOR', 'L', 11, 0, 58, 3000, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 295, 'SURAPATTU', 3470, 3470, 67, 'N', 0, 6946, 3476, '2018-04-05 12:33:24', 'A'),
 (2443, '2018-03-29', 'T', 63, NULL, 'NC', NULL, 'CXNU-1537145', 259, 'CONCOR', 'CONCOR', 'L', 11, 0, 8, 3000, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 3470, 3470, 67, 'N', 0, 6946, 3476, '2018-04-05 12:34:26', 'A'),
-(2444, '2018-03-30', 'O', 11, NULL, 'NC', NULL, 'CXNU-0910450', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 10, 1200, 14, 1200, 7700, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 0, '', 3760, 3760, 68, 'N', 0, 8300, 4540, '2018-04-05 12:36:54', 'A'),
-(2445, '2018-03-30', 'O', 27, NULL, 'NC', 0, 'PLLU-2000260', 302, 'CONCOR', 'CONCOR', 'U', 1, 0, 56, 4000, 13, 4000, 7000, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 0, '', 3728, 3728, 68, 'N', 0, 9000, 5272, '2018-06-23 09:47:59', 'A'),
+(2444, '2018-03-30', 'O', 11, NULL, 'NC', NULL, 'CXNU-0910450', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 10, 1200, 14, 1200, 7700, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 0, '', 3760, 3760, 68, 'N', 0, 8300, 4540, '2018-04-05 12:36:54', 'D'),
+(2445, '2018-03-30', 'O', 27, NULL, 'NC', 0, 'PLLU-2000260', 302, 'CONCOR', 'CONCOR', 'U', 1, 0, 56, 4000, 13, 4000, 7000, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 0, '', 3728, 3728, 68, 'N', 0, 9000, 5272, '2018-06-23 09:47:59', 'D'),
 (2446, '2018-03-30', 'T', 8, NULL, 'NC', NULL, 'CXNU-2227268', 29, 'CONCOR', 'CONCOR', 'U', 1, 0, 16, 3200, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 400, 'E2EMAMUL', 3760, 3760, 68, 'N', 0, 8300, 4540, '2018-04-05 12:39:00', 'A'),
 (2447, '2018-03-30', 'T', 80, NULL, 'NC', NULL, 'CXNU-1114422', 3, 'CONCOR', 'CONCOR', 'U', 11, 0, 62, 0, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 2852, 2852, 68, 'N', 0, 5500, 2648, '2018-04-05 12:39:59', 'A'),
 (2448, '2018-03-30', 'T', 3, NULL, 'NC', NULL, 'CXNU-1526109', 34, 'CONCOR', 'CONCOR', 'U', 1, 0, 17, 1000, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 100, 'MAMUL', 2108, 2108, 68, 'N', 0, 5300, 3192, '2018-04-05 12:40:43', 'A'),
-(2449, '2018-03-31', 'T', 7, NULL, 'NC', NULL, 'CXNU-1540323', 259, 'CONCOR', 'CONCOR', 'L', 11, 0, 63, 2750, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 1600, 'HALT8', 3500, 3500, 68, 'N', 0, 6946, 3446, '2018-04-06 12:35:17', 'A'),
-(2450, '2018-03-31', 'T', 122, NULL, 'NC', NULL, 'CRXU-1776825', 265, 'CONCOR', 'CONCOR', 'U', 1, 0, 31, 3500, NULL, NULL, NULL, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 0, '', 2800, 2800, 68, 'N', 0, 9000, 6200, '2018-04-06 12:38:38', 'A'),
-(2451, '2018-03-31', 'T', 123, NULL, 'NC', 0, 'SCZU-7838152', 63, 'CONCOR', 'CONCOR', 'U', 1, 0, 9, 3500, 0, 0, 0, 0, 'A', '', 'U', '2018-06-23', 'P', '0000-00-00', 'U', 300, 'E2E MAMUL', 3000, 3000, 68, 'N', 0, 9000, 6000, '2018-06-23 09:47:31', 'A'),
 (2452, '2018-03-13', 'T', 3, NULL, 'NC', NULL, 'CXNU-1114246', 179, 'CONCOR', 'CONCOR', 'L', 21, 0, 17, 9000, NULL, NULL, NULL, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 9570, 9570, 66, 'N', 0, 18000, 8430, '2018-04-06 12:52:20', 'A'),
 (2453, '2018-03-13', 'O', 120, NULL, 'NC', 0, 'CXNU-3212874', 278, 'CONCOR', 'CONCOR', 'U', 42, 0, 0, 0, 9, 0, 6500, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 3280, 3280, 66, 'N', 0, 6500, 3220, '2018-04-26 15:35:30', 'A'),
 (2454, '2018-03-17', 'T', 57, NULL, 'NC', 0, 'CXNU-1118920', 278, 'CONCOR', 'CONCOR', 'L', 42, 0, 8, 3500, 0, 0, 0, 0, 'A', '', 'U', '0000-00-00', 'U', '0000-00-00', 'U', 0, '', 3280, 3280, 66, 'N', 0, 6500, 3220, '2018-05-23 16:04:30', 'A'),
@@ -2638,7 +2643,7 @@ INSERT INTO `driver_details` (`Driver_dtl_id`, `Driver_dtl_name`, `Driver_dtl_ph
 (1, 'JAMBULINGAM', '8682001436', 'pondy', 'lecense1.jpg', 'P', '2016-09-28 10:55:07', 'A'),
 (2, 'JAYARAMAN', '7418001247', 'VINAYAGAR KOVIL  ST KOVILOR  V&P CHEYYAR TK TVM DIST', 'lecense2.jpg', 'P', '2016-09-28 10:46:07', 'D'),
 (3, 'MANI RAJ', '8754598060', 'THIRUNALVELLI', 'lecense3.jpg', 'P', '2016-09-28 10:47:28', 'D'),
-(4, 'B.RAJU', '9095674143', '1/96C,PERIYA  STREET MADHURANTHANALLUR  CHIDAMBARAM CUDDALORE-608201', 'lecense4.jpg', 'P', '2016-09-28 10:52:53', 'D'),
+(4, 'B.RAJU', '9095674143', '1/96C,PERIYA  STREET MADHURANTHANALLUR  CHIDAMBARAM CUDDALORE-608201', 'lecense4.jpg', 'P', '2016-09-28 10:52:53', 'A'),
 (5, 'SURESH', '9003578788', 'T. VELLORE  VILLAGE TANIPADI  POST CHANGAM TALUK-606708', 'lecense5.jpg', 'P', '2016-09-28 10:58:14', 'A'),
 (6, 'P.ANANTH', '8110835419', '75, NALLAPITCHANPATTI SENDURAI , NATHAM,  T.K  DINDIGUL-624403', 'lecense6.jpg', 'P', '2016-09-28 11:02:56', 'D'),
 (7, 'MUTHUSAMY', '7092099440', 'NO. 11 KORALPAKKAM  PATHUR STREET THANIKAVADI POLLUR  TK THIRUVANNAMALAI  DIST', 'lecense7.jpg', 'P', '2016-09-28 11:06:23', 'D'),
@@ -2654,7 +2659,7 @@ INSERT INTO `driver_details` (`Driver_dtl_id`, `Driver_dtl_name`, `Driver_dtl_ph
 (17, 'SHANMUGAM', '8122480864', '117, THALAYATHAM  GOODANAGARAM ROAD GUDIYATTAM', 'lecense17.jpg', 'A', '2016-09-29 17:28:20', 'A'),
 (18, 'BALAJI', '8682906997', 'NO ;39/12 NEW NO ;21A/11 APPARSAMY KOVIL ROAD ST TVT  CHENNAI-19', 'lecense18.jpg', 'A', '2016-09-29 17:30:41', 'D'),
 (19, 'PALANISAMY', '7094829808', 'NO; 407MURAIYUR-PO , THIRUPATHUR -TK SIVAGANGAI', 'lecense19.jpg', 'A', '2016-09-29 17:59:27', 'D'),
-(20, 'AROKIYARAJ', '9865109319', 'THOOTHUKUTI DIST', 'lecense20.jpg', 'A', '2016-10-01 13:03:44', 'D'),
+(20, 'AROKIYARAJ', '9865109319', 'THOOTHUKUTI DIST', 'lecense20.jpg', 'A', '2016-10-01 13:03:44', 'A'),
 (21, 'DHANAPAL', '9809413428', 'CHENNAI (DOUT)', 'lecense21.jpg', 'A', '2016-10-01 13:05:48', 'D'),
 (22, 'SUBASH', '8124274961', 'CHENNAI', 'lecense22.jpg', 'P', '2016-10-12 14:55:57', 'D'),
 (23, 'RAMADOSS', '8015559573', 'CHENNAI', 'lecense23.jpg', 'A', '2016-11-14 10:36:10', 'D'),
@@ -2666,7 +2671,6 @@ INSERT INTO `driver_details` (`Driver_dtl_id`, `Driver_dtl_name`, `Driver_dtl_ph
 (29, 'TAMIL SELVAN', '7339401865', 'SIVAGIRI TK THIRUNELVELI DIST', 'lecense29.jpg', 'P', '2017-01-10 17:40:02', 'D'),
 (30, 'SURESH KUMAR', '9176457654', 'MARAVAMANGALAM PO , SIVAGANGAI -DT', 'lecense30.jpg', 'P', '2017-01-23 12:46:49', 'D'),
 (31, 'ANNADURAI', '7448527670', 'CHENNAI', 'lecense31.jpg', 'A', '2017-02-02 11:05:20', 'A'),
-(32, 'ANDREW', '7448527670', 'CHENNAI', 'lecense32.jpg', 'A', '2017-04-04 10:53:51', 'D'),
 (33, 'S.MURUGAN', '7448527670', 'CHENNAI', 'lecense33.jpg', 'A', '2017-04-10 15:37:46', 'D'),
 (34, 'GANESAN', '7448527670', 'CHENNAI', 'lecense34.jpg', 'A', '2017-04-19 15:18:40', 'D'),
 (35, 'MEIYALAGAN', '7448527670', 'THIRUVOTTIYUR', 'lecense35.jpg', 'A', '2017-05-01 12:39:27', 'A'),
@@ -2718,7 +2722,7 @@ CREATE TABLE IF NOT EXISTS `driver_payment_details` (
   `Driver_pymnt_amount` int(11) NOT NULL,
   `Driver_pymnt_created_dt_tme` datetime NOT NULL,
   `Driver_pymnt_status` enum('A','D') NOT NULL COMMENT 'A=Approve, D=Deny'
-) ENGINE=InnoDB AUTO_INCREMENT=71 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=72 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `driver_payment_details`
@@ -2794,7 +2798,8 @@ INSERT INTO `driver_payment_details` (`Driver_pymnt_id`, `Driver_pymnt_di_driver
 (67, 52, '2018-03-14', 'P', 'MAR PAY ADV', 2000, '2018-03-14 14:02:38', 'A'),
 (68, 62, '2018-02-28', 'P', 'FEB SALARY', 9226, '2018-03-15 17:59:29', 'A'),
 (69, 53, '2018-02-28', 'P', 'FEB PAYMENT', 10508, '2018-03-15 18:26:55', 'A'),
-(70, 67, '2018-02-15', 'P', 'FOR CHECKING', 0, '2018-03-22 14:42:01', 'A');
+(70, 67, '2018-02-15', 'P', 'FOR CHECKING', 0, '2018-03-22 14:42:01', 'A'),
+(71, 56, '2019-09-11', 'P', 'fgfgfg', 5000, '2019-09-29 13:54:46', 'A');
 
 -- --------------------------------------------------------
 
@@ -3015,7 +3020,7 @@ INSERT INTO `driver_pay_rate` (`Driver_pay_rate_id`, `Driver_pay_rate_place_name
 (197, 'SERUCHERY TO VICHUR', 1164, 2, 52, '2017-06-08 18:47:07', 'A'),
 (198, 'ERODE', 16000, 230, 52, '2018-02-14 19:33:02', 'A'),
 (199, 'MARAI MALAI NAGAR', 3680, 40, 52, '2017-06-08 18:37:11', 'A'),
-(200, 'ABC TO CONCOR TO HORBUR', 3200, 25, 52, '2017-06-08 18:39:02', 'A'),
+(200, 'ABC TO CONCOR TO HORBUR', 3200, 25, 52, '2017-06-08 18:39:02', 'D'),
 (201, 'PERIYAPALAYAM TO MAHINDRA CITY', 3440, 30, 52, '2017-06-08 18:45:38', 'A'),
 (202, 'PADALAM+ROAD', 5200, 55, 52, '2017-06-09 12:59:06', 'A'),
 (203, 'SUNGUVARCHATHIRAM TO VICHUR', 1160, 2, 52, '2017-06-15 16:23:27', 'A'),
@@ -3163,6 +3168,17 @@ CREATE TABLE IF NOT EXISTS `iso_movement_details` (
   `Iso_mvnt_load_drop` varchar(160) NOT NULL,
   `Iso_mvnt_transport_name` int(11) NOT NULL COMMENT 'transport details reference id',
   `Iso_mvnt_tp_amount` int(11) NOT NULL,
+  `Iso_mvnt_driver_name` int(11) NOT NULL,
+  `Iso_mvnt_driver_amount` int(11) NOT NULL,
+  `Iso_mvnt_driver_adv` int(11) NOT NULL,
+  `Iso_mvnt_driver_trip_amount` int(11) NOT NULL,
+  `Iso_mvnt_driver_po_ex` int(11) NOT NULL,
+  `Iso_mvnt_driver_pc_ex` int(11) NOT NULL,
+  `Iso_mvnt_driver_mamul` int(11) NOT NULL,
+  `Iso_mvnt_driver_other_ex` int(11) NOT NULL,
+  `Iso_mvnt_driver_remark` text NOT NULL,
+  `Iso_mvnt_driver_pay_status` enum('U','P') NOT NULL,
+  `Iso_mvnt_driver_pay_date` date NOT NULL,
   `Iso_mvnt_party_name` int(11) NOT NULL,
   `Iso_mvnt_party_amt` int(11) NOT NULL,
   `Iso_mvnt_amount` int(11) NOT NULL,
@@ -3176,115 +3192,136 @@ CREATE TABLE IF NOT EXISTS `iso_movement_details` (
 -- Dumping data for table `iso_movement_details`
 --
 
-INSERT INTO `iso_movement_details` (`Iso_mvnt_id`, `Iso_mvnt_date`, `Iso_mvnt_vehicle_type`, `Iso_mvnt_vehicle_no`, `Iso_mvnt_other_vehicle_no`, `Iso_mvnt_container_type`, `Iso_mvnt_container_no`, `Iso_mvnt_container_no2`, `Iso_mvnt_ey_lo`, `Iso_mvnt_im_ex`, `Iso_mvnt_pickup_place`, `Iso_mvnt_drop_place`, `Iso_mvnt_loading_status`, `Iso_mvnt_from`, `Iso_mvnt_to`, `Iso_mvnt_load_drop`, `Iso_mvnt_transport_name`, `Iso_mvnt_tp_amount`, `Iso_mvnt_party_name`, `Iso_mvnt_party_amt`, `Iso_mvnt_amount`, `Iso_mvnt_paid_status`, `Iso_mvnt_paid_date`, `Iso_mvnt_created_dt_time`, `Iso_mvnt_status`) VALUES
-(1, '2018-01-01', 'T', 88, NULL, 'F', 'DFSU-6447052', '', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 5900, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
-(2, '2018-01-01', 'T', 96, NULL, 'F', 'INLU-4100814', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 5900, 'U', '0000-00-00', '2018-01-19 18:06:00', 'A'),
-(3, '2018-01-02', 'T', 96, NULL, 'T', 'MRKU-7115807', '0612245', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
-(7, '2018-01-02', 'T', 88, NULL, 'T', 'MRKU-9587016', '3520111', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
-(8, '2018-01-03', 'T', 88, NULL, 'T', 'CAIU-2490850', '3401424', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-19 18:39:19', 'A'),
-(9, '2018-01-03', 'T', 96, NULL, 'T', 'MRKU-8529530', '3725906', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-19 18:41:10', 'A'),
-(10, '2018-01-03', 'T', 88, NULL, 'T', 'MRKU-8846771', '7600790', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
-(11, '2018-01-03', 'T', 88, NULL, 'F', 'MRKU-2943118', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-01-20 13:04:23', 'A'),
-(13, '2018-01-08', 'O', NULL, 'TN88C4051', 'T', 'TINU-1147062', '-', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 4247, 'P', '0000-00-00', '2018-01-22 12:14:48', 'A'),
-(14, '2018-01-03', 'T', 96, NULL, 'T', 'PONU-2011669', '0615996', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:39:10', 'A'),
-(15, '2018-01-11', 'O', NULL, 'TN88 D 0423', 'F', 'MRKU-2285740', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 5990, 'P', '0000-00-00', '2018-01-22 16:42:22', 'A'),
-(16, '2018-01-02', 'O', NULL, 'TN27H5688', 'T', 'MRKU-7977904', '0520230', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 8383, 'U', '0000-00-00', '2018-01-22 16:48:12', 'A'),
-(17, '2018-01-03', 'O', NULL, 'TN27H5688', 'T', 'MSKU-7767788', '7991123', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:50:11', 'A'),
-(18, '2018-01-10', 'T', 88, NULL, 'T', 'MRKU-8397080', '7632910', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:52:25', 'A'),
-(19, '2018-01-10', 'T', 88, NULL, 'T', 'MAEU-6806480', '2553166', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:53:54', 'A'),
-(20, '2018-01-10', 'T', 96, NULL, 'T', 'MRKU-6571720', '2401993', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:55:17', 'A'),
-(21, '2018-01-10', 'T', 96, NULL, 'T', 'MRKU-6654229', '2824015', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:56:32', 'A'),
-(22, '2018-01-10', 'T', 88, NULL, 'T', 'MRKU-6672222', '5679374', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:57:53', 'A'),
-(23, '2018-01-10', 'T', 88, NULL, 'T', 'MRKU-8584624', '2652873', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:59:16', 'A'),
-(24, '2018-01-10', 'T', 96, NULL, 'T', 'MRKU-9905375', '9361887', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:00:19', 'A'),
-(25, '2018-01-10', 'T', 96, NULL, 'T', 'TCKU-3315002', '0373648', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:01:07', 'A'),
-(26, '2018-01-10', 'T', 88, NULL, 'T', 'MSKU-3491290', '0117950', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:04:09', 'A'),
-(27, '2018-01-10', 'O', NULL, 'TN04 AF 9211', 'T', 'MRKU-9714189', '2271542', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 27, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:07:41', 'A'),
-(28, '2018-01-10', 'O', NULL, 'TN27H5688', 'T', 'MSKU-3358992', '2390502', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:08:41', 'A'),
-(29, '2018-01-10', 'O', NULL, 'TN04 AF 9211', 'T', 'MSKU-4197660', '7418404', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 27, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:16:35', 'A'),
-(30, '2018-01-10', 'O', NULL, 'TN04K 4713', 'T', 'MSKU-4379500', '7393013', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:20:01', 'A'),
-(31, '2018-01-10', 'T', 8, NULL, 'T', 'MRKU-8478448', '-', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 3500, 0, 0, 4193, 'U', '0000-00-00', '2018-01-22 17:24:04', 'A'),
-(32, '2018-01-12', 'T', 88, NULL, 'T', 'MSKU-5832170', '8374510', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-01-22 17:32:43', 'A'),
-(34, '2018-01-11', 'O', NULL, 'TN88C4051', 'T', 'MSKU-7671120', '5162463', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-22 17:41:20', 'A'),
-(35, '2018-01-12', 'T', 96, NULL, 'T', 'BMOU-226990', '5182865', 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-01-22 17:44:18', 'A'),
-(36, '2018-01-18', 'O', NULL, 'TN88D0423', 'F', 'TCNU-6334680', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 5990, 'P', '0000-00-00', '2018-01-22 17:46:13', 'A'),
-(37, '2018-01-19', 'O', NULL, 'TN88D0423', 'T', 'HDMU-2461343', '1306859', 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 36, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-22 17:48:12', 'A'),
-(39, '2018-01-20', 'O', NULL, 'TN04K 4713', 'T', 'PONU-2034469', '1099347', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 18, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-26 15:34:47', 'A'),
-(40, '2018-01-11', 'O', NULL, 'TN28AK4973', 'T', 'MRKU-7042630', '', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 4247, 'P', '0000-00-00', '2018-01-27 10:39:35', 'A'),
-(41, '2018-01-19', 'O', NULL, 'TN04K 4713', 'T', 'CRXU-3208681', '7859033', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 4247, 'U', '0000-00-00', '2018-01-27 10:52:50', 'A'),
-(43, '2018-01-20', 'O', NULL, 'TN04AS0211', 'T', 'PCNU-0268025', '1444510', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 11:00:55', 'A'),
-(44, '2018-01-20', 'O', NULL, 'TN04K 4713', 'T', 'TCLU-2280357', '2290165', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-01-27 11:04:15', 'A'),
-(46, '2018-01-21', 'T', 88, NULL, 'F', 'TTNU-9379378', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 12:04:50', 'A'),
-(47, '2018-01-22', 'O', NULL, 'TN88C4051', 'F', 'ZCSU-8197051', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 12:06:56', 'A'),
-(48, '2018-01-22', 'O', NULL, 'TN28AK4973', 'T', 'MVIU-2009194', '-', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 4247, 'U', '0000-00-00', '2018-01-27 13:06:54', 'A'),
-(50, '2018-01-23', 'O', NULL, 'TN28AK4973', 'F', 'MRSU-3851084', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 13:11:37', 'A'),
-(51, '2018-01-23', 'O', NULL, 'TN04K 4713', 'T', 'MRKU-9492970', '-', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 3500, 0, 0, 4193, 'U', '0000-00-00', '2018-01-27 13:15:18', 'A'),
-(52, '2018-01-25', 'O', NULL, 'TN04AE6890', 'T', 'TCLU-2281862', '-', 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 7, 4100, 0, 0, 4247, 'U', '0000-00-00', '2018-01-27 13:18:12', 'A'),
-(53, '2018-01-20', 'O', NULL, 'TN04AS0150', 'T', 'MRKU-9327929', '9134675', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 13:24:01', 'A'),
-(54, '2018-01-23', 'O', NULL, 'TN88C4051', 'F', 'MRKU-6147100', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 13:26:51', 'A'),
-(55, '2018-01-20', 'O', NULL, 'TN04AT3528', 'T', 'MRKU-8486309', '8959910', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 13:31:57', 'A'),
-(56, '2018-01-20', 'O', NULL, 'TN04AT3485', 'T', 'MRKU-9198293', '7810821', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 13:34:12', 'A'),
-(57, '2018-01-22', 'O', NULL, 'TN04K4713', 'T', 'MRKU-9010019', '3941042', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 18, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-02-22 12:32:18', 'A'),
-(58, '2018-01-22', 'O', NULL, 'TN04K4713', 'T', 'MSKU-4467339', '5871155', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', '', 18, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-02-22 12:34:00', 'A'),
-(59, '2018-01-28', 'O', NULL, 'TN04K4713', 'F', 'CBHU-8638740', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 12:38:52', 'A'),
-(60, '2018-01-28', 'T', 88, NULL, 'F', 'CSLU-6330213', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 0, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 12:40:16', 'A'),
-(61, '2018-01-28', 'O', NULL, 'TN04K4713', 'F', 'TTNU-0719604', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 13000, 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 13:10:15', 'A'),
-(62, '2018-02-28', 'T', 88, NULL, 'F', 'CCLU-7631566', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', '', 0, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:14:38', 'A'),
-(63, '2018-01-28', 'O', NULL, 'TN28AL3889', 'F', 'FSCU-8529999', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:19:53', 'A'),
-(64, '2018-01-28', 'O', NULL, 'TN20AK4973', 'F', 'TEXU-6000727', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 36, 13000, 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 13:22:51', 'A'),
-(65, '2018-01-28', 'O', NULL, 'TN20AK4973', 'F', 'CCLU-7043222', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 36, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:29:24', 'A'),
-(66, '2018-01-28', 'O', NULL, 'TN04L5715', 'F', 'FCIU-9120408', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:49:06', 'A'),
-(67, '2018-01-28', 'O', NULL, 'TN27H5688', 'F', 'TTNU-0750359', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 13000, 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 13:50:29', 'A'),
-(68, '2018-01-28', 'O', NULL, 'TN28AC8859', 'F', 'CBHU-8619396', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:52:05', 'A'),
-(69, '2018-01-28', 'O', NULL, 'TN28AB0099', 'F', 'CCLU-7658931', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:54:54', 'A'),
-(70, '2018-01-28', 'O', NULL, 'TN27H5688', 'F', 'CBHU-9164774', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 4500, 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 14:03:44', 'A'),
-(71, '2018-01-28', 'T', 88, NULL, 'F', 'SEGU-7611356', NULL, 'L', 'E', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 0, 15000, 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 14:05:04', 'A'),
-(72, '2018-01-28', 'O', NULL, 'TN03J5743', 'F', 'FCIU-7089514', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 14:31:21', 'A'),
-(73, '2018-01-28', 'O', NULL, 'TN88D0423', 'F', 'TTNU-0719184', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 36, 13000, 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 14:51:56', 'A'),
-(74, '2018-02-01', 'T', 96, NULL, 'T', 'PONU-0358319', '3256565', 'L', 'I', 'CCTL', 'COCNOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 11:30:18', 'A'),
-(75, '2018-02-01', 'O', NULL, 'TN88 D0423', 'T', 'MRKU-6534500', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 11:41:36', 'A'),
-(76, '2018-02-03', 'T', 88, NULL, 'T', 'CAIU-2386466', '2817836', 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 11:44:30', 'A'),
-(77, '2018-02-03', 'T', 96, NULL, 'T', 'BSIU-2411878', '2283697', 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 11:52:31', 'A'),
-(78, '2018-03-03', 'O', NULL, 'TN28AR3814', 'T', 'HDMU-2569873', '', 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 37, 3100, 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 11:58:23', 'A'),
-(79, '2018-02-06', 'O', NULL, 'TN30AK5103', 'T', 'MSKU-3618148', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 7, 4050, 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 12:00:29', 'A'),
-(80, '2018-02-07', 'T', 88, NULL, 'F', 'HDMU-6894212', NULL, 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 5000, 0, 0, 5990, 'U', '0000-00-00', '2018-03-08 12:05:39', 'A'),
-(81, '2018-02-13', 'T', 96, NULL, 'T', 'MSKU-3245580', '7329098', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:08:12', 'A'),
-(82, '2018-02-13', 'T', 88, NULL, 'T', 'MRKU-8074739', '3157215', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:09:36', 'A'),
-(83, '2018-02-13', 'O', NULL, 'TN06 D 1501', 'T', 'PONU-0259888', '0489704', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:11:58', 'A'),
-(84, '2018-02-13', 'O', NULL, 'TN06 D1492', 'T', 'PONU-0155271', '0157309', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:13:53', 'A'),
-(85, '2018-02-13', 'O', NULL, 'TN28AC9291', 'T', 'PONU-2013466', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 3100, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:15:27', 'A'),
-(86, '2018-02-14', 'T', 88, NULL, 'F', 'WHCU-5451420', NULL, 'L', 'E', 'CIPTL', 'CONCOR', 'OL', '', '', '', 0, 5000, 0, 0, 5990, 'U', '0000-00-00', '2018-03-08 12:16:38', 'A'),
-(87, '2018-02-14', 'O', NULL, 'TN06 D1537', 'F', 'SEGU-5696879', NULL, 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 37, 3800, 0, 0, 5990, 'U', '0000-00-00', '2018-03-08 12:18:16', 'A'),
-(88, '2018-02-14', 'T', 96, NULL, 'T', 'MEDU-2764680', '3465093', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:19:30', 'A'),
-(89, '2018-02-20', 'T', 88, NULL, 'T', 'CRXU-1881564', '3326520', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-03-08 12:21:00', 'A'),
-(90, '2018-02-20', 'T', 96, NULL, 'T', 'TDRU-2646990', '5238800', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-03-08 12:22:27', 'A'),
-(91, '2018-02-20', 'T', 96, NULL, 'T', 'CBHU-3918075', '3202134', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-03-08 12:25:11', 'A'),
-(92, '2018-02-20', 'T', 10, NULL, 'T', 'HJCJ-8350190', '', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 3700, 0, 0, 4193, 'U', '0000-00-00', '2018-03-08 12:26:19', 'A'),
-(93, '2018-02-20', 'T', 88, NULL, 'T', 'CBHU-3801140', '2410826', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8386, 'U', '0000-00-00', '2018-03-08 12:29:10', 'A'),
-(94, '2018-02-23', 'O', NULL, 'TN18 E4001', 'T', 'MRKU-8447771', '7085153', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 7, 6400, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:31:17', 'A'),
-(95, '2018-02-23', 'T', 96, NULL, 'T', 'MSKU-7719917', '0292309', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:33:14', 'A'),
-(96, '2018-02-23', 'T', 88, NULL, 'T', 'TEMU-2800353', '1962536', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:34:35', 'A'),
-(97, '2018-02-24', 'O', NULL, 'TN06 D1492', 'T', 'MRKU-8828079', '9916683', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:36:16', 'A'),
-(98, '2018-02-24', 'T', 2, NULL, 'T', 'MSKU-4089270', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 3700, 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 12:37:42', 'A'),
-(99, '2018-02-25', 'T', 88, NULL, 'T', 'GESU-1376189', '', 'L', 'E', 'CIPTL', 'CONCOR', 'OL', '', '', '', 0, 3700, 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 12:39:03', 'A'),
-(100, '2018-02-28', 'O', NULL, 'TN06 D1501', 'T', 'MSKU-4430828', '7916840', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:40:09', 'A'),
-(101, '2018-02-01', 'O', NULL, 'TN28 AC 8859', 'T', 'MSKU-2995511', '4296555', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', '', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 15:52:11', 'A'),
-(102, '2018-02-01', 'O', NULL, 'TN27H5688', 'T', 'MRKU-9048143', '3724094', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', '', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:02:54', 'A'),
-(103, '2018-02-01', 'O', NULL, 'TN04K4713', 'T', 'MSKU-3236262', '4032296', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', '', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:04:46', 'A'),
-(104, '2018-02-04', 'O', NULL, 'TN27H5688', 'F', 'FSCU-9128455', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', '', 'CONCOR', 38, 4450, 0, 0, 5990, 'P', '0000-00-00', '2018-03-08 16:05:56', 'A'),
-(105, '2018-02-04', 'O', NULL, 'TN28 AC 8859', 'F', 'WSCU-8444498', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', '', 'CONCOR', 38, 4450, 0, 0, 5990, 'P', '0000-00-00', '2018-03-08 16:07:31', 'A'),
-(106, '2018-02-13', 'O', NULL, 'TN27H5688', 'T', 'MSKU-7969053', '7651632', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:09:24', 'A'),
-(107, '2018-02-13', 'O', NULL, 'TN04K4713', 'T', 'MRKU-6948711', '7032826', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:10:55', 'A'),
-(108, '2018-02-14', 'O', NULL, 'TN04K4713', 'T', 'MEDU-6213290', '2963516', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:13:06', 'A'),
-(109, '2018-02-20', 'O', NULL, 'TN04K4713', 'T', 'CAXU-6833902', '7659540', 'L', 'I', 'KICT', 'CONCOR', 'OL', 'KICT', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8386, 'P', '0000-00-00', '2018-03-08 16:16:09', 'A'),
-(110, '2018-02-20', 'O', NULL, 'TN27H5688', 'T', 'FSCU-3721696', '1683492', 'L', 'I', 'KICT', 'CONCOR', 'OL', 'KICT', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8386, 'P', '0000-00-00', '2018-03-08 16:17:37', 'A'),
-(111, '2018-02-24', 'O', NULL, 'TN04K4713', 'T', 'MSKU-2287940', '2357034', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:19:35', 'A'),
-(112, '2018-02-25', 'O', NULL, 'TN04K4713', 'T', 'TEMU-2654789', '3700182', 'L', 'I', 'KICT', 'CONCOR', 'OL', 'KICT', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8386, 'P', '0000-00-00', '2018-03-08 16:21:04', 'A'),
-(113, '2018-02-28', 'O', NULL, 'TN27H', 'T', 'CAXU-6705753', '8229980', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 8484, 'P', '0000-00-00', '2018-03-08 16:27:00', 'A'),
-(114, '2018-02-14', 'O', NULL, 'TN27H5688', 'T', 'MSIU-3316811', '6708094', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:34:24', 'A'),
-(115, '2018-02-20', 'O', NULL, 'TN27H5688', 'T', 'GLDU-5176945', '3838295', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 38, 6400, 0, 0, 8386, 'P', '0000-00-00', '2018-03-08 16:35:49', 'A'),
-(116, '2018-02-23', 'O', NULL, 'TN04K4713', 'T', 'MRKU-7016487', '3565946', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 38, 6400, 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:37:07', 'A'),
-(117, '2018-03-02', 'O', NULL, 'TN04AJ9642', 'T', 'MRKU-7609796', '7704514', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 39, 6200, 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 17:18:36', 'A');
+INSERT INTO `iso_movement_details` (`Iso_mvnt_id`, `Iso_mvnt_date`, `Iso_mvnt_vehicle_type`, `Iso_mvnt_vehicle_no`, `Iso_mvnt_other_vehicle_no`, `Iso_mvnt_container_type`, `Iso_mvnt_container_no`, `Iso_mvnt_container_no2`, `Iso_mvnt_ey_lo`, `Iso_mvnt_im_ex`, `Iso_mvnt_pickup_place`, `Iso_mvnt_drop_place`, `Iso_mvnt_loading_status`, `Iso_mvnt_from`, `Iso_mvnt_to`, `Iso_mvnt_load_drop`, `Iso_mvnt_transport_name`, `Iso_mvnt_tp_amount`, `Iso_mvnt_driver_name`, `Iso_mvnt_driver_amount`, `Iso_mvnt_driver_adv`, `Iso_mvnt_driver_trip_amount`, `Iso_mvnt_driver_po_ex`, `Iso_mvnt_driver_pc_ex`, `Iso_mvnt_driver_mamul`, `Iso_mvnt_driver_other_ex`, `Iso_mvnt_driver_remark`, `Iso_mvnt_driver_pay_status`, `Iso_mvnt_driver_pay_date`, `Iso_mvnt_party_name`, `Iso_mvnt_party_amt`, `Iso_mvnt_amount`, `Iso_mvnt_paid_status`, `Iso_mvnt_paid_date`, `Iso_mvnt_created_dt_time`, `Iso_mvnt_status`) VALUES
+(1, '2018-01-01', 'T', 88, NULL, 'F', 'DFSU-6447052', '', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5900, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
+(2, '2018-01-01', 'T', 96, NULL, 'F', 'INLU-4100814', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5900, 'U', '0000-00-00', '2018-01-19 18:06:00', 'A'),
+(3, '2018-01-02', 'T', 96, NULL, 'T', 'MRKU-7115807', '0612245', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
+(7, '2018-01-02', 'T', 88, NULL, 'T', 'MRKU-9587016', '3520111', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
+(8, '2018-01-03', 'T', 88, NULL, 'T', 'CAIU-2490850', '3401424', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-19 18:39:19', 'A'),
+(9, '2018-01-03', 'T', 96, NULL, 'T', 'MRKU-8529530', '3725906', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-19 18:41:10', 'A'),
+(10, '2018-01-03', 'T', 88, NULL, 'T', 'MRKU-8846771', '7600790', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '0000-00-00 00:00:00', 'A'),
+(11, '2018-01-03', 'T', 88, NULL, 'F', 'MRKU-2943118', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-01-20 13:04:23', 'A'),
+(13, '2018-01-08', 'O', NULL, 'TN88C4051', 'T', 'TINU-1147062', '-', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'P', '0000-00-00', '2018-01-22 12:14:48', 'A'),
+(14, '2018-01-03', 'T', 96, NULL, 'T', 'PONU-2011669', '0615996', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:39:10', 'A'),
+(15, '2018-01-11', 'O', NULL, 'TN88 D 0423', 'F', 'MRKU-2285740', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'P', '0000-00-00', '2018-01-22 16:42:22', 'A'),
+(16, '2018-01-02', 'O', NULL, 'TN27H5688', 'T', 'MRKU-7977904', '0520230', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8383, 'U', '0000-00-00', '2018-01-22 16:48:12', 'A'),
+(17, '2018-01-03', 'O', NULL, 'TN27H5688', 'T', 'MSKU-7767788', '7991123', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:50:11', 'A'),
+(18, '2018-01-10', 'T', 88, NULL, 'T', 'MRKU-8397080', '7632910', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:52:25', 'A'),
+(19, '2018-01-10', 'T', 88, NULL, 'T', 'MAEU-6806480', '2553166', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:53:54', 'A'),
+(20, '2018-01-10', 'T', 96, NULL, 'T', 'MRKU-6571720', '2401993', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:55:17', 'A'),
+(21, '2018-01-10', 'T', 96, NULL, 'T', 'MRKU-6654229', '2824015', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:56:32', 'A'),
+(22, '2018-01-10', 'T', 88, NULL, 'T', 'MRKU-6672222', '5679374', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:57:53', 'A'),
+(23, '2018-01-10', 'T', 88, NULL, 'T', 'MRKU-8584624', '2652873', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 16:59:16', 'A'),
+(24, '2018-01-10', 'T', 96, NULL, 'T', 'MRKU-9905375', '9361887', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:00:19', 'A'),
+(25, '2018-01-10', 'T', 96, NULL, 'T', 'TCKU-3315002', '0373648', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:01:07', 'A'),
+(26, '2018-01-10', 'T', 88, NULL, 'T', 'MSKU-3491290', '0117950', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:04:09', 'A'),
+(27, '2018-01-10', 'O', NULL, 'TN04 AF 9211', 'T', 'MRKU-9714189', '2271542', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 27, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:07:41', 'A'),
+(28, '2018-01-10', 'O', NULL, 'TN27H5688', 'T', 'MSKU-3358992', '2390502', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:08:41', 'A'),
+(29, '2018-01-10', 'O', NULL, 'TN04 AF 9211', 'T', 'MSKU-4197660', '7418404', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 27, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:16:35', 'A'),
+(30, '2018-01-10', 'O', NULL, 'TN04K 4713', 'T', 'MSKU-4379500', '7393013', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-01-22 17:20:01', 'A'),
+(31, '2018-01-10', 'T', 8, NULL, 'T', 'MRKU-8478448', '-', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 3500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4193, 'U', '0000-00-00', '2018-01-22 17:24:04', 'A'),
+(32, '2018-01-12', 'T', 88, NULL, 'T', 'MSKU-5832170', '8374510', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-01-22 17:32:43', 'A'),
+(34, '2018-01-11', 'O', NULL, 'TN88C4051', 'T', 'MSKU-7671120', '5162463', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-22 17:41:20', 'A'),
+(35, '2018-01-12', 'T', 96, NULL, 'T', 'BMOU-226990', '5182865', 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-01-22 17:44:18', 'A'),
+(36, '2018-01-18', 'O', NULL, 'TN88D0423', 'F', 'TCNU-6334680', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'P', '0000-00-00', '2018-01-22 17:46:13', 'A'),
+(37, '2018-01-19', 'O', NULL, 'TN88D0423', 'T', 'HDMU-2461343', '1306859', 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 36, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-22 17:48:12', 'A'),
+(39, '2018-01-20', 'O', NULL, 'TN04K 4713', 'T', 'PONU-2034469', '1099347', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 18, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-26 15:34:47', 'A'),
+(40, '2018-01-11', 'O', NULL, 'TN28AK4973', 'T', 'MRKU-7042630', '', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'P', '0000-00-00', '2018-01-27 10:39:35', 'A'),
+(41, '2018-01-19', 'O', NULL, 'TN04K 4713', 'T', 'CRXU-3208681', '7859033', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'U', '0000-00-00', '2018-01-27 10:52:50', 'A'),
+(43, '2018-01-20', 'O', NULL, 'TN04AS0211', 'T', 'PCNU-0268025', '1444510', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 11:00:55', 'A'),
+(44, '2018-01-20', 'O', NULL, 'TN04K 4713', 'T', 'TCLU-2280357', '2290165', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-01-27 11:04:15', 'A'),
+(46, '2018-01-21', 'T', 88, NULL, 'F', 'TTNU-9379378', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 12:04:50', 'A'),
+(47, '2018-01-22', 'O', NULL, 'TN88C4051', 'F', 'ZCSU-8197051', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 12:06:56', 'A'),
+(48, '2018-01-22', 'O', NULL, 'TN28AK4973', 'T', 'MVIU-2009194', '-', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'U', '0000-00-00', '2018-01-27 13:06:54', 'A'),
+(50, '2018-01-23', 'O', NULL, 'TN28AK4973', 'F', 'MRSU-3851084', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 13:11:37', 'A'),
+(51, '2018-01-23', 'O', NULL, 'TN04K 4713', 'T', 'MRKU-9492970', '-', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 18, 3500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4193, 'U', '0000-00-00', '2018-01-27 13:15:18', 'A'),
+(52, '2018-01-25', 'O', NULL, 'TN04AE6890', 'T', 'TCLU-2281862', '-', 'L', 'I', 'CITPL', 'CONCOR', 'OL', '', '', '', 7, 4100, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'U', '0000-00-00', '2018-01-27 13:18:12', 'A'),
+(53, '2018-01-20', 'O', NULL, 'TN04AS0150', 'T', 'MRKU-9327929', '9134675', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 13:24:01', 'A'),
+(54, '2018-01-23', 'O', NULL, 'TN88C4051', 'F', 'MRKU-6147100', NULL, 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 4300, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-01-27 13:26:51', 'A'),
+(55, '2018-01-20', 'O', NULL, 'TN04AT3528', 'T', 'MRKU-8486309', '8959910', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 13:31:57', 'A'),
+(56, '2018-01-20', 'O', NULL, 'TN04AT3485', 'T', 'MRKU-9198293', '7810821', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-01-27 13:34:12', 'A'),
+(57, '2018-01-22', 'O', NULL, 'TN04K4713', 'T', 'MRKU-9010019', '3941042', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-02-22 12:32:18', 'A'),
+(58, '2018-01-22', 'O', NULL, 'TN04K4713', 'T', 'MSKU-4467339', '5871155', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', '', 18, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-02-22 12:34:00', 'A'),
+(59, '2018-01-28', 'O', NULL, 'TN04K4713', 'F', 'CBHU-8638740', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 12:38:52', 'A'),
+(60, '2018-01-28', 'T', 88, NULL, 'F', 'CSLU-6330213', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 0, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 12:40:16', 'A'),
+(61, '2018-01-28', 'O', NULL, 'TN04K4713', 'F', 'TTNU-0719604', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 13000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 13:10:15', 'A'),
+(63, '2018-01-28', 'O', NULL, 'TN28AL3889', 'F', 'FSCU-8529999', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:19:53', 'A'),
+(64, '2018-01-28', 'O', NULL, 'TN20AK4973', 'F', 'TEXU-6000727', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 36, 13000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 13:22:51', 'A'),
+(65, '2018-01-28', 'O', NULL, 'TN20AK4973', 'F', 'CCLU-7043222', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 36, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:29:24', 'A'),
+(66, '2018-01-28', 'O', NULL, 'TN04L5715', 'F', 'FCIU-9120408', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:49:06', 'A'),
+(67, '2018-01-28', 'O', NULL, 'TN27H5688', 'F', 'TTNU-0750359', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 13000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 13:50:29', 'A'),
+(68, '2018-01-28', 'O', NULL, 'TN28AC8859', 'F', 'CBHU-8619396', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:52:05', 'A'),
+(69, '2018-01-28', 'O', NULL, 'TN28AB0099', 'F', 'CCLU-7658931', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 13:54:54', 'A'),
+(70, '2018-01-28', 'O', NULL, 'TN27H5688', 'F', 'CBHU-9164774', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 18, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-02-22 14:03:44', 'A'),
+(71, '2018-01-28', 'T', 88, NULL, 'F', 'SEGU-7611356', NULL, 'L', 'E', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 0, 15000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 14:05:04', 'A'),
+(72, '2018-01-28', 'O', NULL, 'TN03J5743', 'F', 'FCIU-7089514', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 7, 4500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 14:31:21', 'A'),
+(73, '2018-01-28', 'O', NULL, 'TN88D0423', 'F', 'TTNU-0719184', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', 'CONCOR', 'CONCOR', 36, 13000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 20692, 'U', '0000-00-00', '2018-02-22 14:51:56', 'A'),
+(74, '2018-02-01', 'T', 96, NULL, 'T', 'PONU-0358319', '3256565', 'L', 'I', 'CCTL', 'COCNOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 11:30:18', 'A'),
+(75, '2018-02-01', 'O', NULL, 'TN88 D0423', 'T', 'MRKU-6534500', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 36, 3800, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 11:41:36', 'A'),
+(76, '2018-02-03', 'T', 88, NULL, 'T', 'CAIU-2386466', '2817836', 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 11:44:30', 'A'),
+(77, '2018-02-03', 'T', 96, NULL, 'T', 'BSIU-2411878', '2283697', 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 11:52:31', 'A'),
+(79, '2018-02-06', 'O', NULL, 'TN30AK5103', 'T', 'MSKU-3618148', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 7, 4050, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4247, 'U', '0000-00-00', '2018-03-08 12:00:29', 'A'),
+(80, '2018-02-07', 'T', 88, NULL, 'F', 'HDMU-6894212', NULL, 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 0, 5000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-03-08 12:05:39', 'A'),
+(81, '2018-02-13', 'T', 96, NULL, 'T', 'MSKU-3245580', '7329098', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:08:12', 'A'),
+(82, '2018-02-13', 'T', 88, NULL, 'T', 'MRKU-8074739', '3157215', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:09:36', 'A'),
+(83, '2018-02-13', 'O', NULL, 'TN06 D 1501', 'T', 'PONU-0259888', '0489704', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:11:58', 'A'),
+(84, '2018-02-13', 'O', NULL, 'TN06 D1492', 'T', 'PONU-0155271', '0157309', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:13:53', 'A'),
+(85, '2018-02-13', 'O', NULL, 'TN28AC9291', 'T', 'PONU-2013466', '', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 3100, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:15:27', 'A'),
+(86, '2018-02-14', 'T', 88, NULL, 'F', 'WHCU-5451420', NULL, 'L', 'E', 'CIPTL', 'CONCOR', 'OL', '', '', '', 0, 5000, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-03-08 12:16:38', 'A'),
+(87, '2018-02-14', 'O', NULL, 'TN06 D1537', 'F', 'SEGU-5696879', NULL, 'L', 'E', 'CITPL', 'CONCOR', 'OL', '', '', '', 37, 3800, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'U', '0000-00-00', '2018-03-08 12:18:16', 'A'),
+(88, '2018-02-14', 'T', 96, NULL, 'T', 'MEDU-2764680', '3465093', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:19:30', 'A'),
+(92, '2018-02-20', 'T', 10, NULL, 'T', 'HJCJ-8350190', '', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 3700, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 4193, 'U', '0000-00-00', '2018-03-08 12:26:19', 'A'),
+(93, '2018-02-20', 'T', 88, NULL, 'T', 'CBHU-3801140', '2410826', 'L', 'E', 'KICT', 'CONCOR', 'OL', '', '', '', 0, 6500, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'U', '0000-00-00', '2018-03-08 12:29:10', 'A'),
+(94, '2018-02-23', 'O', NULL, 'TN18 E4001', 'T', 'MRKU-8447771', '7085153', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 7, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:31:17', 'A'),
+(97, '2018-02-24', 'O', NULL, 'TN06 D1492', 'T', 'MRKU-8828079', '9916683', 'L', 'E', 'CCTL', 'CONCOR', 'OL', '', '', '', 37, 6200, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'U', '0000-00-00', '2018-03-08 12:36:16', 'A'),
+(101, '2018-02-01', 'O', NULL, 'TN28 AC 8859', 'T', 'MSKU-2995511', '4296555', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', '', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 15:52:11', 'A'),
+(102, '2018-02-01', 'O', NULL, 'TN27H5688', 'T', 'MRKU-9048143', '3724094', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', '', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:02:54', 'A'),
+(103, '2018-02-01', 'O', NULL, 'TN04K4713', 'T', 'MSKU-3236262', '4032296', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', '', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:04:46', 'A'),
+(104, '2018-02-04', 'O', NULL, 'TN27H5688', 'F', 'FSCU-9128455', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', '', 'CONCOR', 38, 4450, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'P', '0000-00-00', '2018-03-08 16:05:56', 'A'),
+(105, '2018-02-04', 'O', NULL, 'TN28 AC 8859', 'F', 'WSCU-8444498', NULL, 'L', 'I', 'CITPL', 'CONCOR', 'OL', 'CITPL', '', 'CONCOR', 38, 4450, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 5990, 'P', '0000-00-00', '2018-03-08 16:07:31', 'A'),
+(106, '2018-02-13', 'O', NULL, 'TN27H5688', 'T', 'MSKU-7969053', '7651632', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:09:24', 'A'),
+(107, '2018-02-13', 'O', NULL, 'TN04K4713', 'T', 'MRKU-6948711', '7032826', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:10:55', 'A'),
+(108, '2018-02-14', 'O', NULL, 'TN04K4713', 'T', 'MEDU-6213290', '2963516', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:13:06', 'A'),
+(109, '2018-02-20', 'O', NULL, 'TN04K4713', 'T', 'CAXU-6833902', '7659540', 'L', 'I', 'KICT', 'CONCOR', 'OL', 'KICT', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'P', '0000-00-00', '2018-03-08 16:16:09', 'A'),
+(110, '2018-02-20', 'O', NULL, 'TN27H5688', 'T', 'FSCU-3721696', '1683492', 'L', 'I', 'KICT', 'CONCOR', 'OL', 'KICT', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8386, 'P', '0000-00-00', '2018-03-08 16:17:37', 'A'),
+(111, '2018-02-24', 'O', NULL, 'TN04K4713', 'T', 'MSKU-2287940', '2357034', 'L', 'I', 'CCTL', 'CONCOR', 'OL', 'CCTL', 'CONCOR', 'CONCOR', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '0000-00-00', '2018-03-08 16:19:35', 'A'),
+(112, '2018-02-25', 'O', NULL, 'TN04K4713', 'T', 'TEMU-2654789', '3700182', 'L', 'I', 'KICT', 'CONCOR', 'OL', '', '', '', 38, 6400, 56, 5000, 0, 0, 0, 0, 0, 0, '', 'U', '2019-09-29', 0, 0, 8386, 'P', '2019-09-25', '0000-00-00 00:00:00', 'A'),
+(113, '2018-02-28', 'O', NULL, 'TN27H', 'T', 'CAXU-6705753', '8229980', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 38, 6400, 56, 1000, 500, 500, 50, 50, 100, 100, 'tgfgfgfg', 'U', '2019-09-29', 0, 0, 8484, 'P', '2019-09-25', '0000-00-00 00:00:00', 'A'),
+(114, '2018-02-14', 'O', NULL, 'TN27H5688', 'T', 'MSIU-3316811', '6708094', 'L', 'I', 'CCTL', 'CONCOR', 'OL', '', '', '', 38, 6400, 0, 0, 0, 0, 0, 0, 0, 0, '', '', '0000-00-00', 0, 0, 8494, 'P', '2019-09-18', '0000-00-00 00:00:00', 'A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `modules_permissions`
+--
+
+CREATE TABLE IF NOT EXISTS `modules_permissions` (
+  `id` int(11) NOT NULL,
+  `module_name` varchar(250) NOT NULL,
+  `status_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `modules_permissions`
+--
+
+INSERT INTO `modules_permissions` (`id`, `module_name`, `status_id`) VALUES
+(1, 'Driver Details', 1),
+(2, 'Driver Pay Rate', 1),
+(3, 'Driver Payment', 1),
+(4, 'Party Pay Rate', 1),
+(5, 'Vehicle Details', 1),
+(6, 'Vehicle Document Details', 1),
+(7, 'Daily Movement', 1),
+(8, 'Party Details', 1),
+(9, 'Party Billing', 1),
+(10, 'Party Payment', 1),
+(11, 'ISO Movement', 1),
+(12, 'Transport Details', 1),
+(13, 'Transport Payment', 1),
+(14, 'Vehicle Due Details', 1),
+(15, 'Vehicle Maintenance', 1),
+(16, 'User', 1);
 
 -- --------------------------------------------------------
 
@@ -3769,6 +3806,26 @@ INSERT INTO `party_pay_rate` (`party_pay_rate_id`, `party_pay_rate_place`, `part
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `roles`
+--
+
+CREATE TABLE IF NOT EXISTS `roles` (
+  `id` int(11) NOT NULL,
+  `role_type` varchar(20) NOT NULL,
+  `status_id` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `roles`
+--
+
+INSERT INTO `roles` (`id`, `role_type`, `status_id`) VALUES
+(1, 'Admin', 1),
+(2, 'Employee', 1);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `transport_details`
 --
 
@@ -4048,7 +4105,7 @@ CREATE TABLE IF NOT EXISTS `vehicle_document_details` (
   `Vehicle_doc_dtl_pc_to` date NOT NULL,
   `Vehicle_doc_dtl_created_dt_time` datetime NOT NULL,
   `Vehicle_doc_dtl_status` enum('A','D') NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vehicle_document_details`
@@ -4065,7 +4122,8 @@ INSERT INTO `vehicle_document_details` (`Vehicle_doc_dtl_id`, `Vehicle_doc_dtl_v
 (8, 10, '2013-01-17', '2018-01-16', '2016-01-17', '2017-01-16', '1970-01-01', '1970-01-01', '2015-12-08', '2016-12-07', '2016-03-14', '2017-03-13', '2016-06-01', '2016-09-30', '2016-09-01', '2016-09-30', '2016-10-25 19:00:14', 'A'),
 (9, 12, '2015-05-27', '2017-07-12', '1970-01-01', '1970-01-01', '1970-01-01', '1970-01-01', '2016-06-04', '2017-06-03', '2015-11-20', '2016-11-19', '2016-09-01', '2016-09-30', '2016-09-01', '2016-09-30', '2016-10-25 19:08:42', 'A'),
 (10, 13, '2015-05-05', '2020-05-04', '1970-01-01', '1970-01-01', '1970-01-01', '1970-01-01', '2016-03-23', '2017-03-22', '2016-06-03', '2017-06-02', '2016-07-01', '2016-09-30', '2016-09-01', '2016-09-30', '2016-10-25 19:11:42', 'A'),
-(11, 14, '2013-01-28', '2018-01-27', '2016-01-28', '2017-01-27', '1970-01-01', '1970-01-01', '2015-11-30', '2016-11-29', '2016-09-01', '2016-09-30', '2016-07-01', '2016-09-30', '2016-09-01', '2016-09-30', '2018-02-14 19:25:53', 'A');
+(11, 14, '2013-01-28', '2018-01-27', '2016-01-28', '2017-01-27', '1970-01-01', '1970-01-01', '2015-11-30', '2016-11-29', '2016-09-01', '2016-09-30', '2016-07-01', '2016-09-30', '2016-09-01', '2016-09-30', '2018-02-14 19:25:53', 'A'),
+(12, 120, '2019-09-17', '2019-09-19', '1970-01-01', '1970-01-01', '1970-01-01', '1970-01-01', '2019-09-17', '2019-09-19', '2019-09-16', '2019-09-27', '2019-09-11', '2019-09-12', '2019-09-16', '2019-09-20', '2019-09-22 11:25:53', 'A');
 
 -- --------------------------------------------------------
 
@@ -4094,24 +4152,22 @@ CREATE TABLE IF NOT EXISTS `vehicle_due_details` (
 
 CREATE TABLE IF NOT EXISTS `vehicle_maintenance` (
   `id` int(11) NOT NULL,
-  `vehicle_id` int(100) NOT NULL,
+  `vehicle_id` int(11) NOT NULL,
   `spare_part` varchar(250) NOT NULL,
-  `amount` bigint(200) NOT NULL,
+  `amount` int(11) NOT NULL,
   `date` date NOT NULL,
   `notes` text NOT NULL,
-  `status_id` int(20) NOT NULL,
-  `created_at` datetime(6) NOT NULL,
-  `updated_at` datetime(6) NOT NULL
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  `status_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `vehicle_maintenance`
 --
 
 INSERT INTO `vehicle_maintenance` (`id`, `vehicle_id`, `spare_part`, `amount`, `date`, `notes`, `status_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 'desal', 100, '2019-09-04', 'dgfg', 1, '2019-09-23 17:56:17.000000', '2019-09-23 17:56:17.000000'),
-(2, 2, 'tire ', 1500, '2019-09-12', 'noo', 1, '2019-09-23 18:06:16.000000', '2019-09-23 18:06:16.000000'),
-(3, 5, 'mirror ', 500, '2019-09-26', 'ok', 1, '2019-09-23 18:07:02.000000', '2019-09-23 18:07:02.000000');
+(13, 1, 'gdfgdfg', 454, '2019-09-18', 'fsdfsf', 2, '2019-09-28 16:35:10', '2019-09-28 16:35:10');
 
 --
 -- Indexes for dumped tables
@@ -4172,6 +4228,12 @@ ALTER TABLE `iso_movement_details`
   ADD PRIMARY KEY (`Iso_mvnt_id`);
 
 --
+-- Indexes for table `modules_permissions`
+--
+ALTER TABLE `modules_permissions`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `party_billing`
 --
 ALTER TABLE `party_billing`
@@ -4194,6 +4256,12 @@ ALTER TABLE `party_payment`
 --
 ALTER TABLE `party_pay_rate`
   ADD PRIMARY KEY (`party_pay_rate_id`);
+
+--
+-- Indexes for table `roles`
+--
+ALTER TABLE `roles`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `transport_details`
@@ -4249,7 +4317,7 @@ ALTER TABLE `admin_user_rights_details`
 -- AUTO_INCREMENT for table `common_status`
 --
 ALTER TABLE `common_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `container_details`
 --
@@ -4269,7 +4337,7 @@ ALTER TABLE `driver_details`
 -- AUTO_INCREMENT for table `driver_payment_details`
 --
 ALTER TABLE `driver_payment_details`
-  MODIFY `Driver_pymnt_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=71;
+  MODIFY `Driver_pymnt_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=72;
 --
 -- AUTO_INCREMENT for table `driver_pay_rate`
 --
@@ -4280,6 +4348,11 @@ ALTER TABLE `driver_pay_rate`
 --
 ALTER TABLE `iso_movement_details`
   MODIFY `Iso_mvnt_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=118;
+--
+-- AUTO_INCREMENT for table `modules_permissions`
+--
+ALTER TABLE `modules_permissions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `party_billing`
 --
@@ -4301,6 +4374,11 @@ ALTER TABLE `party_payment`
 ALTER TABLE `party_pay_rate`
   MODIFY `party_pay_rate_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=287;
 --
+-- AUTO_INCREMENT for table `roles`
+--
+ALTER TABLE `roles`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
+--
 -- AUTO_INCREMENT for table `transport_details`
 --
 ALTER TABLE `transport_details`
@@ -4319,7 +4397,7 @@ ALTER TABLE `vehicle_details`
 -- AUTO_INCREMENT for table `vehicle_document_details`
 --
 ALTER TABLE `vehicle_document_details`
-  MODIFY `Vehicle_doc_dtl_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=12;
+  MODIFY `Vehicle_doc_dtl_id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `vehicle_due_details`
 --
@@ -4329,7 +4407,7 @@ ALTER TABLE `vehicle_due_details`
 -- AUTO_INCREMENT for table `vehicle_maintenance`
 --
 ALTER TABLE `vehicle_maintenance`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=14;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -35,13 +35,15 @@
          <!-- Date Picker --> 
         <script src="<?php echo base_url(); ?>assets/plugins/datepicker/js/bootstrap-datepicker.js" type="text/javascript"></script>
         <script src="<?php echo base_url(); ?>assets/plugins/datepicker/js/bootstrap-datepicker.min.js" type="text/javascript"></script> 
-		<script src="<?php echo base_url(); ?>/assets/js/moment.min.js" type="text/javascript"></script>
+		<script src="<?php echo base_url(); ?>/assets/plugins/daterangepicker/js/moment.min.js" type="text/javascript"></script> 
+		<script src="<?php echo base_url(); ?>/assets/plugins/daterangepicker/js/daterangepicker.js" type="text/javascript"></script>
         <!-- END Date Picker - END -->
          
         <!-- END Multi select box - END -->
         <!-- Sidebar Graph - START --> 
         <script src="<?php echo base_url(); ?>/assets/plugins/sparkline-chart/jquery.sparkline.min.js" type="text/javascript"></script>
         <script src="<?php echo base_url(); ?>/assets/js/chart-sparkline.js" type="text/javascript"></script>
+		
         <!-- Sidebar Graph - END --> 
         <!-- Sidebar Graph - END --> 
 		

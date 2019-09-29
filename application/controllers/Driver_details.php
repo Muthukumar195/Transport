@@ -290,26 +290,13 @@ class Driver_details extends CI_Controller {
     public function view_driver_details()
     {
     		
-    	if(! $this->session->userdata('username')){
-			/*$this->index();*/
-			$this->check_isvalidated();
-		}
-		else
-		{
-						
-			$this->load->model('driver_details_model');
-			$this->load->model('edit_admin_profile_model'); 
-			$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile(); 
+    	if((access_permission($this->module_id) || is_admin()) && gaurd()){
+			$data = initial_data();	  
 			$data['view_driver_details'] = $this->driver_details_model->get_driver_details($this->input->get('id')); 
-			// view upcoming due counts
-			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();
-			//view upcoming vehicle document count
-			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
-			// view driver pay amount details
 			$data['view_driver_pay_amount'] = $this->driver_details_model->view_driver_pay_amount($this->input->get('id')); 
-			//view upcoming vehicle document count
-			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();
 			$this->load->view('view_driver_details', $data);	
+		}else{
+			$this->check_user_rights();
 		}
     } 
     // end view driver details
