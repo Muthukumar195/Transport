@@ -112,7 +112,7 @@ $(document).ready(function() {
             style:    'os',
             selector: 'td:first-child'
         },
-        order: [[ 1, 'asc' ]]
+        order: [[ 5, 'asc' ]]
     } );
 } );
 </script>

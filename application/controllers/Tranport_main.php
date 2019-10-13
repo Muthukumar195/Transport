@@ -41,7 +41,9 @@ class Tranport_main extends CI_Controller {
 	   if($this->form_validation->run() == FALSE)
 	   { 
 		 //Field validation failed.  User redirected to login page
+		 $this->load->view('include/login_header');
 		 $this->load->view('login');
+		 
 	   }
 	   else
 	   {		

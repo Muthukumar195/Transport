@@ -125,4 +125,13 @@ function total_vehicle_maintance(){
 	  return $total;
 	  
 }
+
+function user_rights_list(){
+	$CI = get_instance();
+	$CI->db->select('*');
+	$CI->db->where("status_id", 1);
+	$query = $CI->db->get("access_permission");
+	return $query->result_array();
+	  
+}
  

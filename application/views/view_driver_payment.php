@@ -248,12 +248,12 @@
                                                         			foreach ($view_iso_movement_payments->result() as $row)
                                                                     { 
 																	$driver_amt = intval($driver_amt)+intval($row->Iso_mvnt_driver_amount);
-																	$driver_trip_amt = intval($driver_amt)+intval($row->Iso_mvnt_driver_trip_amount);
-																	$driver_mamul = intval($driver_amt)+intval($row->Iso_mvnt_driver_mamul);
-																	$driver_oth_ex = intval($driver_amt)+intval($row->Iso_mvnt_driver_other_ex);
-																	$driver_po_ex = intval($driver_amt)+intval($row->Iso_mvnt_driver_po_ex);
-																	$driver_pc_ex = intval($driver_amt)+intval($row->Iso_mvnt_driver_pc_ex);
-																	$driver_adv = intval($driver_amt)+intval($row->Iso_mvnt_driver_adv);																
+																	$driver_trip_amt = intval($driver_trip_amt)+intval($row->Iso_mvnt_driver_trip_amount);
+																	$driver_mamul = intval($driver_mamul)+intval($row->Iso_mvnt_driver_mamul);
+																	$driver_oth_ex = intval($driver_oth_ex)+intval($row->Iso_mvnt_driver_other_ex);
+																	$driver_po_ex = intval($driver_po_ex)+intval($row->Iso_mvnt_driver_po_ex);
+																	$driver_pc_ex = intval($driver_pc_ex)+intval($row->Iso_mvnt_driver_pc_ex);
+																	$driver_adv = intval($driver_adv)+intval($row->Iso_mvnt_driver_adv);																
 																	$driver_bal = intval($row->Iso_mvnt_driver_amount) + intval($row->Iso_mvnt_driver_trip_amount)+ intval($row->Iso_mvnt_driver_mamul)+ intval($row->Iso_mvnt_driver_other_ex)+ intval($row->Iso_mvnt_driver_po_ex)+ intval($row->Iso_mvnt_driver_pc_ex) - intval($row->Iso_mvnt_driver_adv);
 																	$total_driver_bal = intval($total_driver_bal)+intval($driver_bal);
                                                                 ?>
@@ -334,11 +334,9 @@
                                                                       <th><?php echo '<span style="color:red;">'.$total_driver_bal.'</span>'; ?></th>                                
                                                                   </tr>
                                                                 </tfoot>
-                                                        </table>
-                                                            <?php //if($ttl_rent!=""){?>
+                                                        </table>                                                          
 															<input style="float:right;" type="submit" name="submit" value="Paid Bill" class="btn btn-success">
-															</form>
-                                                        <?php//  } ?>
+															</form>                                                      
                                                        </div>
                                                         </div>
                                                 </section>   

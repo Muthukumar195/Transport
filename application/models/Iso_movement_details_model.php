@@ -30,6 +30,7 @@ Class Iso_movement_details_model extends CI_Model
 			'Iso_mvnt_im_ex' => $this->input->post('im_ex'),
 			'Iso_mvnt_pickup_place' => $this->input->post('pick_up'),
 			'Iso_mvnt_drop_place' => $this->input->post('drop'),
+			'Iso_mvnt_diesel_ltr' => $this->input->post('diesel'),
 			'Iso_mvnt_loading_status' => $this->input->post('loading_status'),
 			'Iso_mvnt_from' => $this->input->post('iso_from'),
 			'Iso_mvnt_to' => $this->input->post('iso_to'),

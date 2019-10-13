@@ -18,7 +18,7 @@ Class User_login extends CI_Model
 		{
 			$where = '(Admin_email="'.$this->input->post('username').'" OR Admin_username = "'.$this->input->post('username').'")';
 			$this->db->where($where);		
-			$this->db->where('Admin_password', $this->input->post('password'));
+			$this->db->where('Admin_password', md5($this->input->post('password')));
 			$this->db->where('Admin_status', 'A');
 			$query = $this->db->get('admin');			
 		}			

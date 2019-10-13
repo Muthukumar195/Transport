@@ -116,6 +116,7 @@ include('include/header.php');
                   $data2 = array(
                         'name'        => 'password',
                         'id'          => 'password',
+						'type'        => 'password',
                         'value'       => '',
                         'maxlength'   => '20',
                         'class'       => 'form-control',
@@ -132,6 +133,7 @@ include('include/header.php');
                   $data2 = array(
                         'name'        => 'con_password',
                         'id'          => 'con_password',
+						'type'        => 'password',
                         'value'       => '',
                         'maxlength'   => '20',
                         'class'       => 'form-control',

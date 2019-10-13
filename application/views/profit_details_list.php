@@ -351,7 +351,7 @@ include('include/header.php');
                         <div id='prinsmtablediv'>
                         <section class="box ">
                             <header class="panel_header">
-                                <h2 class="title pull-left">Sabari & Mutrugan Transport Details</h2>
+                                <h2 class="title pull-left">Sabari & Murugan Transport Details</h2>
                                 <div class="actions panel_actions pull-right">
                                  <a  href='#' onclick='javascript:printDiv("prinsmtablediv")'style="float:right; text-decoration:none; color:#000000;" ><img src='<?php echo base_url(); ?>/assets/images/print.png' border='0' >&nbsp;Print</a>
                                     <i class="box_toggle fa fa-chevron-down"></i>

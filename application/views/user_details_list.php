@@ -115,12 +115,8 @@ include('include/header.php');
                                                 
                                             </td>
                                             <?php } ?>
-                                            <td>                                                
-                                                <a href="view_user_details?id=<?php echo $row->Admin_id; ?>" target="_blank"  alt="View" class="fa fa-search-plus" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To View User Detail" data-placement="bottom"> View </a>
-                                                
-
+                                            <td>  
                                                 <?php if($this->session->userdata('username')=='admin'){ ?>
-                                                <i class="fa fa-ellipsis-v"></i>
                                                 <a href="edit_user_details?id=<?php echo $row->Admin_id; ?>" alt="Edit" class="fa fa-pencil-square-o" rel="tooltip" data-color-class = "primary" data-animate=" animated fadeIn" data-toggle="tooltip" data-original-title="Click To Edit User Detail" data-placement="bottom"> Edit </a> <i class="fa fa-ellipsis-v"></i>
                                                 <?php 
                                                 if($row->Admin_status=='A')

@@ -120,7 +120,7 @@ $(document).ready(function() {
             style:    'os',
             selector: 'td:first-child'
         },
-        order: [[ 1, 'desc' ]]
+        order: [[ 8, 'asc' ], [ 1, 'desc' ]]
     } );
 } );
 </script>

@@ -332,30 +332,18 @@ class Driver_details extends CI_Controller {
     public function view_report()
     {
     	// start for check user rights
-        	$user_typ_ary=explode(',', $this->session->userdata('user_rights_dtl'));                    
-        // end for check user rights
-		if((in_array("Driver Details", $user_typ_ary)==false)&&($this->session->userdata('username')!='admin'))
-		{
-			$this->check_user_rights();
-		}	
-    	if(! $this->session->userdata('username')){
-			/*$this->index();*/
-			$this->check_isvalidated();
-		}
-		else
-		{
+        	if((access_permission($this->module_id) || is_admin()) && gaurd()){
+
 					
-			$this->load->model('driver_details_model'); 
-			$this->load->model('edit_admin_profile_model'); 
-			$data['get_admin_profile'] = $this->edit_admin_profile_model->get_admin_profile();
+			$data = initial_data();
 			$data['driver_details_list'] = $this->driver_details_model->search_driver_details_list(); 
-			// view upcoming due counts
-			$data['due_upcoming_count'] = $this->due_details_model->upcoming_month_due_count();	
-			//view upcoming vehicle document count
-			$data['upcoming_vehicle_doc_count'] = $this->vehicle_document_details_model->upcoming_document_date_count();		
+					
 			$this->load->view('view_report', $data);	
 		}
-    }
+		else{
+			$this->check_user_rights();
+		}
+    } 
     // end report page
 	  // start report Print page
     public function view_report_print()

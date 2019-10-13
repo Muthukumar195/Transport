@@ -21,7 +21,9 @@ Class User_details_model extends CI_Model
 			'Admin_phone' => $this->input->post('phone_no'),
 			'Admin_username' => $this->input->post('user_name'),
 			'Admin_password' => $this->input->post('password'),
-			'Admin_user_rights' => $this->input->post('user_rights')
+			'Admin_user_rights' => $this->input->post('user_rights'),
+			'Admin_role' => 2,
+			'Admin_access_permission' => '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15'	
 		);	
 		$this->db->set('Admin_created_dt_tme', 'NOW()', FALSE);	
 		$insert=$this->db->insert('admin', $user_data);			

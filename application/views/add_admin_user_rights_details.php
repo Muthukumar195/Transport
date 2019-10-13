@@ -65,26 +65,12 @@ include('include/header.php');
             <label class="col-lg-3 control-label">User Rights:</label>
             <div class="col-lg-3"> 
               <?php
-                $option = array(
-                  'Driver Details'            => 'Driver Details',
-                  'Driver Pay Rate'           => 'Driver Pay Rate',
-				  'Driver Payment'            => 'Driver Payment',
-				  'Vehicle Details'           => 'Vehicle Details',
-				  'Vehicle Document Details'  => 'Vehicle Document Details',
-				  'Daily Movement'            => 'Daily Movement',
-				  'Party Details'             => 'Party Details',
-				  'Party Billing'             => 'Party Billing',
-				  'Party Payment'             => 'Party Payment',
-				  'ISO Movement'              => 'ISO Movement',
-				  'Transport Details'         => 'Transport Details',
-				  'Transport Payment'         => 'Transport Payment',
-				  'Vehicle Due Details'       => 'Vehicle Due Details' ,
-				  'Admin User Rights'         => 'Admin User Rights',
-				  'User'                      => 'User'             
-                );
-				
+			  $options = [];
+			  foreach($user_rights_list as $rights){
+				  $options[$rights['module_name']] = $rights['module_name'];
+			  }
                 $class_nme = 'class="form-control selectmultiple" id="motherTongue" multiple="multiple"';       
-                echo form_dropdown('user_righ[]', $option, set_value('user_righ'), $class_nme);
+                echo form_dropdown('user_righ[]', $options, set_value('user_righ'), $class_nme);
               ?>
               <span style="font-size:13px; color:#0f71ba;">Hold CTRL key for multiple select.</span>
             </div>

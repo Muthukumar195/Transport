@@ -296,6 +296,22 @@ include('include/header.php');
               ?>
             </div>
           </div> 
+		  <div class="form-group">
+            <label class="col-lg-3 control-label">Diesel Liter:</label>
+            <div class="col-lg-8">              
+              <?php 
+                  $data2 = array(
+                        'name'        => 'diesel',
+                        'id'          => 'diesel',
+                        'value'       => '',
+                        'maxlength'   => '150',
+                        'class'       => 'form-control',
+						'placeholder' => 'Enter Diesel Liter'
+                      ); 
+                  echo form_input($data2);
+              ?>
+            </div>
+          </div> 
 		<?php
 		/* 		  
           <div class="form-group">
